@@ -1,0 +1,333 @@
+'use client';
+
+import { useState, useRef } from 'react';
+import Image from 'next/image';
+import { X, Upload, Star, Loader2 } from 'lucide-react';
+import { createClient } from '@/lib/supabase';
+import { Project, ProjectCategory } from '@/lib/types';
+
+const CATEGORIES: { value: ProjectCategory; label: string }[] = [
+  { value: 'images', label: 'صور' },
+  { value: 'motion', label: 'موشن جرافيك' },
+  { value: 'video', label: 'فيديو' },
+  { value: 'ads', label: 'إعلانات' },
+  { value: 'web', label: 'مواقع' },
+  { value: 'ai', label: 'ذكاء اصطناعي' },
+  { value: 'data', label: 'بيانات' },
+  { value: 'other', label: 'أخرى' },
+];
+
+interface UploadModalProps {
+  onClose: () => void;
+  onSuccess: (project: Project) => void;
+  editProject?: Project | null;
+}
+
+export default function UploadModal({ onClose, onSuccess, editProject }: UploadModalProps) {
+  const [title, setTitle] = useState(editProject?.title || '');
+  const [description, setDescription] = useState(editProject?.description || '');
+  const [category, setCategory] = useState<ProjectCategory>(editProject?.category || 'images');
+  const [projectUrl, setProjectUrl] = useState(editProject?.project_url || '');
+  const [featured, setFeatured] = useState(editProject?.featured || false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>(editProject?.image_url || '');
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [error, setError] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const dragRef = useRef<HTMLDivElement>(null);
+
+  const handleFileSelect = (file: File) => {
+    if (!file.type.startsWith('image/')) return setError('يرجى اختيار ملف صورة صالح');
+    setImageFile(file);
+    setError('');
+    const reader = new FileReader();
+    reader.onload = (e) => setImagePreview(e.target?.result as string);
+    reader.readAsDataURL(file);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file) handleFileSelect(file);
+  };
+
+  const handleSave = async () => {
+    if (!title) return setError('اسم المشروع مطلوب');
+    if (!category) return setError('التصنيف مطلوب');
+    if (!imageFile && !editProject?.image_url) return setError('صورة المشروع مطلوبة');
+
+    setUploading(true);
+    setError('');
+    setUploadProgress(0);
+
+    try {
+      const supabase = createClient();
+      let imageUrl = editProject?.image_url || '';
+
+      if (imageFile) {
+        const ext = imageFile.name.split('.').pop();
+        const fileName = `${crypto.randomUUID()}.${ext}`;
+        setUploadProgress(30);
+
+        const { error: uploadError } = await supabase.storage
+          .from('projects')
+          .upload(fileName, imageFile, { cacheControl: '3600', upsert: false });
+
+        if (uploadError) throw uploadError;
+        setUploadProgress(70);
+
+        const { data: urlData } = supabase.storage.from('projects').getPublicUrl(fileName);
+        imageUrl = urlData.publicUrl;
+      }
+
+      setUploadProgress(90);
+
+      const payload = { title, description: description || null, category, project_url: projectUrl || null, featured, image_url: imageUrl || null };
+
+      if (editProject) {
+        const { data, error: dbError } = await supabase
+          .from('projects').update({ ...payload, updated_at: new Date().toISOString() })
+          .eq('id', editProject.id).select().single();
+        if (dbError) throw dbError;
+        onSuccess(data as Project);
+      } else {
+        const { data, error: dbError } = await supabase.from('projects').insert([payload]).select().single();
+        if (dbError) throw dbError;
+        onSuccess(data as Project);
+      }
+
+      setUploadProgress(100);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'حدث خطأ أثناء الحفظ');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  return (
+    <div
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 2000,
+        background: 'rgba(0,0,0,0.8)',
+        backdropFilter: 'blur(8px)',
+        display: 'flex',
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+        padding: '0',
+      }}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    >
+      <div style={{
+        background: '#141414',
+        border: '1px solid rgba(255,255,255,0.08)',
+        borderRadius: '20px 20px 0 0',
+        width: '100%',
+        maxWidth: '560px',
+        maxHeight: '92vh',
+        overflowY: 'auto',
+        padding: '2rem',
+        animation: 'slideUp 0.35s ease',
+      }}>
+        {/* Header */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.75rem' }}>
+          <h2 style={{ fontFamily: "'Cairo', sans-serif", color: '#f0f0f0', fontWeight: 700, fontSize: '1.15rem' }}>
+            {editProject ? 'تعديل المشروع' : 'إضافة مشروع جديد'}
+          </h2>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#777', cursor: 'pointer', padding: '4px' }}>
+            <X size={22} />
+          </button>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          {/* Title */}
+          <div>
+            <label style={{ display: 'block', fontFamily: "'Cairo', sans-serif", color: '#aaa', fontSize: '0.85rem', marginBottom: '6px' }}>
+              اسم المشروع *
+            </label>
+            <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="اسم المشروع" style={inputStyle}
+              onFocus={(e) => (e.currentTarget.style.borderColor = '#e63329')}
+              onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')} />
+          </div>
+
+          {/* Description */}
+          <div>
+            <label style={{ display: 'block', fontFamily: "'Cairo', sans-serif", color: '#aaa', fontSize: '0.85rem', marginBottom: '6px' }}>
+              الوصف
+            </label>
+            <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="وصف مختصر للمشروع" rows={3}
+              style={{ ...inputStyle, resize: 'vertical', minHeight: '80px' }}
+              onFocus={(e) => (e.currentTarget.style.borderColor = '#e63329')}
+              onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')} />
+          </div>
+
+          {/* Category */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+            <div>
+              <label style={{ display: 'block', fontFamily: "'Cairo', sans-serif", color: '#aaa', fontSize: '0.85rem', marginBottom: '6px' }}>
+                التصنيف *
+              </label>
+              <select value={category} onChange={(e) => setCategory(e.target.value as ProjectCategory)} style={inputStyle}
+                onFocus={(e) => (e.currentTarget.style.borderColor = '#e63329')}
+                onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}>
+                {CATEGORIES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
+              </select>
+            </div>
+            <div>
+              <label style={{ display: 'block', fontFamily: "'Cairo', sans-serif", color: '#aaa', fontSize: '0.85rem', marginBottom: '6px' }}>
+                رابط المشروع
+              </label>
+              <input value={projectUrl} onChange={(e) => setProjectUrl(e.target.value)} placeholder="https://..." style={{ ...inputStyle, direction: 'ltr', textAlign: 'left' }}
+                onFocus={(e) => (e.currentTarget.style.borderColor = '#e63329')}
+                onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')} />
+            </div>
+          </div>
+
+          {/* Image Upload */}
+          <div>
+            <label style={{ display: 'block', fontFamily: "'Cairo', sans-serif", color: '#aaa', fontSize: '0.85rem', marginBottom: '6px' }}>
+              صورة المشروع *
+            </label>
+            <div
+              ref={dragRef}
+              onClick={() => fileInputRef.current?.click()}
+              onDrop={handleDrop}
+              onDragOver={(e) => e.preventDefault()}
+              style={{
+                border: '2px dashed rgba(255,255,255,0.12)',
+                borderRadius: '12px',
+                padding: '1.5rem',
+                textAlign: 'center',
+                cursor: 'pointer',
+                background: '#1a1a1a',
+                transition: 'all 0.3s',
+                minHeight: imagePreview ? 'auto' : '140px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.75rem',
+                position: 'relative',
+                overflow: 'hidden',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'rgba(230,51,41,0.4)')}
+              onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)')}
+            >
+              {imagePreview ? (
+                <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', borderRadius: '8px', overflow: 'hidden' }}>
+                  <Image src={imagePreview} alt="Preview" fill style={{ objectFit: 'cover' }} />
+                  <div style={{
+                    position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    opacity: 0, transition: 'opacity 0.3s',
+                  }}
+                    onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
+                    onMouseLeave={(e) => (e.currentTarget.style.opacity = '0')}
+                  >
+                    <span style={{ fontFamily: "'Cairo', sans-serif", color: '#fff', fontWeight: 600 }}>تغيير الصورة</span>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <Upload size={32} color="#555" />
+                  <p style={{ fontFamily: "'Cairo', sans-serif", color: '#777', fontSize: '0.9rem' }}>اسحب وأفلت الصورة هنا</p>
+                  <p style={{ fontFamily: "'Cairo', sans-serif", color: '#555', fontSize: '0.8rem' }}>أو اضغط للاختيار</p>
+                </>
+              )}
+            </div>
+            <input ref={fileInputRef} type="file" accept="image/*" style={{ display: 'none' }}
+              onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFileSelect(f); }} />
+          </div>
+
+          {/* Progress bar */}
+          {uploading && (
+            <div style={{ background: '#1a1a1a', borderRadius: '8px', height: '6px', overflow: 'hidden' }}>
+              <div style={{
+                height: '100%',
+                background: '#e63329',
+                width: `${uploadProgress}%`,
+                borderRadius: '8px',
+                transition: 'width 0.4s ease',
+              }} />
+            </div>
+          )}
+
+          {/* Featured toggle */}
+          <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+            <div
+              onClick={() => setFeatured(!featured)}
+              style={{
+                width: '44px', height: '24px',
+                background: featured ? '#e63329' : '#333',
+                borderRadius: '12px',
+                position: 'relative',
+                transition: 'background 0.3s',
+                cursor: 'pointer',
+              }}
+            >
+              <div style={{
+                position: 'absolute',
+                top: '2px',
+                right: featured ? '2px' : '22px',
+                width: '20px', height: '20px',
+                background: '#fff',
+                borderRadius: '50%',
+                transition: 'right 0.3s',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
+              }} />
+            </div>
+            <span style={{ fontFamily: "'Cairo', sans-serif", color: '#aaa', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Star size={14} color={featured ? '#e63329' : '#555'} fill={featured ? '#e63329' : 'none'} />
+              مشروع مميز
+            </span>
+          </label>
+
+          {/* Error */}
+          {error && (
+            <div style={{ background: 'rgba(230,51,41,0.08)', border: '1px solid rgba(230,51,41,0.2)', borderRadius: '8px', padding: '10px 14px', color: '#f87171', fontFamily: "'Cairo', sans-serif", fontSize: '0.875rem' }}>
+              {error}
+            </div>
+          )}
+
+          {/* Actions */}
+          <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem' }}>
+            <button onClick={onClose} style={{
+              flex: 1, background: 'rgba(255,255,255,0.05)', color: '#aaa', border: '1px solid rgba(255,255,255,0.08)',
+              borderRadius: '10px', padding: '13px', fontFamily: "'Cairo', sans-serif", fontWeight: 600, fontSize: '0.95rem', cursor: 'pointer',
+            }}>
+              إلغاء
+            </button>
+            <button onClick={handleSave} disabled={uploading} style={{
+              flex: 2, background: uploading ? '#8b1c18' : '#e63329', color: '#fff', border: 'none',
+              borderRadius: '10px', padding: '13px', fontFamily: "'Cairo', sans-serif", fontWeight: 700, fontSize: '0.95rem',
+              cursor: uploading ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+              transition: 'background 0.3s',
+            }}>
+              {uploading ? <><Loader2 size={18} style={{ animation: 'spin 0.7s linear infinite' }} />جاري الرفع...</> : 'حفظ المشروع'}
+            </button>
+          </div>
+        </div>
+      </div>
+      <style>{`
+        @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes spin { to { transform: rotate(360deg); } }
+      `}</style>
+    </div>
+  );
+}
+
+const inputStyle: React.CSSProperties = {
+  width: '100%',
+  background: '#1a1a1a',
+  border: '1px solid rgba(255,255,255,0.08)',
+  borderRadius: '8px',
+  padding: '12px 14px',
+  color: '#f0f0f0',
+  fontFamily: "'Cairo', sans-serif",
+  fontSize: '0.9rem',
+  outline: 'none',
+  minHeight: '44px',
+  transition: 'border-color 0.3s',
+};

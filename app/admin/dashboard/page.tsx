@@ -1,0 +1,701 @@
+'use client';
+
+import { useEffect, useState, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
+import {
+  FolderOpen, MessageSquare, Star, Settings, LogOut,
+  Plus, Check, X, Eye, Trash2, ChevronDown, ChevronUp, Save,
+} from 'lucide-react';
+import { createClient } from '@/lib/supabase';
+import { Project, Testimonial, Message } from '@/lib/types';
+import ProjectCard from '@/components/admin/ProjectCard';
+import UploadModal from '@/components/admin/UploadModal';
+
+type Tab = 'projects' | 'messages' | 'testimonials' | 'settings';
+
+const SIDEBAR_ITEMS: { id: Tab; label: string; icon: React.ReactNode }[] = [
+  { id: 'projects', label: 'المشاريع', icon: <FolderOpen size={18} /> },
+  { id: 'messages', label: 'الرسائل', icon: <MessageSquare size={18} /> },
+  { id: 'testimonials', label: 'الشهادات', icon: <Star size={18} /> },
+  { id: 'settings', label: 'الإعدادات', icon: <Settings size={18} /> },
+];
+
+export default function AdminDashboard() {
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState<Tab>('projects');
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+
+  // Projects state
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [showUploadModal, setShowUploadModal] = useState(false);
+  const [editProject, setEditProject] = useState<Project | null>(null);
+  const [projectsLoading, setProjectsLoading] = useState(true);
+
+  // Messages state
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [expandedMsg, setExpandedMsg] = useState<string | null>(null);
+  const [messagesLoading, setMessagesLoading] = useState(true);
+
+  // Testimonials state
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [testimonialsLoading, setTestimonialsLoading] = useState(true);
+  const [newTestimonial, setNewTestimonial] = useState({ name: '', role: '', company: '', content: '', rating: 5 });
+  const [addingTestimonial, setAddingTestimonial] = useState(false);
+
+  // Settings state
+  const [heroStats, setHeroStats] = useState({ clients: '150', projects: '420', years: '6' });
+  const [settingsSaved, setSettingsSaved] = useState(false);
+  const [settingsLoading, setSettingsLoading] = useState(false);
+
+  const supabase = createClient();
+
+  const fetchProjects = useCallback(async () => {
+    setProjectsLoading(true);
+    const { data } = await supabase.from('projects').select('*').order('created_at', { ascending: false });
+    setProjects(data as Project[] || []);
+    setProjectsLoading(false);
+  }, []);
+
+  const fetchMessages = useCallback(async () => {
+    setMessagesLoading(true);
+    const { data } = await supabase.from('messages').select('*').order('created_at', { ascending: false });
+    setMessages(data as Message[] || []);
+    setMessagesLoading(false);
+  }, []);
+
+  const fetchTestimonials = useCallback(async () => {
+    setTestimonialsLoading(true);
+    const { data } = await supabase.from('testimonials').select('*').order('created_at', { ascending: false });
+    setTestimonials(data as Testimonial[] || []);
+    setTestimonialsLoading(false);
+  }, []);
+
+  const fetchSettings = useCallback(async () => {
+    const { data } = await supabase.from('settings').select('key, value');
+    if (data) {
+      const map: Record<string, string> = {};
+      data.forEach((s) => (map[s.key] = s.value));
+      setHeroStats({
+        clients: map['hero_clients'] || '150',
+        projects: map['hero_projects'] || '420',
+        years: map['hero_years'] || '6',
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchProjects();
+    fetchMessages();
+    fetchTestimonials();
+    fetchSettings();
+  }, [fetchProjects, fetchMessages, fetchTestimonials, fetchSettings]);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push('/admin');
+  };
+
+  const handleProjectSuccess = (p: Project) => {
+    setShowUploadModal(false);
+    setEditProject(null);
+    fetchProjects();
+  };
+
+  const handleDeleteProject = async (id: string) => {
+    await supabase.from('projects').delete().eq('id', id);
+    setProjects(prev => prev.filter(p => p.id !== id));
+  };
+
+  const handleToggleFeatured = async (id: string, featured: boolean) => {
+    await supabase.from('projects').update({ featured }).eq('id', id);
+    setProjects(prev => prev.map(p => p.id === id ? { ...p, featured } : p));
+  };
+
+  const handleMarkRead = async (id: string) => {
+    await supabase.from('messages').update({ is_read: true }).eq('id', id);
+    setMessages(prev => prev.map(m => m.id === id ? { ...m, is_read: true } : m));
+  };
+
+  const handleDeleteMessage = async (id: string) => {
+    if (!window.confirm('حذف هذه الرسالة؟')) return;
+    await supabase.from('messages').delete().eq('id', id);
+    setMessages(prev => prev.filter(m => m.id !== id));
+    if (expandedMsg === id) setExpandedMsg(null);
+  };
+
+  const handleToggleTestimonial = async (id: string, is_active: boolean) => {
+    await supabase.from('testimonials').update({ is_active }).eq('id', id);
+    setTestimonials(prev => prev.map(t => t.id === id ? { ...t, is_active } : t));
+  };
+
+  const handleDeleteTestimonial = async (id: string) => {
+    if (!window.confirm('حذف هذه الشهادة؟')) return;
+    await supabase.from('testimonials').delete().eq('id', id);
+    setTestimonials(prev => prev.filter(t => t.id !== id));
+  };
+
+  const handleAddTestimonial = async () => {
+    if (!newTestimonial.name || !newTestimonial.content) return;
+    setAddingTestimonial(true);
+    const { data } = await supabase.from('testimonials').insert([newTestimonial]).select().single();
+    if (data) setTestimonials(prev => [data as Testimonial, ...prev]);
+    setNewTestimonial({ name: '', role: '', company: '', content: '', rating: 5 });
+    setAddingTestimonial(false);
+  };
+
+  const handleSaveSettings = async () => {
+    setSettingsLoading(true);
+    await Promise.all([
+      supabase.from('settings').upsert({ key: 'hero_clients', value: heroStats.clients }),
+      supabase.from('settings').upsert({ key: 'hero_projects', value: heroStats.projects }),
+      supabase.from('settings').upsert({ key: 'hero_years', value: heroStats.years }),
+    ]);
+    setSettingsSaved(true);
+    setTimeout(() => setSettingsSaved(false), 2500);
+    setSettingsLoading(false);
+  };
+
+  const unreadCount = messages.filter(m => !m.is_read).length;
+
+  return (
+    <div style={{ minHeight: '100vh', background: '#050505', display: 'flex', fontFamily: "'Cairo', sans-serif" }}>
+      {/* ── SIDEBAR (desktop) ── */}
+      <aside style={{
+        width: '240px',
+        background: '#0f0f0f',
+        borderLeft: '1px solid rgba(255,255,255,0.06)',
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'fixed',
+        top: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 100,
+      }} className="hidden md:flex">
+        {/* Logo */}
+        <div style={{ padding: '1.5rem', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '1.75rem', color: '#fff' }}>Dx</span>
+          <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '1.75rem', color: '#e63329' }}>Media</span>
+          <p style={{ color: '#555', fontSize: '0.75rem', marginTop: '2px' }}>لوحة التحكم</p>
+        </div>
+
+        {/* Nav items */}
+        <nav style={{ flex: 1, padding: '1rem 0.75rem', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          {SIDEBAR_ITEMS.map(item => (
+            <button
+              key={item.id}
+              onClick={() => setActiveTab(item.id)}
+              style={{
+                background: activeTab === item.id ? 'rgba(230,51,41,0.12)' : 'transparent',
+                border: activeTab === item.id ? '1px solid rgba(230,51,41,0.25)' : '1px solid transparent',
+                borderRadius: '10px',
+                padding: '12px 16px',
+                color: activeTab === item.id ? '#e63329' : '#777',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                fontSize: '0.925rem',
+                fontWeight: activeTab === item.id ? 700 : 500,
+                transition: 'all 0.2s',
+                textAlign: 'right',
+                width: '100%',
+                position: 'relative',
+              }}
+            >
+              {item.icon}
+              {item.label}
+              {item.id === 'messages' && unreadCount > 0 && (
+                <span style={{
+                  marginRight: 'auto',
+                  background: '#e63329',
+                  color: '#fff',
+                  fontSize: '0.7rem',
+                  padding: '1px 7px',
+                  borderRadius: '10px',
+                  fontWeight: 700,
+                }}>
+                  {unreadCount}
+                </span>
+              )}
+            </button>
+          ))}
+        </nav>
+
+        {/* Logout */}
+        <div style={{ padding: '1rem 0.75rem', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+          <button
+            onClick={handleLogout}
+            style={{
+              background: 'transparent', border: '1px solid rgba(255,255,255,0.06)',
+              borderRadius: '10px', padding: '12px 16px', color: '#666',
+              cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '12px',
+              fontSize: '0.9rem', width: '100%', transition: 'all 0.2s',
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = '#e63329'; e.currentTarget.style.borderColor = 'rgba(230,51,41,0.2)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = '#666'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; }}
+          >
+            <LogOut size={18} /> تسجيل الخروج
+          </button>
+        </div>
+      </aside>
+
+      {/* ── MAIN CONTENT ── */}
+      <div style={{ flex: 1, marginRight: '0', paddingBottom: '80px' }} className="md:mr-[240px] md:pb-0">
+        {/* Top bar */}
+        <header style={{
+          background: 'rgba(10,10,10,0.95)',
+          backdropFilter: 'blur(10px)',
+          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          padding: '1rem 1.5rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          position: 'sticky',
+          top: 0,
+          zIndex: 50,
+        }}>
+          <h1 style={{ fontSize: '1rem', fontWeight: 700, color: '#f0f0f0', fontFamily: "'Cairo', sans-serif" }}>
+            {SIDEBAR_ITEMS.find(i => i.id === activeTab)?.label}
+          </h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <span style={{ color: '#555', fontSize: '0.8rem', fontFamily: "'Cairo', sans-serif" }}>لوحة تحكم Dx Media</span>
+            <a href="/" target="_blank" style={{ color: '#4d9cf8', fontSize: '0.8rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Eye size={14} /> الموقع
+            </a>
+          </div>
+        </header>
+
+        <div style={{ padding: '1.5rem' }}>
+
+          {/* ── PROJECTS TAB ── */}
+          {activeTab === 'projects' && (
+            <div>
+              {/* Stats */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
+                {[
+                  { label: 'إجمالي المشاريع', value: projects.length, color: '#4d9cf8' },
+                  { label: 'مشاريع مميزة', value: projects.filter(p => p.featured).length, color: '#e63329' },
+                  { label: 'التصنيفات', value: new Set(projects.map(p => p.category)).size, color: '#a78bfa' },
+                ].map((stat, i) => (
+                  <div key={i} style={{
+                    background: '#141414', border: '1px solid rgba(255,255,255,0.06)',
+                    borderRadius: '12px', padding: '1.25rem',
+                  }}>
+                    <div style={{ fontSize: '1.75rem', fontFamily: '"Bebas Neue", sans-serif', color: stat.color }}>{stat.value}</div>
+                    <div style={{ color: '#666', fontSize: '0.8rem', marginTop: '4px' }}>{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Add button (desktop) */}
+              <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '1.25rem' }}>
+                <button
+                  onClick={() => { setEditProject(null); setShowUploadModal(true); }}
+                  style={{
+                    background: '#e63329', color: '#fff', border: 'none',
+                    borderRadius: '10px', padding: '10px 20px',
+                    fontFamily: "'Cairo', sans-serif", fontWeight: 700, fontSize: '0.9rem',
+                    cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px',
+                    transition: 'background 0.3s',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = '#c0281f')}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = '#e63329')}
+                >
+                  <Plus size={18} /> إضافة مشروع
+                </button>
+              </div>
+
+              {/* Projects grid */}
+              {projectsLoading ? (
+                <div style={{ textAlign: 'center', padding: '3rem', color: '#555' }}>
+                  <div style={{ width: '40px', height: '40px', border: '3px solid #333', borderTopColor: '#e63329', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 1rem' }} />
+                  <p style={{ fontFamily: "'Cairo', sans-serif" }}>جاري التحميل...</p>
+                </div>
+              ) : projects.length === 0 ? (
+                <div style={{ textAlign: 'center', padding: '4rem', color: '#555' }}>
+                  <FolderOpen size={48} style={{ margin: '0 auto 1rem', opacity: 0.3 }} />
+                  <p style={{ fontFamily: "'Cairo', sans-serif" }}>لا توجد مشاريع بعد</p>
+                </div>
+              ) : (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1rem' }}>
+                  {projects.map(p => (
+                    <ProjectCard
+                      key={p.id}
+                      project={p}
+                      onEdit={(proj) => { setEditProject(proj); setShowUploadModal(true); }}
+                      onDelete={handleDeleteProject}
+                      onToggleFeatured={handleToggleFeatured}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ── MESSAGES TAB ── */}
+          {activeTab === 'messages' && (
+            <div>
+              <div style={{ marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <span style={{ color: '#777', fontFamily: "'Cairo', sans-serif", fontSize: '0.9rem' }}>
+                  {unreadCount > 0 ? `${unreadCount} رسالة غير مقروءة` : 'جميع الرسائل مقروءة'}
+                </span>
+              </div>
+              {messagesLoading ? (
+                <div style={{ textAlign: 'center', padding: '3rem', color: '#555' }}>
+                  <div style={{ width: '40px', height: '40px', border: '3px solid #333', borderTopColor: '#e63329', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 1rem' }} />
+                </div>
+              ) : messages.length === 0 ? (
+                <div style={{ textAlign: 'center', padding: '4rem', color: '#555' }}>
+                  <MessageSquare size={48} style={{ margin: '0 auto 1rem', opacity: 0.3 }} />
+                  <p style={{ fontFamily: "'Cairo', sans-serif" }}>لا توجد رسائل بعد</p>
+                </div>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                  {messages.map(msg => (
+                    <div key={msg.id} style={{
+                      background: msg.is_read ? '#141414' : '#1a1212',
+                      border: `1px solid ${msg.is_read ? 'rgba(255,255,255,0.06)' : 'rgba(230,51,41,0.2)'}`,
+                      borderRadius: '12px',
+                      overflow: 'hidden',
+                      transition: 'all 0.3s',
+                    }}>
+                      {/* Header row */}
+                      <div
+                        onClick={() => setExpandedMsg(expandedMsg === msg.id ? null : msg.id)}
+                        style={{
+                          padding: '1rem 1.25rem',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '1rem',
+                          flexWrap: 'wrap',
+                        }}
+                      >
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                            <span style={{ fontFamily: "'Cairo', sans-serif", fontWeight: 700, color: '#f0f0f0', fontSize: '0.95rem' }}>{msg.name}</span>
+                            {!msg.is_read && (
+                              <span style={{ background: '#e63329', color: '#fff', fontSize: '0.65rem', padding: '2px 8px', borderRadius: '10px', fontWeight: 700 }}>جديد</span>
+                            )}
+                            {msg.service && (
+                              <span style={{ background: 'rgba(255,255,255,0.06)', color: '#888', fontSize: '0.72rem', padding: '2px 8px', borderRadius: '10px' }}>{msg.service}</span>
+                            )}
+                          </div>
+                          <div style={{ color: '#555', fontSize: '0.8rem', marginTop: '3px' }}>
+                            {msg.email} {msg.phone ? `· ${msg.phone}` : ''}
+                          </div>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                          <span style={{ color: '#444', fontSize: '0.75rem' }}>
+                            {new Date(msg.created_at).toLocaleDateString('ar-SA')}
+                          </span>
+                          {expandedMsg === msg.id ? <ChevronUp size={16} color="#666" /> : <ChevronDown size={16} color="#666" />}
+                        </div>
+                      </div>
+
+                      {/* Expanded content */}
+                      {expandedMsg === msg.id && (
+                        <div style={{ padding: '0 1.25rem 1.25rem', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                          {msg.message && (
+                            <p style={{ fontFamily: "'Cairo', sans-serif", color: '#bbb', fontSize: '0.9rem', lineHeight: 1.75, margin: '1rem 0' }}>
+                              {msg.message}
+                            </p>
+                          )}
+                          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                            {!msg.is_read && (
+                              <button onClick={() => handleMarkRead(msg.id)} style={{
+                                background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', borderRadius: '8px',
+                                padding: '7px 14px', color: '#4ade80', fontFamily: "'Cairo', sans-serif", fontSize: '0.8rem',
+                                cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px',
+                              }}>
+                                <Check size={14} /> تحديد كمقروء
+                              </button>
+                            )}
+                            <a href={`mailto:${msg.email}`} style={{
+                              background: 'rgba(77,156,248,0.1)', border: '1px solid rgba(77,156,248,0.2)', borderRadius: '8px',
+                              padding: '7px 14px', color: '#4d9cf8', fontFamily: "'Cairo', sans-serif", fontSize: '0.8rem',
+                              textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '5px',
+                            }}>
+                              رد بالبريد
+                            </a>
+                            <button onClick={() => handleDeleteMessage(msg.id)} style={{
+                              background: 'rgba(230,51,41,0.08)', border: '1px solid rgba(230,51,41,0.15)', borderRadius: '8px',
+                              padding: '7px 14px', color: '#e63329', fontFamily: "'Cairo', sans-serif", fontSize: '0.8rem',
+                              cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px',
+                            }}>
+                              <Trash2 size={14} /> حذف
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ── TESTIMONIALS TAB ── */}
+          {activeTab === 'testimonials' && (
+            <div>
+              {/* Add new testimonial */}
+              <div style={{
+                background: '#141414', border: '1px solid rgba(255,255,255,0.06)',
+                borderRadius: '14px', padding: '1.5rem', marginBottom: '1.5rem',
+              }}>
+                <h3 style={{ fontFamily: "'Cairo', sans-serif", color: '#f0f0f0', fontWeight: 700, marginBottom: '1.25rem', fontSize: '1rem' }}>
+                  إضافة شهادة جديدة
+                </h3>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
+                  {['name', 'role', 'company'].map(field => (
+                    <input
+                      key={field}
+                      placeholder={field === 'name' ? 'الاسم *' : field === 'role' ? 'الوظيفة *' : 'الشركة'}
+                      value={newTestimonial[field as keyof typeof newTestimonial] as string}
+                      onChange={(e) => setNewTestimonial(prev => ({ ...prev, [field]: e.target.value }))}
+                      style={inputStyle}
+                      onFocus={(e) => (e.currentTarget.style.borderColor = '#e63329')}
+                      onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
+                    />
+                  ))}
+                </div>
+                <textarea
+                  placeholder="نص الشهادة *"
+                  value={newTestimonial.content}
+                  onChange={(e) => setNewTestimonial(prev => ({ ...prev, content: e.target.value }))}
+                  rows={3}
+                  style={{ ...inputStyle, resize: 'vertical', marginBottom: '1rem', width: '100%' }}
+                  onFocus={(e) => (e.currentTarget.style.borderColor = '#e63329')}
+                  onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
+                />
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontFamily: "'Cairo', sans-serif", color: '#888', fontSize: '0.875rem' }}>التقييم:</span>
+                    {[1, 2, 3, 4, 5].map(n => (
+                      <button key={n} onClick={() => setNewTestimonial(prev => ({ ...prev, rating: n }))}
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '2px', fontSize: '1.2rem', opacity: n <= newTestimonial.rating ? 1 : 0.3, transition: 'opacity 0.2s' }}>
+                        ⭐
+                      </button>
+                    ))}
+                  </div>
+                  <button
+                    onClick={handleAddTestimonial}
+                    disabled={addingTestimonial}
+                    style={{
+                      background: '#e63329', color: '#fff', border: 'none', borderRadius: '8px',
+                      padding: '10px 20px', fontFamily: "'Cairo', sans-serif", fontWeight: 700, fontSize: '0.875rem',
+                      cursor: addingTestimonial ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', gap: '6px',
+                    }}
+                  >
+                    <Plus size={16} /> إضافة
+                  </button>
+                </div>
+              </div>
+
+              {/* Testimonials list */}
+              {testimonialsLoading ? (
+                <div style={{ textAlign: 'center', padding: '3rem', color: '#555' }}>
+                  <div style={{ width: '40px', height: '40px', border: '3px solid #333', borderTopColor: '#e63329', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto' }} />
+                </div>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                  {testimonials.map(t => (
+                    <div key={t.id} style={{
+                      background: '#141414', border: '1px solid rgba(255,255,255,0.06)',
+                      borderRadius: '12px', padding: '1rem 1.25rem',
+                      display: 'flex', alignItems: 'flex-start', gap: '1rem', flexWrap: 'wrap',
+                    }}>
+                      <div style={{ flex: 1, minWidth: '200px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px', flexWrap: 'wrap' }}>
+                          <span style={{ fontFamily: "'Cairo', sans-serif", fontWeight: 700, color: '#f0f0f0', fontSize: '0.95rem' }}>{t.name}</span>
+                          <span style={{ color: '#666', fontSize: '0.8rem' }}>{t.role} {t.company ? `— ${t.company}` : ''}</span>
+                          <span style={{ fontSize: '0.8rem' }}>{'⭐'.repeat(t.rating)}</span>
+                        </div>
+                        <p style={{ fontFamily: "'Cairo', sans-serif", color: '#888', fontSize: '0.85rem', lineHeight: 1.6 }}>{t.content}</p>
+                      </div>
+                      <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                        <button onClick={() => handleToggleTestimonial(t.id, !t.is_active)} style={{
+                          background: t.is_active ? 'rgba(34,197,94,0.1)' : 'rgba(255,255,255,0.05)',
+                          border: `1px solid ${t.is_active ? 'rgba(34,197,94,0.2)' : 'rgba(255,255,255,0.08)'}`,
+                          borderRadius: '8px', padding: '6px 12px',
+                          color: t.is_active ? '#4ade80' : '#666',
+                          fontFamily: "'Cairo', sans-serif", fontSize: '0.78rem', cursor: 'pointer',
+                          display: 'flex', alignItems: 'center', gap: '4px',
+                        }}>
+                          {t.is_active ? <><Check size={12} /> نشط</> : <><X size={12} /> مخفي</>}
+                        </button>
+                        <button onClick={() => handleDeleteTestimonial(t.id)} style={{
+                          background: 'rgba(230,51,41,0.08)', border: '1px solid rgba(230,51,41,0.15)',
+                          borderRadius: '8px', padding: '6px 10px', color: '#e63329', cursor: 'pointer',
+                        }}>
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ── SETTINGS TAB ── */}
+          {activeTab === 'settings' && (
+            <div style={{ maxWidth: '500px' }}>
+              <div style={{
+                background: '#141414', border: '1px solid rgba(255,255,255,0.06)',
+                borderRadius: '16px', padding: '2rem',
+              }}>
+                <h3 style={{ fontFamily: "'Cairo', sans-serif", color: '#f0f0f0', fontWeight: 700, marginBottom: '0.5rem' }}>
+                  إحصائيات الصفحة الرئيسية
+                </h3>
+                <p style={{ fontFamily: "'Cairo', sans-serif", color: '#666', fontSize: '0.875rem', marginBottom: '1.75rem' }}>
+                  الأرقام التي تظهر في قسم الإحصائيات بصفحة الهيرو
+                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                  {[
+                    { key: 'clients', label: 'عدد العملاء', icon: '👥' },
+                    { key: 'projects', label: 'المشاريع المنجزة', icon: '📦' },
+                    { key: 'years', label: 'سنوات الخبرة', icon: '🏆' },
+                  ].map(({ key, label, icon }) => (
+                    <div key={key}>
+                      <label style={{ display: 'block', fontFamily: "'Cairo', sans-serif", color: '#aaa', fontSize: '0.875rem', marginBottom: '6px' }}>
+                        {icon} {label}
+                      </label>
+                      <input
+                        type="number"
+                        value={heroStats[key as keyof typeof heroStats]}
+                        onChange={(e) => setHeroStats(prev => ({ ...prev, [key]: e.target.value }))}
+                        style={{ ...inputStyle, direction: 'ltr', textAlign: 'center', fontSize: '1.1rem', fontWeight: 700 }}
+                        onFocus={(e) => (e.currentTarget.style.borderColor = '#e63329')}
+                        onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                <button
+                  onClick={handleSaveSettings}
+                  disabled={settingsLoading}
+                  style={{
+                    marginTop: '2rem',
+                    background: settingsSaved ? 'rgba(34,197,94,0.2)' : '#e63329',
+                    color: settingsSaved ? '#4ade80' : '#fff',
+                    border: settingsSaved ? '1px solid rgba(34,197,94,0.3)' : 'none',
+                    borderRadius: '10px', padding: '13px', width: '100%',
+                    fontFamily: "'Cairo', sans-serif", fontWeight: 700, fontSize: '0.95rem',
+                    cursor: settingsLoading ? 'not-allowed' : 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                    transition: 'all 0.4s',
+                  }}
+                >
+                  {settingsSaved ? <><Check size={18} /> تم الحفظ بنجاح!</> : <><Save size={18} /> حفظ الإعدادات</>}
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* ── MOBILE BOTTOM TABS ── */}
+      <div style={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        background: 'rgba(10,10,10,0.97)',
+        backdropFilter: 'blur(20px)',
+        borderTop: '1px solid rgba(255,255,255,0.08)',
+        display: 'grid',
+        gridTemplateColumns: `repeat(${SIDEBAR_ITEMS.length}, 1fr)`,
+        zIndex: 200,
+      }} className="md:hidden">
+        {SIDEBAR_ITEMS.map(item => (
+          <button
+            key={item.id}
+            onClick={() => setActiveTab(item.id)}
+            style={{
+              background: 'none',
+              border: 'none',
+              padding: '12px 4px',
+              cursor: 'pointer',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '4px',
+              color: activeTab === item.id ? '#e63329' : '#555',
+              transition: 'color 0.2s',
+              position: 'relative',
+            }}
+          >
+            {item.icon}
+            <span style={{ fontSize: '0.65rem', fontFamily: "'Cairo', sans-serif", fontWeight: 600 }}>{item.label}</span>
+            {item.id === 'messages' && unreadCount > 0 && (
+              <span style={{
+                position: 'absolute', top: '8px', right: '25%',
+                background: '#e63329', color: '#fff', fontSize: '0.6rem',
+                width: '16px', height: '16px', borderRadius: '50%',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700,
+              }}>{unreadCount}</span>
+            )}
+          </button>
+        ))}
+      </div>
+
+      {/* ── FAB (mobile) ── */}
+      {activeTab === 'projects' && (
+        <button
+          onClick={() => { setEditProject(null); setShowUploadModal(true); }}
+          style={{
+            position: 'fixed',
+            bottom: '90px',
+            left: '20px',
+            width: '56px',
+            height: '56px',
+            background: '#e63329',
+            border: 'none',
+            borderRadius: '50%',
+            color: '#fff',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 4px 20px rgba(230,51,41,0.5)',
+            zIndex: 150,
+            transition: 'transform 0.2s',
+          }}
+          className="md:hidden"
+          onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.1)')}
+          onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+        >
+          <Plus size={24} />
+        </button>
+      )}
+
+      {/* ── UPLOAD MODAL ── */}
+      {showUploadModal && (
+        <UploadModal
+          onClose={() => { setShowUploadModal(false); setEditProject(null); }}
+          onSuccess={handleProjectSuccess}
+          editProject={editProject}
+        />
+      )}
+
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+    </div>
+  );
+}
+
+const inputStyle: React.CSSProperties = {
+  width: '100%',
+  background: '#1a1a1a',
+  border: '1px solid rgba(255,255,255,0.08)',
+  borderRadius: '8px',
+  padding: '11px 14px',
+  color: '#f0f0f0',
+  fontFamily: "'Cairo', sans-serif",
+  fontSize: '0.9rem',
+  outline: 'none',
+  minHeight: '44px',
+  transition: 'border-color 0.3s',
+};
