@@ -16,9 +16,9 @@ const SERVICES = [
 ];
 
 const INFO_ITEMS = [
-  { icon: <MapPin size={20} />, label: 'العنوان', value: 'المملكة العربية السعودية' },
-  { icon: <Phone size={20} />, label: 'الهاتف', value: '+966 5X XXX XXXX' },
-  { icon: <Mail size={20} />, label: 'البريد الإلكتروني', value: 'hello@dxmedia.sa' },
+  { icon: <MapPin size={20} />, label: 'العنوان', value: 'مصر' },
+  { icon: <Phone size={20} />, label: 'الهاتف', value: '01092157086' },
+  { icon: <Mail size={20} />, label: 'البريد الإلكتروني', value: 'companydxmedia@gmail.com' },
 ];
 
 export default function Contact() {
@@ -282,7 +282,7 @@ export default function Contact() {
                       type="tel"
                       value={form.phone}
                       onChange={handleChange}
-                      placeholder="+966 5X XXX XXXX"
+                      placeholder="01092157086"
                       style={{
                         width: '100%',
                         background: '#1a1a1a',

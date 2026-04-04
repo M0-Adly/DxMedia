@@ -18,7 +18,9 @@ export interface Testimonial {
   role: string;
   company?: string;
   avatar_url?: string;
-  content: string;
+  image_url?: string;
+  link_url?: string;
+  content?: string;
   rating: number;
   is_active: boolean;
   created_at: string;

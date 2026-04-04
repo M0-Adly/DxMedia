@@ -139,22 +139,18 @@ export default function Hero({ stats }: { stats: HeroStats }) {
         <h1
           style={{
             fontFamily: '"Bebas Neue", sans-serif',
-            fontSize: 'clamp(3.5rem, 10vw, 8rem)',
-            lineHeight: 1.05,
-            letterSpacing: '2px',
+            fontSize: 'clamp(5rem, 15vw, 12rem)',
+            lineHeight: 1,
+            letterSpacing: '5px',
             color: '#fff',
             marginBottom: '1.5rem',
             opacity: mounted ? 1 : 0,
-            transform: mounted ? 'translateY(0)' : 'translateY(20px)',
-            transition: 'all 0.7s ease 0.15s',
+            transform: mounted ? 'translateY(0) rotateX(0deg)' : 'translateY(40px) rotateX(20deg)',
+            transition: 'all 0.9s cubic-bezier(0.17, 0.67, 0.83, 0.67)',
+            textShadow: '0 4px 0 #cc2211, 0 8px 0 #aa1100, 0 15px 30px rgba(230,51,41,0.5)',
           }}
         >
-          نبني علامات
-          <br />
-          تجارية{' '}
-          <span style={{ color: '#e63329' }}>تتصدر</span>
-          <br />
-          <span style={{ color: '#e63329' }}>المشهد</span>
+          Dx<span style={{ color: '#e63329' }}>Media</span>
         </h1>
 
         {/* Description */}

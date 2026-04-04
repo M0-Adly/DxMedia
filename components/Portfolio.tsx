@@ -7,17 +7,17 @@ import { Project } from '@/lib/types';
 
 const CATEGORY_LABELS: Record<string, string> = {
   all: 'الكل',
-  images: 'صور',
-  motion: 'موشن',
-  video: 'فيديو',
-  ads: 'إعلانات',
-  web: 'مواقع',
+  graphic: 'جرافيك',
+  motion: 'موشن جرافيك',
+  video: 'مونتاج فيديو',
+  ads: 'إعلانات ممولة',
+  web: 'تطوير مواقع',
   ai: 'ذكاء اصطناعي',
-  data: 'بيانات',
-  other: 'أخرى',
+  data: 'برمجة وإدارة',
+  marketing: 'تسويق رقمي',
 };
 
-const FILTER_TABS = ['all', 'images', 'motion', 'video', 'ads', 'web'];
+const FILTER_TABS = ['all', 'graphic', 'video', 'marketing', 'motion', 'web', 'ai', 'ads', 'data'];
 
 function PortfolioItem({ project, index }: { project: Project; index: number }) {
   const [hovered, setHovered] = useState(false);

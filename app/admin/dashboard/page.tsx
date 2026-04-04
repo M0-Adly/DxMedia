@@ -162,8 +162,8 @@ export default function AdminDashboard() {
       {/* ── SIDEBAR (desktop) ── */}
       <aside style={{
         width: '240px',
-        background: '#0f0f0f',
-        borderLeft: '1px solid rgba(255,255,255,0.06)',
+        background: '#000000',
+        borderLeft: '1px solid rgba(255,255,255,0.1)',
         display: 'flex',
         flexDirection: 'column',
         position: 'fixed',
@@ -241,12 +241,11 @@ export default function AdminDashboard() {
       </aside>
 
       {/* ── MAIN CONTENT ── */}
-      <div style={{ flex: 1, marginRight: '0', paddingBottom: '80px' }} className="md:mr-[240px] md:pb-0">
+      <div style={{ flex: 1 }} className="mr-0 md:mr-[240px] pb-[80px] md:pb-0">
         {/* Top bar */}
         <header style={{
-          background: 'rgba(10,10,10,0.95)',
-          backdropFilter: 'blur(10px)',
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          background: '#050505',
+          borderBottom: '1px solid rgba(255,255,255,0.1)',
           padding: '1rem 1.5rem',
           display: 'flex',
           alignItems: 'center',

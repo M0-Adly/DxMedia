@@ -59,9 +59,17 @@ export default function Footer() {
               وكالة تسويق رقمي متميزة متخصصة في بناء علامات تجارية قوية وتحقيق نتائج ملموسة.
             </p>
             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-              {['📘', '📷', '🎵', '🐦'].map((icon, i) => (
-                <button
+              {[
+                { icon: '📘', href: 'https://www.facebook.com/share/1J15UQLn6B/' },
+                { icon: '📷', href: '#' },
+                { icon: '🎵', href: '#' },
+                { icon: '🐦', href: '#' },
+              ].map((social, i) => (
+                <a
                   key={i}
+                  href={social.href}
+                  target="_blank"
+                  rel="noreferrer"
                   style={{
                     width: '36px',
                     height: '36px',
@@ -74,12 +82,14 @@ export default function Footer() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     transition: 'all 0.3s',
+                    textDecoration: 'none',
+                    color: 'white'
                   }}
                   onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#e63329')}
                   onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                 >
-                  {icon}
-                </button>
+                  {social.icon}
+                </a>
               ))}
             </div>
           </div>
