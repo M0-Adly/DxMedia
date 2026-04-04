@@ -52,7 +52,7 @@ function TestimonialCard({ t, index }: { t: Testimonial; index: number }) {
         userSelect: 'none',
         pointerEvents: 'none',
       }}>
-        "
+        &quot;
       </div>
 
       {/* Stars */}

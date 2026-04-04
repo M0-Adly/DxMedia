@@ -95,7 +95,7 @@ export default function AdminDashboard() {
     router.push('/admin');
   };
 
-  const handleProjectSuccess = (p: Project) => {
+  const handleProjectSuccess = () => {
     setShowUploadModal(false);
     setEditProject(null);
     fetchProjects();
