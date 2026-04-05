@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 
 const navLinks = [
   { label: 'الرئيسية', href: '#home' },
@@ -16,7 +16,29 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [visible, setVisible] = useState(true);
   const [scrolled, setScrolled] = useState(false);
+  const [isLight, setIsLight] = useState(false);
   const lastScroll = useRef(0);
+
+  useEffect(() => {
+    // Check local storage or system preference
+    const stored = localStorage.getItem('theme');
+    if (stored === 'light') {
+      setIsLight(true);
+      document.documentElement.classList.add('light-theme');
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const newVal = !isLight;
+    setIsLight(newVal);
+    if (newVal) {
+      document.documentElement.classList.add('light-theme');
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.documentElement.classList.remove('light-theme');
+      localStorage.setItem('theme', 'dark');
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -89,8 +111,28 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* CTA + Hamburger */}
+          {/* CTA + Actions */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <button
+              onClick={toggleTheme}
+              style={{
+                background: 'rgba(255,255,255,0.05)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                color: '#fff',
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+              }}
+              aria-label="Toggle theme"
+            >
+              {isLight ? <Moon size={20} /> : <Sun size={20} />}
+            </button>
+
             <button
               onClick={() => handleNavClick('#contact')}
               className="hidden md:inline-flex"
@@ -169,7 +211,7 @@ export default function Navbar() {
               fontWeight: 700,
               cursor: 'pointer',
               padding: '8px 0',
-              transition: 'color 0.3s',
+              transition: 'color 0.3s, opacity 0.4s, transform 0.4s',
               opacity: isOpen ? 1 : 0,
               transform: isOpen ? 'translateY(0)' : 'translateY(20px)',
               transitionDelay: `${i * 0.08}s`,

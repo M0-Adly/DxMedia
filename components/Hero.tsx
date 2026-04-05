@@ -135,23 +135,37 @@ export default function Hero({ stats }: { stats: HeroStats }) {
           </span>
         </div>
 
-        {/* Headline */}
-        <h1
-          style={{
-            fontFamily: '"Bebas Neue", sans-serif',
-            fontSize: 'clamp(5rem, 15vw, 12rem)',
-            lineHeight: 1,
-            letterSpacing: '5px',
-            color: '#fff',
-            marginBottom: '1.5rem',
-            opacity: mounted ? 1 : 0,
-            transform: mounted ? 'translateY(0) rotateX(0deg)' : 'translateY(40px) rotateX(20deg)',
-            transition: 'all 0.9s cubic-bezier(0.17, 0.67, 0.83, 0.67)',
-            textShadow: '0 4px 0 #cc2211, 0 8px 0 #aa1100, 0 15px 30px rgba(230,51,41,0.5)',
-          }}
-        >
-          Dx<span style={{ color: '#e63329' }}>Media</span>
-        </h1>
+        {/* Headline Container for continuous animation */}
+        <div style={{
+          animation: mounted ? 'floatAndPulse 4s ease-in-out infinite' : 'none',
+          opacity: mounted ? 1 : 0,
+          transform: mounted ? 'translateY(0) rotateX(0deg)' : 'translateY(40px) rotateX(20deg)',
+          transition: 'opacity 0.9s ease, transform 0.9s cubic-bezier(0.17, 0.67, 0.83, 0.67)',
+          transformStyle: 'preserve-3d',
+          perspective: '1000px',
+        }}>
+          <h1
+            style={{
+              fontFamily: '"Bebas Neue", sans-serif',
+              fontSize: 'clamp(5rem, 15vw, 12rem)',
+              lineHeight: 1,
+              letterSpacing: '5px',
+              color: '#fff',
+              marginBottom: '1.5rem',
+              textShadow: '0 4px 0 #cc2211, 0 8px 0 #aa1100, 0 15px 30px rgba(230,51,41,0.5)',
+            }}
+          >
+            Dx<span style={{ color: '#e63329' }}>Media</span>
+          </h1>
+        </div>
+
+        <style>{`
+          @keyframes floatAndPulse {
+            0% { transform: translateY(0) scale(1) rotateX(0deg); filter: drop-shadow(0 0 10px rgba(230,51,41,0.2)); }
+            50% { transform: translateY(-15px) scale(1.02) rotateX(5deg); filter: drop-shadow(0 10px 25px rgba(230,51,41,0.6)); }
+            100% { transform: translateY(0) scale(1) rotateX(0deg); filter: drop-shadow(0 0 10px rgba(230,51,41,0.2)); }
+          }
+        `}</style>
 
         {/* Description */}
         <p

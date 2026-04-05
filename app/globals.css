@@ -181,3 +181,23 @@ body {
     border-radius: 3px;
   }
 }
+
+/* ── LIGHT THEME INVERT TRICK ── */
+html.light-theme {
+  filter: invert(1) hue-rotate(180deg);
+  background-color: #050505;
+}
+
+html.light-theme body {
+  background-color: #050505;
+}
+
+html.light-theme img,
+html.light-theme video {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+html.light-theme .hero-title-anim h1 {
+  /* Adjusting text shadow for invert */
+  filter: invert(1) hue-rotate(180deg);
+}
