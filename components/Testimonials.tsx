@@ -26,15 +26,12 @@ function TestimonialCard({ t, index }: { t: Testimonial; index: number }) {
       onMouseLeave={() => setHovered(false)}
       style={{
         background: '#141414',
-        border: hovered ? '1px solid rgba(128,0,0,0.35)' : '1px solid rgba(255,255,255,0.06)',
+        border: hovered ? '1px solid rgba(74,0,0,0.35)' : '1px solid rgba(255,255,255,0.06)',
         borderRadius: '14px',
         padding: '2rem',
         position: 'relative',
         overflow: 'hidden',
-        transform: visible ? 'translateY(0)' : 'translateY(30px)',
-        opacity: visible ? 1 : 0,
-        transition: `all 0.5s ease ${index * 0.12}s`,
-        boxShadow: hovered ? '0 8px 30px rgba(128,0,0,0.08)' : 'none',
+        boxShadow: hovered ? '0 8px 30px rgba(74,0,0,0.08)' : 'none',
         display: 'flex',
         flexDirection: 'column',
         gap: '1.25rem',
@@ -47,7 +44,7 @@ function TestimonialCard({ t, index }: { t: Testimonial; index: number }) {
         right: '20px',
         fontFamily: '"Bebas Neue", sans-serif',
         fontSize: '8rem',
-        color: 'rgba(128,0,0,0.08)',
+        color: 'rgba(80,0,0,0.08)',
         lineHeight: 1,
         userSelect: 'none',
         pointerEvents: 'none',
@@ -61,8 +58,8 @@ function TestimonialCard({ t, index }: { t: Testimonial; index: number }) {
           <Star
             key={i}
             size={14}
-            fill={i < t.rating ? '#800000' : 'transparent'}
-            color={i < t.rating ? '#800000' : '#444'}
+            fill={i < t.rating ? '#500000' : 'transparent'}
+            color={i < t.rating ? '#500000' : '#444'}
           />
         ))}
       </div>
@@ -72,7 +69,7 @@ function TestimonialCard({ t, index }: { t: Testimonial; index: number }) {
         <div style={{ position: 'relative', width: '100%', borderRadius: '8px', overflow: 'hidden', cursor: t.link_url ? 'pointer' : 'default' }} onClick={() => t.link_url && window.open(t.link_url, '_blank')}>
           <img src={t.image_url} alt={t.name} style={{ width: '100%', height: 'auto', display: 'block', transition: 'transform 0.3s ease' }} onMouseEnter={(e) => t.link_url && (e.currentTarget.style.transform = 'scale(1.05)')} onMouseLeave={(e) => t.link_url && (e.currentTarget.style.transform = 'scale(1)')} />
           {t.link_url && (
-            <div style={{ position: 'absolute', top: '10px', right: '10px', background: 'rgba(128,0,0,0.9)', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+            <div style={{ position: 'absolute', top: '10px', right: '10px', background: 'rgba(80,0,0,0.9)', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
               <Star size={14} fill="white" />
             </div>
           )}
@@ -103,7 +100,7 @@ function TestimonialCard({ t, index }: { t: Testimonial; index: number }) {
             width: '44px',
             height: '44px',
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #800000, #c0281f)',
+            background: 'linear-gradient(135deg, #500000, #3b0000)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -188,18 +185,15 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
           style={{
             textAlign: 'center',
             marginBottom: '4rem',
-            opacity: titleVisible ? 1 : 0,
-            transform: titleVisible ? 'translateY(0)' : 'translateY(20px)',
-            transition: 'all 0.6s ease',
           }}
         >
           <span style={{
             display: 'inline-block',
-            background: 'rgba(128,0,0,0.1)',
-            border: '1px solid rgba(128,0,0,0.25)',
+            background: 'rgba(80,0,0,0.1)',
+            border: '1px solid rgba(80,0,0,0.25)',
             borderRadius: '50px',
             padding: '6px 18px',
-            color: '#800000',
+            color: '#500000',
             fontFamily: "'Changa', sans-serif",
             fontSize: '0.875rem',
             fontWeight: 700,

@@ -232,7 +232,7 @@ export default function AdminLoginPage() {
                 marginTop: '0.5rem',
                 boxShadow: '0 4px 20px rgba(208,0,0,0.3)',
               }}
-              onMouseEnter={(e) => { if (!loading) e.currentTarget.style.background = '#c0281f'; }}
+              onMouseEnter={(e) => { if (!loading) e.currentTarget.style.background = '#3b0000'; }}
               onMouseLeave={(e) => { if (!loading) e.currentTarget.style.background = '#D00000'; }}
             >
               {loading ? (

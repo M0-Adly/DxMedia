@@ -327,7 +327,7 @@ export default function AdminDashboard() {
                     cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px',
                     transition: 'background 0.3s',
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.background = '#c0281f')}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = '#3b0000')}
                   onMouseLeave={(e) => (e.currentTarget.style.background = '#D00000')}
                 >
                   <Plus size={18} /> إضافة مشروع
@@ -653,7 +653,7 @@ export default function AdminDashboard() {
                     onChange={(e) => setAboutUsText(e.target.value)}
                     rows={6}
                     style={{ ...inputStyle, resize: 'vertical' }}
-                    onFocus={(e) => (e.currentTarget.style.borderColor = '#800000')}
+                    onFocus={(e) => (e.currentTarget.style.borderColor = '#500000')}
                     onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                   />
                 </div>

@@ -66,8 +66,8 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
       onMouseLeave={() => setHovered(false)}
       style={{
         background: hovered ? '#1c1c1c' : '#141414',
-        border: hovered ? '1px solid rgba(128,0,0,0.35)' : '1px solid rgba(255,255,255,0.06)',
-        borderBottom: hovered ? '3px solid #800000' : '1px solid rgba(255,255,255,0.06)',
+        border: hovered ? '1px solid rgba(80,0,0,0.35)' : '1px solid rgba(255,255,255,0.06)',
+        borderBottom: hovered ? '3px solid #500000' : '1px solid rgba(255,255,255,0.06)',
         borderRadius: '12px',
         padding: '1.75rem',
         cursor: 'pointer',
@@ -85,8 +85,8 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
         style={{
           width: '52px',
           height: '52px',
-          background: hovered ? 'rgba(128,0,0,0.2)' : 'rgba(128,0,0,0.1)',
-          border: '1px solid rgba(128,0,0,0.25)',
+          background: hovered ? 'rgba(80,0,0,0.2)' : 'rgba(80,0,0,0.1)',
+          border: '1px solid rgba(80,0,0,0.25)',
           borderRadius: '10px',
           display: 'flex',
           alignItems: 'center',
@@ -127,7 +127,7 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
           display: 'flex',
           alignItems: 'center',
           gap: '6px',
-          color: '#800000',
+          color: '#500000',
           fontFamily: "'Changa', sans-serif",
           fontSize: '0.875rem',
           fontWeight: 700,
@@ -179,11 +179,11 @@ export default function Services() {
           <span
             style={{
               display: 'inline-block',
-              background: 'rgba(128,0,0,0.1)',
-              border: '1px solid rgba(128,0,0,0.25)',
+              background: 'rgba(80,0,0,0.1)',
+              border: '1px solid rgba(80,0,0,0.25)',
               borderRadius: '50px',
               padding: '6px 18px',
-              color: '#800000',
+              color: '#500000',
               fontFamily: "'Changa', sans-serif",
               fontSize: '0.875rem',
               fontWeight: 700,

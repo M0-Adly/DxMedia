@@ -98,7 +98,7 @@ function PortfolioItem({ project, index }: { project: Project; index: number }) 
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'rgba(128,0,0,0.88)',
+          background: 'rgba(80,0,0,0.88)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -132,7 +132,7 @@ function PortfolioItem({ project, index }: { project: Project; index: number }) 
           position: 'absolute',
           top: '8px',
           right: '8px',
-          background: '#800000',
+          background: '#500000',
           color: '#fff',
           fontSize: '0.7rem',
           padding: '3px 10px',
@@ -215,11 +215,11 @@ export default function Portfolio({ projects }: { projects: Project[] }) {
         >
           <span style={{
             display: 'inline-block',
-            background: 'rgba(128,0,0,0.1)',
-            border: '1px solid rgba(128,0,0,0.25)',
+            background: 'rgba(80,0,0,0.1)',
+            border: '1px solid rgba(80,0,0,0.25)',
             borderRadius: '50px',
             padding: '6px 18px',
-            color: '#800000',
+            color: '#500000',
             fontFamily: "'Changa', sans-serif",
             fontSize: '0.875rem',
             fontWeight: 700,
@@ -254,9 +254,9 @@ export default function Portfolio({ projects }: { projects: Project[] }) {
               key={tab}
               onClick={() => setActiveFilter(tab)}
               style={{
-                background: activeFilter === tab ? '#800000' : 'rgba(255,255,255,0.05)',
+                background: activeFilter === tab ? '#500000' : 'rgba(255,255,255,0.05)',
                 color: activeFilter === tab ? '#fff' : '#999',
-                border: activeFilter === tab ? '1px solid #800000' : '1px solid rgba(255,255,255,0.08)',
+                border: activeFilter === tab ? '1px solid #500000' : '1px solid rgba(255,255,255,0.08)',
                 borderRadius: '50px',
                 padding: '8px 20px',
                 fontFamily: "'Changa', sans-serif",
@@ -293,8 +293,8 @@ export default function Portfolio({ projects }: { projects: Project[] }) {
               onClick={() => setActiveFilter('all')}
               style={{
                 background: 'transparent',
-                color: '#800000',
-                border: '1px solid rgba(128,0,0,0.4)',
+                color: '#500000',
+                border: '1px solid rgba(80,0,0,0.4)',
                 padding: '12px 32px',
                 borderRadius: '8px',
                 fontFamily: "'Changa', sans-serif",
@@ -303,7 +303,7 @@ export default function Portfolio({ projects }: { projects: Project[] }) {
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
               }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(128,0,0,0.1)'; }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(80,0,0,0.1)'; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
             >
               عرض كل الأعمال

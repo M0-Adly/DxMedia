@@ -53,7 +53,7 @@ export default function Footer() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', gridColumn: 'span 1' }}>
             <div>
               <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2rem', color: '#fff' }}>Dx</span>
-              <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2rem', color: '#800000' }}>Media</span>
+              <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2rem', color: '#500000' }}>Media</span>
             </div>
             <p style={{ fontFamily: "'Changa', sans-serif", color: '#666', fontSize: '0.9rem', lineHeight: 1.8 }}>
               وكالة تسويق رقمي متميزة متخصصة في بناء علامات تجارية قوية وتحقيق نتائج ملموسة.
@@ -118,10 +118,10 @@ export default function Footer() {
                     alignItems: 'center',
                     gap: '6px',
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = '#800000')}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = '#500000')}
                   onMouseLeave={(e) => (e.currentTarget.style.color = '#666')}
                 >
-                  <span style={{ color: '#800000', fontSize: '0.7rem' }}>◆</span>
+                  <span style={{ color: '#500000', fontSize: '0.7rem' }}>◆</span>
                   {link.label}
                 </button>
               ))}
@@ -182,13 +182,13 @@ export default function Footer() {
                     outline: 'none',
                     minHeight: '44px',
                   }}
-                  onFocus={(e) => (e.currentTarget.style.borderColor = '#800000')}
+                  onFocus={(e) => (e.currentTarget.style.borderColor = '#500000')}
                   onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                 />
                 <button
                   type="submit"
                   style={{
-                    background: '#800000',
+                    background: '#500000',
                     color: '#fff',
                     border: 'none',
                     borderRadius: '8px',
@@ -201,8 +201,8 @@ export default function Footer() {
                     flexShrink: 0,
                     transition: 'background 0.3s',
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.background = '#c0281f')}
-                  onMouseLeave={(e) => (e.currentTarget.style.background = '#800000')}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = '#3b0000')}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = '#500000')}
                 >
                   <Send size={18} />
                 </button>

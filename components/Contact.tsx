@@ -82,7 +82,7 @@ export default function Contact() {
         transform: 'translateX(-50%)',
         width: '60%',
         height: '40%',
-        background: 'radial-gradient(ellipse at center, rgba(128,0,0,0.07) 0%, transparent 70%)',
+        background: 'radial-gradient(ellipse at center, rgba(80,0,0,0.07) 0%, transparent 70%)',
         pointerEvents: 'none',
       }} />
 
@@ -100,11 +100,11 @@ export default function Contact() {
         >
           <span style={{
             display: 'inline-block',
-            background: 'rgba(128,0,0,0.1)',
-            border: '1px solid rgba(128,0,0,0.25)',
+            background: 'rgba(80,0,0,0.1)',
+            border: '1px solid rgba(80,0,0,0.25)',
             borderRadius: '50px',
             padding: '6px 18px',
-            color: '#800000',
+            color: '#500000',
             fontFamily: "'Changa', sans-serif",
             fontSize: '0.875rem',
             fontWeight: 700,
@@ -149,9 +149,9 @@ export default function Contact() {
             {INFO_ITEMS.map((item, i) => {
               const isWhatsApp = item.label === 'واتساب';
               const isFacebook = item.label === 'فيسبوك';
-              const iconColor = isWhatsApp ? '#25D366' : isFacebook ? '#1877F2' : '#800000';
-              const bgColor = isWhatsApp ? 'rgba(37, 211, 102, 0.1)' : isFacebook ? 'rgba(24, 119, 242, 0.1)' : 'rgba(128,0,0,0.1)';
-              const borderColor = isWhatsApp ? 'rgba(37, 211, 102, 0.25)' : isFacebook ? 'rgba(24, 119, 242, 0.25)' : 'rgba(128,0,0,0.25)';
+              const iconColor = isWhatsApp ? '#25D366' : isFacebook ? '#1877F2' : '#500000';
+              const bgColor = isWhatsApp ? 'rgba(37, 211, 102, 0.1)' : isFacebook ? 'rgba(24, 119, 242, 0.1)' : 'rgba(80,0,0,0.1)';
+              const borderColor = isWhatsApp ? 'rgba(37, 211, 102, 0.25)' : isFacebook ? 'rgba(24, 119, 242, 0.25)' : 'rgba(80,0,0,0.25)';
 
               return (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -190,10 +190,10 @@ export default function Contact() {
               border: '1px solid rgba(255,255,255,0.06)',
               borderRadius: '12px',
               padding: '1.5rem',
-              borderRight: '3px solid #800000',
+              borderRight: '3px solid #500000',
             }}>
               <p style={{ fontFamily: "'Changa', sans-serif", color: '#aaa', fontSize: '0.9rem', lineHeight: 1.7 }}>
-                ⚡ نرد على جميع الاستفسارات خلال <strong style={{ color: '#800000' }}>24 ساعة</strong>
+                ⚡ نرد على جميع الاستفسارات خلال <strong style={{ color: '#500000' }}>24 ساعة</strong>
               </p>
             </div>
           </div>
@@ -217,7 +217,7 @@ export default function Contact() {
                 <button
                   onClick={() => setSuccess(false)}
                   style={{
-                    background: '#800000',
+                    background: '#500000',
                     color: '#fff',
                     border: 'none',
                     padding: '10px 24px',
@@ -255,7 +255,7 @@ export default function Contact() {
                         outline: 'none',
                         minHeight: '44px',
                       }}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = '#800000')}
+                      onFocus={(e) => (e.currentTarget.style.borderColor = '#500000')}
                       onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                     />
                   </div>
@@ -282,7 +282,7 @@ export default function Contact() {
                         outline: 'none',
                         minHeight: '44px',
                       }}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = '#800000')}
+                      onFocus={(e) => (e.currentTarget.style.borderColor = '#500000')}
                       onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                     />
                   </div>
@@ -311,7 +311,7 @@ export default function Contact() {
                         outline: 'none',
                         minHeight: '44px',
                       }}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = '#800000')}
+                      onFocus={(e) => (e.currentTarget.style.borderColor = '#500000')}
                       onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                     />
                   </div>
@@ -336,7 +336,7 @@ export default function Contact() {
                         minHeight: '44px',
                         cursor: 'pointer',
                       }}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = '#800000')}
+                      onFocus={(e) => (e.currentTarget.style.borderColor = '#500000')}
                       onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                     >
                       <option value="">اختر الخدمة</option>
@@ -368,7 +368,7 @@ export default function Contact() {
                       resize: 'vertical',
                       minHeight: '100px',
                     }}
-                    onFocus={(e) => (e.currentTarget.style.borderColor = '#800000')}
+                    onFocus={(e) => (e.currentTarget.style.borderColor = '#500000')}
                     onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                   />
                 </div>
@@ -379,7 +379,7 @@ export default function Contact() {
                     type="checkbox"
                     checked={agreed}
                     onChange={(e) => setAgreed(e.target.checked)}
-                    style={{ width: '18px', height: '18px', accentColor: '#800000', cursor: 'pointer' }}
+                    style={{ width: '18px', height: '18px', accentColor: '#500000', cursor: 'pointer' }}
                   />
                   <span style={{ fontFamily: "'Changa', sans-serif", color: '#888', fontSize: '0.875rem' }}>
                     أوافق على التواصل معي بخصوص خدمات Dx Media
@@ -408,7 +408,7 @@ export default function Contact() {
                   type="submit"
                   disabled={loading}
                   style={{
-                    background: loading ? '#8b1c18' : '#800000',
+                    background: loading ? '#8b1c18' : '#500000',
                     color: '#fff',
                     border: 'none',
                     padding: '14px',

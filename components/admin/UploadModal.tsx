@@ -156,7 +156,7 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
               اسم المشروع *
             </label>
             <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="اسم المشروع" style={inputStyle}
-              onFocus={(e) => (e.currentTarget.style.borderColor = '#800000')}
+              onFocus={(e) => (e.currentTarget.style.borderColor = '#500000')}
               onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')} />
           </div>
 
@@ -167,7 +167,7 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
             </label>
             <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="وصف مختصر للمشروع" rows={3}
               style={{ ...inputStyle, resize: 'vertical', minHeight: '80px' }}
-              onFocus={(e) => (e.currentTarget.style.borderColor = '#800000')}
+              onFocus={(e) => (e.currentTarget.style.borderColor = '#500000')}
               onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')} />
           </div>
 
@@ -178,7 +178,7 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
                 التصنيف *
               </label>
               <select value={category} onChange={(e) => setCategory(e.target.value as ProjectCategory)} style={inputStyle}
-                onFocus={(e) => (e.currentTarget.style.borderColor = '#800000')}
+                onFocus={(e) => (e.currentTarget.style.borderColor = '#500000')}
                 onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}>
                 {CATEGORIES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
               </select>
@@ -188,7 +188,7 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
                 رابط المشروع
               </label>
               <input value={projectUrl} onChange={(e) => setProjectUrl(e.target.value)} placeholder="https://..." style={{ ...inputStyle, direction: 'ltr', textAlign: 'left' }}
-                onFocus={(e) => (e.currentTarget.style.borderColor = '#800000')}
+                onFocus={(e) => (e.currentTarget.style.borderColor = '#500000')}
                 onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')} />
             </div>
           </div>
@@ -220,7 +220,7 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
                 position: 'relative',
                 overflow: 'hidden',
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'rgba(128,0,0,0.4)')}
+              onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'rgba(80,0,0,0.4)')}
               onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)')}
             >
               {imagePreview ? (
@@ -258,7 +258,7 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
             <div style={{ background: '#1a1a1a', borderRadius: '8px', height: '6px', overflow: 'hidden' }}>
               <div style={{
                 height: '100%',
-                background: '#800000',
+                background: '#500000',
                 width: `${uploadProgress}%`,
                 borderRadius: '8px',
                 transition: 'width 0.4s ease',
@@ -272,7 +272,7 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
               onClick={() => setFeatured(!featured)}
               style={{
                 width: '44px', height: '24px',
-                background: featured ? '#800000' : '#333',
+                background: featured ? '#500000' : '#333',
                 borderRadius: '12px',
                 position: 'relative',
                 transition: 'background 0.3s',
@@ -291,14 +291,14 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
               }} />
             </div>
             <span style={{ fontFamily: "'Changa', sans-serif", color: '#aaa', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Star size={14} color={featured ? '#800000' : '#555'} fill={featured ? '#800000' : 'none'} />
+              <Star size={14} color={featured ? '#500000' : '#555'} fill={featured ? '#500000' : 'none'} />
               مشروع مميز
             </span>
           </label>
 
           {/* Error */}
           {error && (
-            <div style={{ background: 'rgba(128,0,0,0.08)', border: '1px solid rgba(128,0,0,0.2)', borderRadius: '8px', padding: '10px 14px', color: '#f87171', fontFamily: "'Changa', sans-serif", fontSize: '0.875rem' }}>
+            <div style={{ background: 'rgba(80,0,0,0.08)', border: '1px solid rgba(80,0,0,0.2)', borderRadius: '8px', padding: '10px 14px', color: '#f87171', fontFamily: "'Changa', sans-serif", fontSize: '0.875rem' }}>
               {error}
             </div>
           )}
@@ -312,7 +312,7 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
               إلغاء
             </button>
             <button onClick={handleSave} disabled={uploading} style={{
-              flex: 2, background: uploading ? '#8b1c18' : '#800000', color: '#fff', border: 'none',
+              flex: 2, background: uploading ? '#8b1c18' : '#500000', color: '#fff', border: 'none',
               borderRadius: '10px', padding: '13px', fontFamily: "'Changa', sans-serif", fontWeight: 800, fontSize: '0.95rem',
               cursor: uploading ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
               transition: 'background 0.3s',
