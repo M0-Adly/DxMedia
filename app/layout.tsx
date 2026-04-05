@@ -23,11 +23,11 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Bebas+Neue&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Almarai:wght@300;400;700;800&family=Bebas+Neue&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body style={{ fontFamily: "'Cairo', sans-serif", backgroundColor: '#0a0a0a', color: '#f0f0f0' }}>
+      <body style={{ fontFamily: "'Almarai', sans-serif", backgroundColor: '#0a0a0a', color: '#f0f0f0' }}>
         {children}
       </body>
     </html>
