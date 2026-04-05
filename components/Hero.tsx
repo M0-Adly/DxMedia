@@ -272,9 +272,10 @@ export default function Hero({ stats }: { stats: HeroStats }) {
 
         {/* Stats */}
         <div
+          className="stats-grid-mobile"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
+            gridTemplateColumns: 'repeat(3, 1fr)',
             gap: '1px',
             maxWidth: '700px',
             margin: '0 auto',
@@ -294,17 +295,17 @@ export default function Hero({ stats }: { stats: HeroStats }) {
               key={i}
               style={{
                 background: '#0a0a0a',
-                padding: '2rem 1.5rem',
+                padding: '1.25rem 0.75rem',
                 textAlign: 'center',
               }}
             >
               <div
                 style={{
                   fontFamily: '"Bebas Neue", sans-serif',
-                  fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+                  fontSize: 'clamp(1.5rem, 8vw, 3.5rem)',
                   color: '#ff1022',
                   lineHeight: 1,
-                  marginBottom: '0.5rem',
+                  marginBottom: '0.25rem',
                 }}
               >
                 <AnimatedCounter target={stat.value} suffix={stat.suffix} />

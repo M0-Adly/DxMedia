@@ -19,7 +19,8 @@ const INFO_ITEMS = [
   { icon: <MapPin size={20} />, label: 'العنوان', value: 'مصر' },
   { icon: <Phone size={20} />, label: 'الهاتف', value: '01092157086' },
   { icon: <Mail size={20} />, label: 'البريد الإلكتروني', value: 'companydxmedia@gmail.com' },
-  { icon: <MessageCircle size={20} />, label: 'واتساب', value: 'تواصل معنا مباشرة', href: 'https://wa.me/201092157086', target: '_blank' },
+  { icon: <MessageCircle size={20} />, label: 'واتساب 1', value: '01092157086', href: 'https://wa.me/201092157086', target: '_blank' },
+  { icon: <MessageCircle size={20} />, label: 'واتساب 2', value: '01070425411', href: 'https://wa.me/201070425411', target: '_blank' },
   { icon: <Facebook size={20} />, label: 'فيسبوك', value: 'صفحتنا الرسمية', href: 'https://www.facebook.com/share/1J15UQLn6B/', target: '_blank' },
 ];
 

@@ -6,7 +6,6 @@ import { Menu, X, Sun, Moon, Home, Info, Briefcase, LayoutGrid, Phone, Star } fr
 
 const navLinks = [
   { label: 'الرئيسية', href: '#home', icon: <Home size={20} /> },
-  { label: 'من نحن', href: '#about', icon: <Info size={20} /> },
   { label: 'خدماتنا', href: '#services', icon: <Briefcase size={20} /> },
   { label: 'أعمالنا', href: '#portfolio', icon: <LayoutGrid size={20} /> },
   { label: 'آراء العملاء', href: '#testimonials', icon: <Star size={20} /> },
@@ -64,6 +63,7 @@ export default function Navbar() {
   return (
     <>
       <nav
+        className="hidden md:block"
         style={{
           position: 'fixed',
           top: 0,
@@ -186,70 +186,93 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Bottom Navigation Bar */}
+      {/* Mobile Top Navigation Bar (Modern Floating Style) */}
       <div
         className="md:hidden"
         style={{
           position: 'fixed',
-          bottom: '20px',
-          left: '20px',
-          right: '20px',
-          zIndex: 1000,
-          background: 'rgba(10, 10, 10, 0.85)',
+          top: '20px',
+          left: '15px',
+          right: '15px',
+          zIndex: 1001,
+          background: 'rgba(10, 10, 10, 0.8)',
           backdropFilter: 'blur(20px)',
-          borderRadius: '24px',
+          borderRadius: '20px',
           border: '1px solid rgba(255, 255, 255, 0.08)',
-          padding: '10px 15px',
-          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 16, 34, 0.1)',
+          padding: '8px 12px',
+          boxShadow: '0 10px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 16, 34, 0.15)',
           display: 'flex',
-          justifyContent: 'space-around',
+          justifyContent: 'space-between',
           alignItems: 'center',
-          gap: '5px',
+          gap: '4px',
         }}
       >
-        {navLinks.map((link) => (
+        {/* Mobile Logo inside the bar */}
+        <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '2px', paddingRight: '8px' }}>
+          <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '1.4rem', color: '#fff' }}>Dx</span>
+          <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '1.4rem', color: '#ff1022' }}>Media</span>
+        </Link>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
+          {navLinks.map((link) => (
+            <button
+              key={link.href}
+              onClick={() => handleNavClick(link.href)}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: '#aaa',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '8px',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+              }}
+            >
+              {link.icon}
+            </button>
+          ))}
+          
           <button
-            key={link.href}
-            onClick={() => handleNavClick(link.href)}
+            onClick={() => handleNavClick('#contact')}
             style={{
-              background: 'none',
+              background: '#ff1022',
               border: 'none',
-              color: '#888',
+              color: '#fff',
               display: 'flex',
-              flexDirection: 'column',
               alignItems: 'center',
-              gap: '4px',
-              padding: '6px',
+              justifyContent: 'center',
+              width: '38px',
+              height: '38px',
+              borderRadius: '12px',
               cursor: 'pointer',
-              transition: 'all 0.3s ease',
+              boxShadow: '0 4px 12px rgba(255, 16, 34, 0.4)',
+              marginLeft: '5px'
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = '#ff1022')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = '#888')}
           >
-            {link.icon}
-            <span style={{ fontSize: '0.65rem', fontFamily: "'Changa', sans-serif", fontWeight: 600 }}>{link.label}</span>
+            <Phone size={18} />
           </button>
-        ))}
-        <button
-          onClick={() => handleNavClick('#contact')}
-          style={{
-            background: '#ff1022',
-            border: 'none',
-            color: '#fff',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '4px',
-            padding: '8px',
-            borderRadius: '16px',
-            cursor: 'pointer',
-            boxShadow: '0 4px 10px rgba(255, 16, 34, 0.3)',
-            marginLeft: '5px'
-          }}
-        >
-          <Phone size={18} />
-          <span style={{ fontSize: '0.65rem', fontFamily: "'Changa', sans-serif", fontWeight: 700 }}>تواصل</span>
-        </button>
+
+          <button
+            onClick={toggleTheme}
+            style={{
+              background: 'rgba(255,255,255,0.05)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              color: '#fff',
+              width: '34px',
+              height: '34px',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              marginLeft: '4px'
+            }}
+          >
+            {isLight ? <Moon size={16} /> : <Sun size={16} />}
+          </button>
+        </div>
       </div>
     </>
   );
