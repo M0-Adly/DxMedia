@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { MapPin, Phone, Mail, Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { MapPin, Phone, Mail, Send, CheckCircle, AlertCircle, MessageCircle, Facebook } from 'lucide-react';
 import { createClient } from '@/lib/supabase';
 
 const SERVICES = [
@@ -19,6 +19,8 @@ const INFO_ITEMS = [
   { icon: <MapPin size={20} />, label: 'العنوان', value: 'مصر' },
   { icon: <Phone size={20} />, label: 'الهاتف', value: '01092157086' },
   { icon: <Mail size={20} />, label: 'البريد الإلكتروني', value: 'companydxmedia@gmail.com' },
+  { icon: <MessageCircle size={20} />, label: 'واتساب', value: 'تواصل معنا مباشرة', href: 'https://wa.me/201092157086', target: '_blank' },
+  { icon: <Facebook size={20} />, label: 'فيسبوك', value: 'صفحتنا الرسمية', href: 'https://www.facebook.com/share/1J15UQLn6B/', target: '_blank' },
 ];
 
 export default function Contact() {
@@ -160,9 +162,15 @@ export default function Contact() {
                 }}>
                   {item.icon}
                 </div>
-                <div>
+                <div style={{ flex: 1 }}>
                   <div style={{ fontFamily: "'Cairo', sans-serif", color: '#888', fontSize: '0.8rem' }}>{item.label}</div>
-                  <div style={{ fontFamily: "'Cairo', sans-serif", color: '#f0f0f0', fontWeight: 600, fontSize: '0.95rem' }}>{item.value}</div>
+                  {item.href ? (
+                    <a href={item.href} target={item.target} rel="noreferrer" style={{ textDecoration: 'none', color: '#f0f0f0', fontFamily: "'Cairo', sans-serif", fontWeight: 600, fontSize: '0.95rem', transition: 'color 0.2s', display: 'inline-block' }} onMouseEnter={(e) => (e.currentTarget.style.color = '#e63329')} onMouseLeave={(e) => (e.currentTarget.style.color = '#f0f0f0')}>
+                      {item.value}
+                    </a>
+                  ) : (
+                    <div style={{ fontFamily: "'Cairo', sans-serif", color: '#f0f0f0', fontWeight: 600, fontSize: '0.95rem' }}>{item.value}</div>
+                  )}
                 </div>
               </div>
             ))}
