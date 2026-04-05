@@ -38,17 +38,6 @@ function PortfolioItem({ project, index }: { project: Project; index: number }) 
   };
 
   const isVideo = project.image_url?.match(/\.(mp4|webm|mov)$/i);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    if (isVideo && videoRef.current) {
-      if (hovered) {
-        videoRef.current.play().catch(() => {});
-      } else {
-        videoRef.current.pause();
-      }
-    }
-  }, [hovered, isVideo]);
 
   return (
     <div
@@ -72,8 +61,8 @@ function PortfolioItem({ project, index }: { project: Project; index: number }) 
       {project.image_url ? (
         isVideo ? (
           <video
-            ref={videoRef}
             src={project.image_url}
+            autoPlay
             muted
             loop
             playsInline

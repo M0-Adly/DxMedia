@@ -239,6 +239,25 @@ export default function Navbar() {
         >
           تواصل معنا
         </button>
+        <button
+          onClick={toggleTheme}
+          style={{
+            marginTop: '1rem',
+            background: 'transparent',
+            border: '1px solid rgba(255,255,255,0.2)',
+            color: '#fff',
+            padding: '10px 20px',
+            borderRadius: '8px',
+            fontFamily: "'Changa', sans-serif",
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            cursor: 'pointer',
+          }}
+        >
+          {isLight ? <Moon size={20} /> : <Sun size={20} />}
+          {isLight ? 'الوضع المظلم' : 'الوضع المضيء'}
+        </button>
       </div>
     </>
   );

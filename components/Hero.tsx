@@ -73,8 +73,21 @@ export default function Hero({ stats }: { stats: HeroStats }) {
         style={{
           position: 'absolute',
           inset: 0,
+          backgroundImage: 'url(/dx.jpeg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+          opacity: 0.15,
+          zIndex: 0,
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
           backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.025) 1px, transparent 1px)',
           backgroundSize: '32px 32px',
+          zIndex: 1,
         }}
       />
       <div

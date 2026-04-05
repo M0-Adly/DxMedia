@@ -38,7 +38,11 @@ export default function ProjectCard({ project, onEdit, onDelete, onToggleFeature
       {/* Thumbnail */}
       <div style={{ position: 'relative', aspectRatio: '16/9', background: '#111' }}>
         {project.image_url ? (
-          <Image src={project.image_url} alt={project.title} fill style={{ objectFit: 'cover' }} sizes="400px" />
+          project.image_url.match(/\.(mp4|webm|mov)$/i) ? (
+            <video src={project.image_url} autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }} />
+          ) : (
+            <Image src={project.image_url} alt={project.title} fill style={{ objectFit: 'cover' }} sizes="400px" />
+          )
         ) : (
           <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <span style={{ fontSize: '2rem', opacity: 0.3 }}>🖼️</span>

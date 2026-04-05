@@ -6,6 +6,7 @@ import Portfolio from '@/components/Portfolio';
 import Testimonials from '@/components/Testimonials';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
+import About from '@/components/About';
 import { Project, Testimonial } from '@/lib/types';
 
 export default async function HomePage() {
@@ -25,6 +26,8 @@ export default async function HomePage() {
     years: settings['hero_years'] || '6',
   };
 
+  const aboutText = settings['about_text'] || 'رؤيتنا هي ضمان نجاحك، وعملنا هو تحويل فكرتك لواقع رقمي مسيطر. في مكان واحد، بنجمع لك بين عبقرية البيانات وتطوير البرامج والأنظمة الإدارية المعقدة، وبين سحر الإبداع في تصميم الجرافيك والمواقع، وتحرير الفيديوهات والموشن جرافيك اللي بيخطف الأنظار. إحنا مش بس بنصمم أو بنبرمج، إحنا بنبني لك حضور ذكي من خلال تسويق رقمي مبني على الأرقام وإعلانات ممولة عالية العائد، مع دمج أحدث تقنيات الذكاء الاصطناعي لضمان ريادتك في السوق. باختصار.. إحنا الشريك اللي هيبدأ معاك من أول خطوة تخطيط لحد ما توصل للقمة وتستمر فيها';
+
   // Fetch projects
   const { data: projects } = await supabase
     .from('projects')
@@ -42,6 +45,7 @@ export default async function HomePage() {
     <main>
       <Navbar />
       <Hero stats={heroStats} />
+      <About text={aboutText} />
       <Services />
       <Portfolio projects={(projects as Project[]) || []} />
       <Testimonials testimonials={(testimonials as Testimonial[]) || []} />

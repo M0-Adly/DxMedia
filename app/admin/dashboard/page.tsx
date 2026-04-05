@@ -46,6 +46,7 @@ export default function AdminDashboard() {
 
   // Settings state
   const [heroStats, setHeroStats] = useState({ clients: '150', projects: '420', years: '6' });
+  const [aboutUsText, setAboutUsText] = useState('رؤيتنا هي ضمان نجاحك، وعملنا هو تحويل فكرتك لواقع رقمي مسيطر. في مكان واحد، بنجمع لك بين عبقرية البيانات وتطوير البرامج والأنظمة الإدارية المعقدة، وبين سحر الإبداع في تصميم الجرافيك والمواقع، وتحرير الفيديوهات والموشن جرافيك اللي بيخطف الأنظار. إحنا مش بس بنصمم أو بنبرمج، إحنا بنبني لك حضور ذكي من خلال تسويق رقمي مبني على الأرقام وإعلانات ممولة عالية العائد، مع دمج أحدث تقنيات الذكاء الاصطناعي لضمان ريادتك في السوق. باختصار.. إحنا الشريك اللي هيبدأ معاك من أول خطوة تخطيط لحد ما توصل للقمة وتستمر فيها');
   const [settingsSaved, setSettingsSaved] = useState(false);
   const [settingsLoading, setSettingsLoading] = useState(false);
 
@@ -82,6 +83,7 @@ export default function AdminDashboard() {
         projects: map['hero_projects'] || '420',
         years: map['hero_years'] || '6',
       });
+      if (map['about_text']) setAboutUsText(map['about_text']);
     }
   }, []);
 
@@ -175,6 +177,7 @@ export default function AdminDashboard() {
       supabase.from('settings').upsert({ key: 'hero_clients', value: heroStats.clients }),
       supabase.from('settings').upsert({ key: 'hero_projects', value: heroStats.projects }),
       supabase.from('settings').upsert({ key: 'hero_years', value: heroStats.years }),
+      supabase.from('settings').upsert({ key: 'about_text', value: aboutUsText }),
     ]);
     setSettingsSaved(true);
     setTimeout(() => setSettingsSaved(false), 2500);
@@ -439,11 +442,20 @@ export default function AdminDashboard() {
                             )}
                             <a href={`mailto:${msg.email}`} style={{
                               background: 'rgba(77,156,248,0.1)', border: '1px solid rgba(77,156,248,0.2)', borderRadius: '8px',
-                              padding: '7px 14px', color: '#4d9cf8', fontFamily: "'Almarai', sans-serif", fontSize: '0.8rem',
+                              padding: '7px 14px', color: '#4d9cf8', fontFamily: "'Changa', sans-serif", fontSize: '0.8rem',
                               textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '5px',
                             }}>
                               رد بالبريد
                             </a>
+                            {msg.phone && (
+                              <a href={`https://wa.me/${msg.phone.replace(/[^0-9]/g, '')}`} target="_blank" rel="noreferrer" style={{
+                                background: 'rgba(37,211,102,0.1)', border: '1px solid rgba(37,211,102,0.2)', borderRadius: '8px',
+                                padding: '7px 14px', color: '#25D366', fontFamily: "'Changa', sans-serif", fontSize: '0.8rem',
+                                textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '5px',
+                              }}>
+                                رد واتساب
+                              </a>
+                            )}
                             <button onClick={() => handleDeleteMessage(msg.id)} style={{
                               background: 'rgba(208,0,0,0.08)', border: '1px solid rgba(208,0,0,0.15)', borderRadius: '8px',
                               padding: '7px 14px', color: '#D00000', fontFamily: "'Almarai', sans-serif", fontSize: '0.8rem',
@@ -630,6 +642,20 @@ export default function AdminDashboard() {
                       />
                     </div>
                   ))}
+                </div>
+
+                <div style={{ marginTop: '2rem' }}>
+                  <h3 style={{ fontFamily: "'Changa', sans-serif", color: '#f0f0f0', fontWeight: 800, fontSize: '0.9rem', marginBottom: '0.5rem' }}>
+                    نص من نحن (About Us)
+                  </h3>
+                  <textarea
+                    value={aboutUsText}
+                    onChange={(e) => setAboutUsText(e.target.value)}
+                    rows={6}
+                    style={{ ...inputStyle, resize: 'vertical' }}
+                    onFocus={(e) => (e.currentTarget.style.borderColor = '#800000')}
+                    onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
+                  />
                 </div>
 
                 <button
