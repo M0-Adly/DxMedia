@@ -688,18 +688,21 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* ── MOBILE BOTTOM TABS ── */}
+      {/* ── MOBILE BOTTOM TABS (Modern Floating Style) ── */}
       <div style={{
         position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        background: 'rgba(10,10,10,0.97)',
+        bottom: '20px',
+        left: '15px',
+        right: '15px',
+        background: 'rgba(10, 10, 10, 0.85)',
         backdropFilter: 'blur(20px)',
-        borderTop: '1px solid rgba(255,255,255,0.08)',
+        border: '1px solid rgba(255, 255, 255, 0.08)',
+        borderRadius: '24px',
         display: 'grid',
         gridTemplateColumns: `repeat(${SIDEBAR_ITEMS.length}, 1fr)`,
         zIndex: 200,
+        padding: '8px 4px',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 16, 34, 0.1)',
       }} className="md:hidden">
         {SIDEBAR_ITEMS.map(item => (
           <button
@@ -708,24 +711,25 @@ export default function AdminDashboard() {
             style={{
               background: 'none',
               border: 'none',
-              padding: '12px 4px',
+              padding: '8px 0',
               cursor: 'pointer',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               gap: '4px',
               color: activeTab === item.id ? '#ff1022' : '#555',
-              transition: 'color 0.2s',
+              transition: 'all 0.3s',
               position: 'relative',
+              transform: activeTab === item.id ? 'scale(1.1)' : 'scale(1)',
             }}
           >
             {item.icon}
-            <span style={{ fontSize: '0.65rem', fontFamily: "'Almarai', sans-serif", fontWeight: 600 }}>{item.label}</span>
+            <span style={{ fontSize: '0.6rem', fontFamily: "'Almarai', sans-serif", fontWeight: 700 }}>{item.label}</span>
             {item.id === 'messages' && unreadCount > 0 && (
               <span style={{
-                position: 'absolute', top: '8px', right: '25%',
-                background: '#ff1022', color: '#fff', fontSize: '0.6rem',
-                width: '16px', height: '16px', borderRadius: '50%',
+                position: 'absolute', top: '4px', right: '20%',
+                background: '#ff1022', color: '#fff', fontSize: '0.55rem',
+                width: '15px', height: '15px', borderRadius: '50%',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700,
               }}>{unreadCount}</span>
             )}
