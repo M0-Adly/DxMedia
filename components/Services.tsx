@@ -65,9 +65,9 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        background: hovered ? '#1c1c1c' : '#141414',
-        border: hovered ? '1px solid rgba(80,0,0,0.35)' : '1px solid rgba(255,255,255,0.06)',
-        borderBottom: hovered ? '3px solid #500000' : '1px solid rgba(255,255,255,0.06)',
+        background: hovered ? '#111111' : '#0a0a0a',
+        border: hovered ? '1px solid rgba(255,16,34,0.35)' : '1px solid rgba(255,255,255,0.06)',
+        borderBottom: hovered ? '3px solid #ff1022' : '1px solid rgba(255,255,255,0.06)',
         borderRadius: '12px',
         padding: '1.75rem',
         cursor: 'pointer',
@@ -85,8 +85,8 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
         style={{
           width: '52px',
           height: '52px',
-          background: hovered ? 'rgba(80,0,0,0.2)' : 'rgba(80,0,0,0.1)',
-          border: '1px solid rgba(80,0,0,0.25)',
+          background: hovered ? 'rgba(255,16,34,0.2)' : 'rgba(255,16,34,0.1)',
+          border: '1px solid rgba(255,16,34,0.25)',
           borderRadius: '10px',
           display: 'flex',
           alignItems: 'center',
@@ -103,7 +103,7 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
           fontFamily: "'Changa', sans-serif",
           fontSize: '1.1rem',
           fontWeight: 800,
-          color: '#f0f0f0',
+          color: '#ffffff',
           textAlign: 'right',
         }}
       >
@@ -127,7 +127,7 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
           display: 'flex',
           alignItems: 'center',
           gap: '6px',
-          color: '#500000',
+          color: '#ff1022',
           fontFamily: "'Changa', sans-serif",
           fontSize: '0.875rem',
           fontWeight: 700,
@@ -160,7 +160,7 @@ export default function Services() {
       id="services"
       style={{
         padding: '6rem 1.5rem',
-        background: '#0a0a0a',
+        background: '#000000',
         position: 'relative',
       }}
     >
@@ -179,11 +179,11 @@ export default function Services() {
           <span
             style={{
               display: 'inline-block',
-              background: 'rgba(80,0,0,0.1)',
-              border: '1px solid rgba(80,0,0,0.25)',
+              background: 'rgba(255,16,34,0.1)',
+              border: '1px solid rgba(255,16,34,0.25)',
               borderRadius: '50px',
               padding: '6px 18px',
-              color: '#500000',
+              color: '#ff1022',
               fontFamily: "'Changa', sans-serif",
               fontSize: '0.875rem',
               fontWeight: 700,

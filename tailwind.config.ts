@@ -10,16 +10,16 @@ const config: Config = {
     extend: {
       colors: {
         red: {
-          DEFAULT: '#D00000',
-          dark: '#c0281f',
+          DEFAULT: '#ff1022',
+          dark: '#d00010',
         },
         dark: {
-          DEFAULT: '#0a0a0a',
+          DEFAULT: '#000000',
           er: '#050505',
         },
         card: {
-          DEFAULT: '#141414',
-          hover: '#1c1c1c',
+          DEFAULT: '#000000',
+          hover: '#111111',
         },
       },
       fontFamily: {

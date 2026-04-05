@@ -25,7 +25,7 @@ function TestimonialCard({ t, index }: { t: Testimonial; index: number }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        background: '#141414',
+        background: '#0a0a0a',
         border: hovered ? '1px solid rgba(74,0,0,0.35)' : '1px solid rgba(255,255,255,0.06)',
         borderRadius: '14px',
         padding: '2rem',
@@ -44,7 +44,7 @@ function TestimonialCard({ t, index }: { t: Testimonial; index: number }) {
         right: '20px',
         fontFamily: '"Bebas Neue", sans-serif',
         fontSize: '8rem',
-        color: 'rgba(80,0,0,0.08)',
+        color: 'rgba(255,16,34,0.08)',
         lineHeight: 1,
         userSelect: 'none',
         pointerEvents: 'none',
@@ -58,8 +58,8 @@ function TestimonialCard({ t, index }: { t: Testimonial; index: number }) {
           <Star
             key={i}
             size={14}
-            fill={i < t.rating ? '#500000' : 'transparent'}
-            color={i < t.rating ? '#500000' : '#444'}
+            fill={i < t.rating ? '#ff1022' : 'transparent'}
+            color={i < t.rating ? '#ff1022' : '#444'}
           />
         ))}
       </div>
@@ -69,7 +69,7 @@ function TestimonialCard({ t, index }: { t: Testimonial; index: number }) {
         <div style={{ position: 'relative', width: '100%', borderRadius: '8px', overflow: 'hidden', cursor: t.link_url ? 'pointer' : 'default' }} onClick={() => t.link_url && window.open(t.link_url, '_blank')}>
           <img src={t.image_url} alt={t.name} style={{ width: '100%', height: 'auto', display: 'block', transition: 'transform 0.3s ease' }} onMouseEnter={(e) => t.link_url && (e.currentTarget.style.transform = 'scale(1.05)')} onMouseLeave={(e) => t.link_url && (e.currentTarget.style.transform = 'scale(1)')} />
           {t.link_url && (
-            <div style={{ position: 'absolute', top: '10px', right: '10px', background: 'rgba(80,0,0,0.9)', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+            <div style={{ position: 'absolute', top: '10px', right: '10px', background: 'rgba(255,16,34,0.9)', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
               <Star size={14} fill="white" />
             </div>
           )}
@@ -100,7 +100,7 @@ function TestimonialCard({ t, index }: { t: Testimonial; index: number }) {
             width: '44px',
             height: '44px',
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #500000, #3b0000)',
+            background: 'linear-gradient(135deg, #ff1022, #3b0000)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -114,7 +114,7 @@ function TestimonialCard({ t, index }: { t: Testimonial; index: number }) {
           </div>
         )}
         <div>
-          <div style={{ fontFamily: "'Changa', sans-serif", color: '#f0f0f0', fontWeight: 800, fontSize: '0.95rem' }}>
+          <div style={{ fontFamily: "'Changa', sans-serif", color: '#ffffff', fontWeight: 800, fontSize: '0.95rem' }}>
             {t.name}
           </div>
           <div style={{ fontFamily: "'Changa', sans-serif", color: '#777', fontSize: '0.8rem' }}>
@@ -177,7 +177,7 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
   return (
     <section
       id="testimonials"
-      style={{ padding: '6rem 1.5rem', background: '#0a0a0a' }}
+      style={{ padding: '6rem 1.5rem', background: '#000000' }}
     >
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <div
@@ -189,11 +189,11 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
         >
           <span style={{
             display: 'inline-block',
-            background: 'rgba(80,0,0,0.1)',
-            border: '1px solid rgba(80,0,0,0.25)',
+            background: 'rgba(255,16,34,0.1)',
+            border: '1px solid rgba(255,16,34,0.25)',
             borderRadius: '50px',
             padding: '6px 18px',
-            color: '#500000',
+            color: '#ff1022',
             fontFamily: "'Changa', sans-serif",
             fontSize: '0.875rem',
             fontWeight: 700,

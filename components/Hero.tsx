@@ -94,7 +94,7 @@ export default function Hero({ stats }: { stats: HeroStats }) {
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'radial-gradient(ellipse 70% 60% at 50% 0%, rgba(80,0,0,0.12) 0%, transparent 70%)',
+          background: 'radial-gradient(ellipse 70% 60% at 50% 0%, rgba(255,16,34,0.12) 0%, transparent 70%)',
         }}
       />
       <div
@@ -104,7 +104,7 @@ export default function Hero({ stats }: { stats: HeroStats }) {
           left: 0,
           right: 0,
           height: '40%',
-          background: 'linear-gradient(to top, #0a0a0a, transparent)',
+          background: 'linear-gradient(to top, #000000, transparent)',
         }}
       />
 
@@ -125,8 +125,8 @@ export default function Hero({ stats }: { stats: HeroStats }) {
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            background: 'rgba(80,0,0,0.1)',
-            border: '1px solid rgba(80,0,0,0.25)',
+            background: 'rgba(255,16,34,0.1)',
+            border: '1px solid rgba(255,16,34,0.25)',
             borderRadius: '50px',
             padding: '8px 20px',
             marginBottom: '2rem',
@@ -140,7 +140,7 @@ export default function Hero({ stats }: { stats: HeroStats }) {
             style={{
               fontFamily: "'Changa', sans-serif",
               fontSize: '0.9rem',
-              color: '#500000',
+              color: '#ff1022',
               fontWeight: 700,
             }}
           >
@@ -165,18 +165,18 @@ export default function Hero({ stats }: { stats: HeroStats }) {
               letterSpacing: '5px',
               color: '#fff',
               marginBottom: '1.5rem',
-              textShadow: '0 4px 0 #cc2211, 0 8px 0 #aa1100, 0 15px 30px rgba(80,0,0,0.5)',
+              textShadow: '0 4px 0 #cc2211, 0 8px 0 #aa1100, 0 15px 30px rgba(255,16,34,0.5)',
             }}
           >
-            Dx<span style={{ color: '#500000' }}>Media</span>
+            Dx<span style={{ color: '#ff1022' }}>Media</span>
           </h1>
         </div>
 
         <style>{`
           @keyframes floatAndPulse {
-            0% { transform: translateY(0) scale(1) rotateX(0deg); filter: drop-shadow(0 0 10px rgba(80,0,0,0.2)); }
-            50% { transform: translateY(-15px) scale(1.02) rotateX(5deg); filter: drop-shadow(0 10px 25px rgba(80,0,0,0.6)); }
-            100% { transform: translateY(0) scale(1) rotateX(0deg); filter: drop-shadow(0 0 10px rgba(80,0,0,0.2)); }
+            0% { transform: translateY(0) scale(1) rotateX(0deg); filter: drop-shadow(0 0 10px rgba(255,16,34,0.2)); }
+            50% { transform: translateY(-15px) scale(1.02) rotateX(5deg); filter: drop-shadow(0 10px 25px rgba(255,16,34,0.6)); }
+            100% { transform: translateY(0) scale(1) rotateX(0deg); filter: drop-shadow(0 0 10px rgba(255,16,34,0.2)); }
           }
         `}</style>
 
@@ -213,7 +213,7 @@ export default function Hero({ stats }: { stats: HeroStats }) {
           <button
             onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
             style={{
-              background: '#500000',
+              background: '#ff1022',
               color: '#fff',
               border: 'none',
               padding: '14px 32px',
@@ -226,14 +226,14 @@ export default function Hero({ stats }: { stats: HeroStats }) {
               alignItems: 'center',
               gap: '8px',
               transition: 'all 0.3s ease',
-              boxShadow: '0 4px 20px rgba(80,0,0,0.35)',
+              boxShadow: '0 4px 20px rgba(255,16,34,0.35)',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = '#3b0000';
               e.currentTarget.style.transform = 'translateY(-2px)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = '#500000';
+              e.currentTarget.style.background = '#ff1022';
               e.currentTarget.style.transform = 'translateY(0)';
             }}
           >
@@ -258,8 +258,8 @@ export default function Hero({ stats }: { stats: HeroStats }) {
               transition: 'all 0.3s ease',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = '#500000';
-              e.currentTarget.style.color = '#500000';
+              e.currentTarget.style.borderColor = '#ff1022';
+              e.currentTarget.style.color = '#ff1022';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)';
@@ -294,7 +294,7 @@ export default function Hero({ stats }: { stats: HeroStats }) {
             <div
               key={i}
               style={{
-                background: '#141414',
+                background: '#0a0a0a',
                 padding: '2rem 1.5rem',
                 textAlign: 'center',
               }}
@@ -303,7 +303,7 @@ export default function Hero({ stats }: { stats: HeroStats }) {
                 style={{
                   fontFamily: '"Bebas Neue", sans-serif',
                   fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
-                  color: '#500000',
+                  color: '#ff1022',
                   lineHeight: 1,
                   marginBottom: '0.5rem',
                 }}

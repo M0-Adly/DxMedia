@@ -56,7 +56,7 @@ export default function AdminLoginPage() {
         transform: 'translate(-50%, -50%)',
         width: '500px',
         height: '400px',
-        background: 'radial-gradient(ellipse, rgba(80,0,0,0.08) 0%, transparent 70%)',
+        background: 'radial-gradient(ellipse, rgba(255,16,34,0.08) 0%, transparent 70%)',
         pointerEvents: 'none',
       }} />
 
@@ -68,7 +68,7 @@ export default function AdminLoginPage() {
       }}>
         {/* Card */}
         <div style={{
-          background: '#141414',
+          background: '#0a0a0a',
           border: '1px solid rgba(255,255,255,0.08)',
           borderRadius: '20px',
           padding: '2.5rem',
@@ -78,7 +78,7 @@ export default function AdminLoginPage() {
           <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
             <div style={{ marginBottom: '0.5rem' }}>
               <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2.5rem', color: '#fff', letterSpacing: '2px' }}>Dx</span>
-              <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2.5rem', color: '#500000', letterSpacing: '2px' }}>Media</span>
+              <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2.5rem', color: '#ff1022', letterSpacing: '2px' }}>Media</span>
             </div>
             <h1 style={{
               fontFamily: "'Almarai', sans-serif",
@@ -118,7 +118,7 @@ export default function AdminLoginPage() {
                   border: '1px solid rgba(255,255,255,0.08)',
                   borderRadius: '10px',
                   padding: '13px 16px',
-                  color: '#f0f0f0',
+                  color: '#ffffff',
                   fontFamily: "'Almarai', sans-serif",
                   fontSize: '0.95rem',
                   outline: 'none',
@@ -127,7 +127,7 @@ export default function AdminLoginPage() {
                   direction: 'ltr',
                   textAlign: 'left',
                 }}
-                onFocus={(e) => (e.currentTarget.style.borderColor = '#500000')}
+                onFocus={(e) => (e.currentTarget.style.borderColor = '#ff1022')}
                 onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
               />
             </div>
@@ -157,14 +157,14 @@ export default function AdminLoginPage() {
                     border: '1px solid rgba(255,255,255,0.08)',
                     borderRadius: '10px',
                     padding: '13px 48px 13px 16px',
-                    color: '#f0f0f0',
+                    color: '#ffffff',
                     fontFamily: "'Almarai', sans-serif",
                     fontSize: '0.95rem',
                     outline: 'none',
                     transition: 'border-color 0.3s',
                     minHeight: '48px',
                   }}
-                  onFocus={(e) => (e.currentTarget.style.borderColor = '#500000')}
+                  onFocus={(e) => (e.currentTarget.style.borderColor = '#ff1022')}
                   onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                 />
                 <button
@@ -195,8 +195,8 @@ export default function AdminLoginPage() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                background: 'rgba(80,0,0,0.08)',
-                border: '1px solid rgba(80,0,0,0.2)',
+                background: 'rgba(255,16,34,0.08)',
+                border: '1px solid rgba(255,16,34,0.2)',
                 borderRadius: '8px',
                 padding: '10px 14px',
                 color: '#f87171',
@@ -214,7 +214,7 @@ export default function AdminLoginPage() {
               type="submit"
               disabled={loading}
               style={{
-                background: loading ? '#8b1c18' : '#500000',
+                background: loading ? '#8b1c18' : '#ff1022',
                 color: '#fff',
                 border: 'none',
                 borderRadius: '10px',
@@ -230,10 +230,10 @@ export default function AdminLoginPage() {
                 transition: 'all 0.3s ease',
                 minHeight: '48px',
                 marginTop: '0.5rem',
-                boxShadow: '0 4px 20px rgba(80,0,0,0.3)',
+                boxShadow: '0 4px 20px rgba(255,16,34,0.3)',
               }}
               onMouseEnter={(e) => { if (!loading) e.currentTarget.style.background = '#3b0000'; }}
-              onMouseLeave={(e) => { if (!loading) e.currentTarget.style.background = '#500000'; }}
+              onMouseLeave={(e) => { if (!loading) e.currentTarget.style.background = '#ff1022'; }}
             >
               {loading ? (
                 <>

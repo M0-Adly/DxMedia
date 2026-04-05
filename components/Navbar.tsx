@@ -82,7 +82,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '2px' }}>
             <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2rem', color: '#fff', letterSpacing: '1px' }}>Dx</span>
-            <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2rem', color: '#500000', letterSpacing: '1px' }}>Media</span>
+            <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2rem', color: '#ff1022', letterSpacing: '1px' }}>Media</span>
           </Link>
 
           {/* Desktop Nav */}
@@ -103,7 +103,7 @@ export default function Navbar() {
                   position: 'relative',
                   transition: 'color 0.3s',
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = '#500000')}
+                onMouseEnter={(e) => (e.currentTarget.style.color = '#ff1022')}
                 onMouseLeave={(e) => (e.currentTarget.style.color = '#ccc')}
               >
                 {link.label}
@@ -137,7 +137,7 @@ export default function Navbar() {
               onClick={() => handleNavClick('#contact')}
               className="hidden md:inline-flex"
               style={{
-                background: '#500000',
+                background: '#ff1022',
                 color: '#fff',
                 border: 'none',
                 padding: '10px 24px',
@@ -153,7 +153,7 @@ export default function Navbar() {
                 e.currentTarget.style.transform = 'translateY(-2px)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = '#500000';
+                e.currentTarget.style.background = '#ff1022';
                 e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
@@ -196,7 +196,7 @@ export default function Navbar() {
         </button>
         <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
           <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2.5rem', color: '#fff' }}>Dx</span>
-          <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2.5rem', color: '#500000' }}>Media</span>
+          <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2.5rem', color: '#ff1022' }}>Media</span>
         </div>
         {navLinks.map((link, i) => (
           <button
@@ -205,7 +205,7 @@ export default function Navbar() {
             style={{
               background: 'none',
               border: 'none',
-              color: '#f0f0f0',
+              color: '#ffffff',
               fontSize: '1.5rem',
               fontFamily: "'Changa', sans-serif",
               fontWeight: 800,
@@ -216,8 +216,8 @@ export default function Navbar() {
               transform: isOpen ? 'translateY(0)' : 'translateY(20px)',
               transitionDelay: `${i * 0.08}s`,
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = '#500000')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = '#f0f0f0')}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#ff1022')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = '#ffffff')}
           >
             {link.label}
           </button>
@@ -226,7 +226,7 @@ export default function Navbar() {
           onClick={() => handleNavClick('#contact')}
           style={{
             marginTop: '1rem',
-            background: '#500000',
+            background: '#ff1022',
             color: '#fff',
             border: 'none',
             padding: '14px 40px',

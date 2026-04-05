@@ -27,7 +27,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body style={{ fontFamily: "'Changa', sans-serif", backgroundColor: '#0a0a0a', color: '#f0f0f0' }}>
+      <body style={{ fontFamily: "'Changa', sans-serif", backgroundColor: '#000000', color: '#ffffff' }}>
         {children}
       </body>
     </html>

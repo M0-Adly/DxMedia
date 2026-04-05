@@ -82,7 +82,7 @@ export default function Contact() {
         transform: 'translateX(-50%)',
         width: '60%',
         height: '40%',
-        background: 'radial-gradient(ellipse at center, rgba(80,0,0,0.07) 0%, transparent 70%)',
+        background: 'radial-gradient(ellipse at center, rgba(255,16,34,0.07) 0%, transparent 70%)',
         pointerEvents: 'none',
       }} />
 
@@ -100,11 +100,11 @@ export default function Contact() {
         >
           <span style={{
             display: 'inline-block',
-            background: 'rgba(80,0,0,0.1)',
-            border: '1px solid rgba(80,0,0,0.25)',
+            background: 'rgba(255,16,34,0.1)',
+            border: '1px solid rgba(255,16,34,0.25)',
             borderRadius: '50px',
             padding: '6px 18px',
-            color: '#500000',
+            color: '#ff1022',
             fontFamily: "'Changa', sans-serif",
             fontSize: '0.875rem',
             fontWeight: 700,
@@ -139,7 +139,7 @@ export default function Contact() {
               fontFamily: "'Changa', sans-serif",
               fontSize: '1.3rem',
               fontWeight: 800,
-              color: '#f0f0f0',
+              color: '#ffffff',
             }}>
               معلومات التواصل
             </h3>
@@ -149,9 +149,9 @@ export default function Contact() {
             {INFO_ITEMS.map((item, i) => {
               const isWhatsApp = item.label === 'واتساب';
               const isFacebook = item.label === 'فيسبوك';
-              const iconColor = isWhatsApp ? '#25D366' : isFacebook ? '#1877F2' : '#500000';
-              const bgColor = isWhatsApp ? 'rgba(37, 211, 102, 0.1)' : isFacebook ? 'rgba(24, 119, 242, 0.1)' : 'rgba(80,0,0,0.1)';
-              const borderColor = isWhatsApp ? 'rgba(37, 211, 102, 0.25)' : isFacebook ? 'rgba(24, 119, 242, 0.25)' : 'rgba(80,0,0,0.25)';
+              const iconColor = isWhatsApp ? '#25D366' : isFacebook ? '#1877F2' : '#ff1022';
+              const bgColor = isWhatsApp ? 'rgba(37, 211, 102, 0.1)' : isFacebook ? 'rgba(24, 119, 242, 0.1)' : 'rgba(255,16,34,0.1)';
+              const borderColor = isWhatsApp ? 'rgba(37, 211, 102, 0.25)' : isFacebook ? 'rgba(24, 119, 242, 0.25)' : 'rgba(255,16,34,0.25)';
 
               return (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -172,11 +172,11 @@ export default function Contact() {
                   <div style={{ flex: 1 }}>
                     <div style={{ fontFamily: "'Changa', sans-serif", color: '#888', fontSize: '0.8rem' }}>{item.label}</div>
                     {item.href ? (
-                      <a href={item.href} target={item.target} rel="noreferrer" style={{ textDecoration: 'none', color: '#f0f0f0', fontFamily: "'Changa', sans-serif", fontWeight: 700, fontSize: '0.95rem', transition: 'color 0.2s', display: 'inline-block' }} onMouseEnter={(e) => (e.currentTarget.style.color = iconColor)} onMouseLeave={(e) => (e.currentTarget.style.color = '#f0f0f0')}>
+                      <a href={item.href} target={item.target} rel="noreferrer" style={{ textDecoration: 'none', color: '#ffffff', fontFamily: "'Changa', sans-serif", fontWeight: 700, fontSize: '0.95rem', transition: 'color 0.2s', display: 'inline-block' }} onMouseEnter={(e) => (e.currentTarget.style.color = iconColor)} onMouseLeave={(e) => (e.currentTarget.style.color = '#ffffff')}>
                         {item.value}
                       </a>
                     ) : (
-                      <div style={{ fontFamily: "'Changa', sans-serif", color: '#f0f0f0', fontWeight: 700, fontSize: '0.95rem' }}>{item.value}</div>
+                      <div style={{ fontFamily: "'Changa', sans-serif", color: '#ffffff', fontWeight: 700, fontSize: '0.95rem' }}>{item.value}</div>
                     )}
                   </div>
                 </div>
@@ -186,21 +186,21 @@ export default function Contact() {
             {/* Decorative box */}
             <div style={{
               marginTop: '1rem',
-              background: '#141414',
+              background: '#0a0a0a',
               border: '1px solid rgba(255,255,255,0.06)',
               borderRadius: '12px',
               padding: '1.5rem',
-              borderRight: '3px solid #500000',
+              borderRight: '3px solid #ff1022',
             }}>
               <p style={{ fontFamily: "'Changa', sans-serif", color: '#aaa', fontSize: '0.9rem', lineHeight: 1.7 }}>
-                ⚡ نرد على جميع الاستفسارات خلال <strong style={{ color: '#500000' }}>24 ساعة</strong>
+                ⚡ نرد على جميع الاستفسارات خلال <strong style={{ color: '#ff1022' }}>24 ساعة</strong>
               </p>
             </div>
           </div>
 
           {/* Form Column */}
           <div style={{
-            background: '#141414',
+            background: '#0a0a0a',
             border: '1px solid rgba(255,255,255,0.06)',
             borderRadius: '16px',
             padding: '2rem',
@@ -208,7 +208,7 @@ export default function Contact() {
             {success ? (
               <div style={{ textAlign: 'center', padding: '3rem 1rem' }}>
                 <CheckCircle size={56} color="#22c55e" style={{ margin: '0 auto 1rem' }} />
-                <h3 style={{ fontFamily: "'Changa', sans-serif", color: '#f0f0f0', fontSize: '1.3rem', marginBottom: '0.75rem' }}>
+                <h3 style={{ fontFamily: "'Changa', sans-serif", color: '#ffffff', fontSize: '1.3rem', marginBottom: '0.75rem' }}>
                   تم الإرسال بنجاح! 🎉
                 </h3>
                 <p style={{ fontFamily: "'Changa', sans-serif", color: '#777', fontSize: '0.95rem', marginBottom: '1.5rem' }}>
@@ -217,7 +217,7 @@ export default function Contact() {
                 <button
                   onClick={() => setSuccess(false)}
                   style={{
-                    background: '#500000',
+                    background: '#ff1022',
                     color: '#fff',
                     border: 'none',
                     padding: '10px 24px',
@@ -249,13 +249,13 @@ export default function Contact() {
                         border: '1px solid rgba(255,255,255,0.08)',
                         borderRadius: '8px',
                         padding: '12px 14px',
-                        color: '#f0f0f0',
+                        color: '#ffffff',
                         fontFamily: "'Changa', sans-serif",
                         fontSize: '0.9rem',
                         outline: 'none',
                         minHeight: '44px',
                       }}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = '#500000')}
+                      onFocus={(e) => (e.currentTarget.style.borderColor = '#ff1022')}
                       onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                     />
                   </div>
@@ -276,13 +276,13 @@ export default function Contact() {
                         border: '1px solid rgba(255,255,255,0.08)',
                         borderRadius: '8px',
                         padding: '12px 14px',
-                        color: '#f0f0f0',
+                        color: '#ffffff',
                         fontFamily: "'Changa', sans-serif",
                         fontSize: '0.9rem',
                         outline: 'none',
                         minHeight: '44px',
                       }}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = '#500000')}
+                      onFocus={(e) => (e.currentTarget.style.borderColor = '#ff1022')}
                       onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                     />
                   </div>
@@ -305,13 +305,13 @@ export default function Contact() {
                         border: '1px solid rgba(255,255,255,0.08)',
                         borderRadius: '8px',
                         padding: '12px 14px',
-                        color: '#f0f0f0',
+                        color: '#ffffff',
                         fontFamily: "'Changa', sans-serif",
                         fontSize: '0.9rem',
                         outline: 'none',
                         minHeight: '44px',
                       }}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = '#500000')}
+                      onFocus={(e) => (e.currentTarget.style.borderColor = '#ff1022')}
                       onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                     />
                   </div>
@@ -329,14 +329,14 @@ export default function Contact() {
                         border: '1px solid rgba(255,255,255,0.08)',
                         borderRadius: '8px',
                         padding: '12px 14px',
-                        color: form.service ? '#f0f0f0' : '#777',
+                        color: form.service ? '#ffffff' : '#777',
                         fontFamily: "'Changa', sans-serif",
                         fontSize: '0.9rem',
                         outline: 'none',
                         minHeight: '44px',
                         cursor: 'pointer',
                       }}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = '#500000')}
+                      onFocus={(e) => (e.currentTarget.style.borderColor = '#ff1022')}
                       onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                     >
                       <option value="">اختر الخدمة</option>
@@ -361,14 +361,14 @@ export default function Contact() {
                       border: '1px solid rgba(255,255,255,0.08)',
                       borderRadius: '8px',
                       padding: '12px 14px',
-                      color: '#f0f0f0',
+                      color: '#ffffff',
                       fontFamily: "'Changa', sans-serif",
                       fontSize: '0.9rem',
                       outline: 'none',
                       resize: 'vertical',
                       minHeight: '100px',
                     }}
-                    onFocus={(e) => (e.currentTarget.style.borderColor = '#500000')}
+                    onFocus={(e) => (e.currentTarget.style.borderColor = '#ff1022')}
                     onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                   />
                 </div>
@@ -379,7 +379,7 @@ export default function Contact() {
                     type="checkbox"
                     checked={agreed}
                     onChange={(e) => setAgreed(e.target.checked)}
-                    style={{ width: '18px', height: '18px', accentColor: '#500000', cursor: 'pointer' }}
+                    style={{ width: '18px', height: '18px', accentColor: '#ff1022', cursor: 'pointer' }}
                   />
                   <span style={{ fontFamily: "'Changa', sans-serif", color: '#888', fontSize: '0.875rem' }}>
                     أوافق على التواصل معي بخصوص خدمات Dx Media
@@ -408,7 +408,7 @@ export default function Contact() {
                   type="submit"
                   disabled={loading}
                   style={{
-                    background: loading ? '#8b1c18' : '#500000',
+                    background: loading ? '#8b1c18' : '#ff1022',
                     color: '#fff',
                     border: 'none',
                     padding: '14px',
