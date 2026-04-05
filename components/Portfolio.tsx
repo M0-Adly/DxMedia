@@ -37,6 +37,19 @@ function PortfolioItem({ project, index }: { project: Project; index: number }) 
     if (project.project_url) window.open(project.project_url, '_blank');
   };
 
+  const isVideo = project.image_url?.match(/\.(mp4|webm|mov)$/i);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (isVideo && videoRef.current) {
+      if (hovered) {
+        videoRef.current.play().catch(() => {});
+      } else {
+        videoRef.current.pause();
+      }
+    }
+  }, [hovered, isVideo]);
+
   return (
     <div
       ref={ref}
@@ -57,13 +70,24 @@ function PortfolioItem({ project, index }: { project: Project; index: number }) 
       }}
     >
       {project.image_url ? (
-        <Image
-          src={project.image_url}
-          alt={project.title}
-          fill
-          style={{ objectFit: 'cover', transition: 'transform 0.4s ease' }}
-          sizes="(max-width: 768px) 50vw, 25vw"
-        />
+        isVideo ? (
+          <video
+            ref={videoRef}
+            src={project.image_url}
+            muted
+            loop
+            playsInline
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        ) : (
+          <Image
+            src={project.image_url}
+            alt={project.title}
+            fill
+            style={{ objectFit: 'cover', transition: 'transform 0.4s ease' }}
+            sizes="(max-width: 768px) 50vw, 25vw"
+          />
+        )
       ) : (
         <div style={{
           width: '100%',

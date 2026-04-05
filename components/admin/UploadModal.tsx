@@ -31,6 +31,7 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
   const [featured, setFeatured] = useState(editProject?.featured || false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>(editProject?.image_url || '');
+  const [mediaType, setMediaType] = useState<'image' | 'video'>((editProject?.image_url?.match(/\.(mp4|webm|mov)$/i)) ? 'video' : 'image');
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [error, setError] = useState('');
@@ -38,12 +39,19 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
   const dragRef = useRef<HTMLDivElement>(null);
 
   const handleFileSelect = (file: File) => {
-    if (!file.type.startsWith('image/')) return setError('يرجى اختيار ملف صورة صالح');
+    if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) return setError('يرجى اختيار ملف صورة أو فيديو صالح');
     setImageFile(file);
     setError('');
-    const reader = new FileReader();
-    reader.onload = (e) => setImagePreview(e.target?.result as string);
-    reader.readAsDataURL(file);
+    
+    if (file.type.startsWith('video/')) {
+      setMediaType('video');
+      setImagePreview(URL.createObjectURL(file));
+    } else {
+      setMediaType('image');
+      const reader = new FileReader();
+      reader.onload = (e) => setImagePreview(e.target?.result as string);
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleDrop = (e: React.DragEvent) => {
@@ -188,7 +196,7 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
           {/* Image Upload */}
           <div>
             <label style={{ display: 'block', fontFamily: "'Cairo', sans-serif", color: '#aaa', fontSize: '0.85rem', marginBottom: '6px' }}>
-              صورة المشروع *
+              صورة أو فيديو المشروع *
             </label>
             <div
               ref={dragRef}
@@ -216,8 +224,12 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
               onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)')}
             >
               {imagePreview ? (
-                <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', borderRadius: '8px', overflow: 'hidden' }}>
-                  <Image src={imagePreview} alt="Preview" fill style={{ objectFit: 'cover' }} />
+                <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', borderRadius: '8px', overflow: 'hidden', background: '#000' }}>
+                  {mediaType === 'video' ? (
+                    <video src={imagePreview} autoPlay muted loop style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  ) : (
+                    <Image src={imagePreview} alt="Preview" fill style={{ objectFit: 'cover' }} />
+                  )}
                   <div style={{
                     position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -226,18 +238,18 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
                     onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
                     onMouseLeave={(e) => (e.currentTarget.style.opacity = '0')}
                   >
-                    <span style={{ fontFamily: "'Cairo', sans-serif", color: '#fff', fontWeight: 600 }}>تغيير الصورة</span>
+                    <span style={{ fontFamily: "'Cairo', sans-serif", color: '#fff', fontWeight: 600 }}>تغيير الميديا</span>
                   </div>
                 </div>
               ) : (
                 <>
                   <Upload size={32} color="#555" />
-                  <p style={{ fontFamily: "'Cairo', sans-serif", color: '#777', fontSize: '0.9rem' }}>اسحب وأفلت الصورة هنا</p>
+                  <p style={{ fontFamily: "'Cairo', sans-serif", color: '#777', fontSize: '0.9rem' }}>اسحب وأفلت الصورة أو الفيديو هنا</p>
                   <p style={{ fontFamily: "'Cairo', sans-serif", color: '#555', fontSize: '0.8rem' }}>أو اضغط للاختيار</p>
                 </>
               )}
             </div>
-            <input ref={fileInputRef} type="file" accept="image/*" style={{ display: 'none' }}
+            <input ref={fileInputRef} type="file" accept="image/*,video/mp4,video/webm,video/quicktime" style={{ display: 'none' }}
               onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFileSelect(f); }} />
           </div>
 
