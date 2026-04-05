@@ -70,7 +70,7 @@ CREATE POLICY "Auth delete projects" ON projects FOR DELETE USING (auth.role() =
 CREATE POLICY "Auth manage testimonials" ON testimonials FOR ALL USING (auth.role() = 'authenticated');
 CREATE POLICY "Auth read messages" ON messages FOR SELECT USING (auth.role() = 'authenticated');
 CREATE POLICY "Auth update messages" ON messages FOR UPDATE USING (auth.role() = 'authenticated');
-CREATE POLICY "Auth update settings" ON settings FOR UPDATE USING (auth.role() = 'authenticated');
+CREATE POLICY "Auth manage settings" ON settings FOR ALL USING (auth.role() = 'authenticated');
 
 -- Public insert for messages (contact form)
 CREATE POLICY "Public insert messages" ON messages FOR INSERT WITH CHECK (true);
