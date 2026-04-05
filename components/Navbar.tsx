@@ -2,14 +2,14 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { Menu, X, Sun, Moon } from 'lucide-react';
+import { Menu, X, Sun, Moon, Home, Info, Briefcase, LayoutGrid, Phone, Star } from 'lucide-react';
 
 const navLinks = [
-  { label: 'الرئيسية', href: '#home' },
-  { label: 'من نحن', href: '#about' },
-  { label: 'خدماتنا', href: '#services' },
-  { label: 'أعمالنا', href: '#portfolio' },
-  { label: 'آراء العملاء', href: '#testimonials' },
+  { label: 'الرئيسية', href: '#home', icon: <Home size={20} /> },
+  { label: 'من نحن', href: '#about', icon: <Info size={20} /> },
+  { label: 'خدماتنا', href: '#services', icon: <Briefcase size={20} /> },
+  { label: 'أعمالنا', href: '#portfolio', icon: <LayoutGrid size={20} /> },
+  { label: 'آراء العملاء', href: '#testimonials', icon: <Star size={20} /> },
 ];
 
 export default function Navbar() {
@@ -159,104 +159,96 @@ export default function Navbar() {
             >
               تواصل معنا
             </button>
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden"
-              style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer', padding: '4px' }}
-              aria-label="Toggle menu"
-            >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            {/* No hamburger on mobile if using bottom nav, unless you want both. 
+                Let's keep it but maybe it's what's causing the "overlap" if it's too close to other things.
+                I will remove it and use the elegant bottom nav instead. */}
+            <div className="md:hidden">
+              <button
+                onClick={toggleTheme}
+                style={{
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  color: '#fff',
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                }}
+                aria-label="Toggle theme"
+              >
+                {isLight ? <Moon size={18} /> : <Sun size={18} />}
+              </button>
+            </div>
           </div>
         </div>
       </nav>
 
-      {/* Mobile Overlay */}
+      {/* Mobile Bottom Navigation Bar */}
       <div
+        className="md:hidden"
         style={{
           position: 'fixed',
-          inset: 0,
-          zIndex: 999,
-          background: 'rgba(5,5,5,0.98)',
+          bottom: '20px',
+          left: '20px',
+          right: '20px',
+          zIndex: 1000,
+          background: 'rgba(10, 10, 10, 0.85)',
           backdropFilter: 'blur(20px)',
+          borderRadius: '24px',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          padding: '10px 15px',
+          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 16, 34, 0.1)',
           display: 'flex',
-          flexDirection: 'column',
+          justifyContent: 'space-around',
           alignItems: 'center',
-          justifyContent: 'center',
-          gap: '2rem',
-          transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
-          transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+          gap: '5px',
         }}
       >
-        <button
-          onClick={() => setIsOpen(false)}
-          style={{ position: 'absolute', top: '24px', left: '24px', background: 'none', border: 'none', color: '#fff', cursor: 'pointer' }}
-        >
-          <X size={28} />
-        </button>
-        <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
-          <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2.5rem', color: '#fff' }}>Dx</span>
-          <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2.5rem', color: '#ff1022' }}>Media</span>
-        </div>
-        {navLinks.map((link, i) => (
+        {navLinks.map((link) => (
           <button
             key={link.href}
             onClick={() => handleNavClick(link.href)}
             style={{
               background: 'none',
               border: 'none',
-              color: '#ffffff',
-              fontSize: '1.5rem',
-              fontFamily: "'Changa', sans-serif",
-              fontWeight: 800,
+              color: '#888',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '4px',
+              padding: '6px',
               cursor: 'pointer',
-              padding: '8px 0',
-              transition: 'color 0.3s, opacity 0.4s, transform 0.4s',
-              opacity: isOpen ? 1 : 0,
-              transform: isOpen ? 'translateY(0)' : 'translateY(20px)',
-              transitionDelay: `${i * 0.08}s`,
+              transition: 'all 0.3s ease',
             }}
             onMouseEnter={(e) => (e.currentTarget.style.color = '#ff1022')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = '#ffffff')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = '#888')}
           >
-            {link.label}
+            {link.icon}
+            <span style={{ fontSize: '0.65rem', fontFamily: "'Changa', sans-serif", fontWeight: 600 }}>{link.label}</span>
           </button>
         ))}
         <button
           onClick={() => handleNavClick('#contact')}
           style={{
-            marginTop: '1rem',
             background: '#ff1022',
-            color: '#fff',
             border: 'none',
-            padding: '14px 40px',
-            borderRadius: '8px',
-            fontFamily: "'Changa', sans-serif",
-            fontWeight: 800,
-            fontSize: '1.1rem',
-            cursor: 'pointer',
-          }}
-        >
-          تواصل معنا
-        </button>
-        <button
-          onClick={toggleTheme}
-          style={{
-            marginTop: '1rem',
-            background: 'transparent',
-            border: '1px solid rgba(255,255,255,0.2)',
             color: '#fff',
-            padding: '10px 20px',
-            borderRadius: '8px',
-            fontFamily: "'Changa', sans-serif",
             display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
-            gap: '8px',
+            gap: '4px',
+            padding: '8px',
+            borderRadius: '16px',
             cursor: 'pointer',
+            boxShadow: '0 4px 10px rgba(255, 16, 34, 0.3)',
+            marginLeft: '5px'
           }}
         >
-          {isLight ? <Moon size={20} /> : <Sun size={20} />}
-          {isLight ? 'الوضع المظلم' : 'الوضع المضيء'}
+          <Phone size={18} />
+          <span style={{ fontSize: '0.65rem', fontFamily: "'Changa', sans-serif", fontWeight: 700 }}>تواصل</span>
         </button>
       </div>
     </>

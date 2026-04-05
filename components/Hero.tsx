@@ -76,7 +76,6 @@ export default function Hero({ stats }: { stats: HeroStats }) {
           backgroundImage: 'url(/dx.jpeg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
           opacity: 0.15,
           zIndex: 0,
         }}
@@ -157,12 +156,12 @@ export default function Hero({ stats }: { stats: HeroStats }) {
           transformStyle: 'preserve-3d',
           perspective: '1000px',
         }}>
-          <h1
+            <h1
             style={{
               fontFamily: '"Bebas Neue", sans-serif',
-              fontSize: 'clamp(5rem, 15vw, 12rem)',
+              fontSize: 'clamp(3.5rem, 12vw, 10rem)',
               lineHeight: 1,
-              letterSpacing: '5px',
+              letterSpacing: '2px',
               color: '#fff',
               marginBottom: '1.5rem',
               textShadow: '0 4px 0 #cc2211, 0 8px 0 #aa1100, 0 15px 30px rgba(255,16,34,0.5)',
@@ -275,7 +274,7 @@ export default function Hero({ stats }: { stats: HeroStats }) {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
             gap: '1px',
             maxWidth: '700px',
             margin: '0 auto',

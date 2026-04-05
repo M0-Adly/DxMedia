@@ -46,7 +46,7 @@ export default async function HomePage() {
     .order('created_at', { ascending: false });
 
   return (
-    <main>
+    <main className="pb-24 md:pb-0">
       <Navbar />
       <Hero stats={heroStats} />
       <About text={aboutText} />
