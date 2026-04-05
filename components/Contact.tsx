@@ -148,7 +148,7 @@ export default function Contact() {
               نحن هنا لمساعدتك في بناء حضور رقمي قوي. تواصل معنا وسنرد عليك في أقرب وقت ممكن.
             </p>
             {INFO_ITEMS.map((item, i) => {
-              const isWhatsApp = item.label === 'واتساب';
+              const isWhatsApp = item.label.includes('واتساب');
               const isFacebook = item.label === 'فيسبوك';
               const iconColor = isWhatsApp ? '#25D366' : isFacebook ? '#1877F2' : '#ff1022';
               const bgColor = isWhatsApp ? 'rgba(37, 211, 102, 0.1)' : isFacebook ? 'rgba(24, 119, 242, 0.1)' : 'rgba(255,16,34,0.1)';

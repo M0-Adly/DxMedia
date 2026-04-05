@@ -196,18 +196,21 @@ export default function AdminDashboard() {
   return (
     <div style={{ minHeight: '100vh', background: '#050505', display: 'flex', fontFamily: "'Almarai', sans-serif" }}>
       {/* ── SIDEBAR (desktop) ── */}
-      <aside style={{
-        width: '240px',
-        background: '#000000',
-        borderLeft: '1px solid rgba(255,255,255,0.1)',
-        display: 'flex',
-        flexDirection: 'column',
-        position: 'fixed',
-        top: 0,
-        right: 0,
-        bottom: 0,
-        zIndex: 100,
-      }} className="hidden md:flex">
+      <aside
+        style={{
+          width: '240px',
+          background: '#000000',
+          borderLeft: '1px solid rgba(255,255,255,0.1)',
+          flexDirection: 'column',
+          position: 'fixed',
+          top: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 100,
+          display: 'none', // Default hidden, shown only via Tailwind md:flex
+        }} 
+        className="hidden md:flex"
+      >
         {/* Logo */}
         <div style={{ padding: '1.5rem', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '1.75rem', color: '#fff' }}>Dx</span>
