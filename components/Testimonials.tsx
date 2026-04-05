@@ -26,7 +26,7 @@ function TestimonialCard({ t, index }: { t: Testimonial; index: number }) {
       onMouseLeave={() => setHovered(false)}
       style={{
         background: '#141414',
-        border: hovered ? '1px solid rgba(208,0,0,0.35)' : '1px solid rgba(255,255,255,0.06)',
+        border: hovered ? '1px solid rgba(128,0,0,0.35)' : '1px solid rgba(255,255,255,0.06)',
         borderRadius: '14px',
         padding: '2rem',
         position: 'relative',
@@ -34,7 +34,7 @@ function TestimonialCard({ t, index }: { t: Testimonial; index: number }) {
         transform: visible ? 'translateY(0)' : 'translateY(30px)',
         opacity: visible ? 1 : 0,
         transition: `all 0.5s ease ${index * 0.12}s`,
-        boxShadow: hovered ? '0 8px 30px rgba(208,0,0,0.08)' : 'none',
+        boxShadow: hovered ? '0 8px 30px rgba(128,0,0,0.08)' : 'none',
         display: 'flex',
         flexDirection: 'column',
         gap: '1.25rem',
@@ -47,7 +47,7 @@ function TestimonialCard({ t, index }: { t: Testimonial; index: number }) {
         right: '20px',
         fontFamily: '"Bebas Neue", sans-serif',
         fontSize: '8rem',
-        color: 'rgba(208,0,0,0.08)',
+        color: 'rgba(128,0,0,0.08)',
         lineHeight: 1,
         userSelect: 'none',
         pointerEvents: 'none',
@@ -61,8 +61,8 @@ function TestimonialCard({ t, index }: { t: Testimonial; index: number }) {
           <Star
             key={i}
             size={14}
-            fill={i < t.rating ? '#D00000' : 'transparent'}
-            color={i < t.rating ? '#D00000' : '#444'}
+            fill={i < t.rating ? '#800000' : 'transparent'}
+            color={i < t.rating ? '#800000' : '#444'}
           />
         ))}
       </div>
@@ -72,14 +72,14 @@ function TestimonialCard({ t, index }: { t: Testimonial; index: number }) {
         <div style={{ position: 'relative', width: '100%', borderRadius: '8px', overflow: 'hidden', cursor: t.link_url ? 'pointer' : 'default' }} onClick={() => t.link_url && window.open(t.link_url, '_blank')}>
           <img src={t.image_url} alt={t.name} style={{ width: '100%', height: 'auto', display: 'block', transition: 'transform 0.3s ease' }} onMouseEnter={(e) => t.link_url && (e.currentTarget.style.transform = 'scale(1.05)')} onMouseLeave={(e) => t.link_url && (e.currentTarget.style.transform = 'scale(1)')} />
           {t.link_url && (
-            <div style={{ position: 'absolute', top: '10px', right: '10px', background: 'rgba(208,0,0,0.9)', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+            <div style={{ position: 'absolute', top: '10px', right: '10px', background: 'rgba(128,0,0,0.9)', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
               <Star size={14} fill="white" />
             </div>
           )}
         </div>
       ) : (
         <p style={{
-          fontFamily: "'Almarai', sans-serif",
+          fontFamily: "'Changa', sans-serif",
           fontSize: '0.95rem',
           color: '#bbb',
           lineHeight: 1.8,
@@ -103,13 +103,13 @@ function TestimonialCard({ t, index }: { t: Testimonial; index: number }) {
             width: '44px',
             height: '44px',
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #D00000, #c0281f)',
+            background: 'linear-gradient(135deg, #800000, #c0281f)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             color: '#fff',
-            fontFamily: "'Almarai', sans-serif",
-            fontWeight: 700,
+            fontFamily: "'Changa', sans-serif",
+            fontWeight: 800,
             fontSize: '1.1rem',
             flexShrink: 0,
           }}>
@@ -117,10 +117,10 @@ function TestimonialCard({ t, index }: { t: Testimonial; index: number }) {
           </div>
         )}
         <div>
-          <div style={{ fontFamily: "'Almarai', sans-serif", color: '#f0f0f0', fontWeight: 700, fontSize: '0.95rem' }}>
+          <div style={{ fontFamily: "'Changa', sans-serif", color: '#f0f0f0', fontWeight: 800, fontSize: '0.95rem' }}>
             {t.name}
           </div>
-          <div style={{ fontFamily: "'Almarai', sans-serif", color: '#777', fontSize: '0.8rem' }}>
+          <div style={{ fontFamily: "'Changa', sans-serif", color: '#777', fontSize: '0.8rem' }}>
             {t.role}{t.company ? ` — ${t.company}` : ''}
           </div>
         </div>
@@ -195,14 +195,14 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
         >
           <span style={{
             display: 'inline-block',
-            background: 'rgba(208,0,0,0.1)',
-            border: '1px solid rgba(208,0,0,0.25)',
+            background: 'rgba(128,0,0,0.1)',
+            border: '1px solid rgba(128,0,0,0.25)',
             borderRadius: '50px',
             padding: '6px 18px',
-            color: '#D00000',
-            fontFamily: "'Almarai', sans-serif",
+            color: '#800000',
+            fontFamily: "'Changa', sans-serif",
             fontSize: '0.875rem',
-            fontWeight: 600,
+            fontWeight: 700,
             marginBottom: '1rem',
           }}>
             ثقة عملائنا
@@ -216,7 +216,7 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
           }}>
             آراء العملاء
           </h2>
-          <p style={{ fontFamily: "'Almarai', sans-serif", color: '#777', fontSize: '1rem' }}>
+          <p style={{ fontFamily: "'Changa', sans-serif", color: '#777', fontSize: '1rem' }}>
             ماذا يقول عملاؤنا عن تجربتهم معنا
           </p>
         </div>

@@ -100,7 +100,7 @@ function PortfolioItem({ project, index }: { project: Project; index: number }) 
           gap: '0.5rem',
         }}>
           <span style={{ fontSize: '2.5rem' }}>🎨</span>
-          <span style={{ color: '#555', fontSize: '0.8rem', fontFamily: "'Almarai', sans-serif" }}>{project.title}</span>
+          <span style={{ color: '#555', fontSize: '0.8rem', fontFamily: "'Changa', sans-serif" }}>{project.title}</span>
         </div>
       )}
 
@@ -109,7 +109,7 @@ function PortfolioItem({ project, index }: { project: Project; index: number }) 
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'rgba(208,0,0,0.88)',
+          background: 'rgba(128,0,0,0.88)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -120,7 +120,7 @@ function PortfolioItem({ project, index }: { project: Project; index: number }) 
         }}
       >
         <ExternalLink size={28} color="#fff" />
-        <span style={{ fontFamily: "'Almarai', sans-serif", color: '#fff', fontWeight: 700, fontSize: '1rem' }}>
+        <span style={{ fontFamily: "'Changa', sans-serif", color: '#fff', fontWeight: 800, fontSize: '1rem' }}>
           عرض المشروع
         </span>
         <span
@@ -128,7 +128,7 @@ function PortfolioItem({ project, index }: { project: Project; index: number }) 
             background: 'rgba(255,255,255,0.15)',
             borderRadius: '20px',
             padding: '3px 12px',
-            fontFamily: "'Almarai', sans-serif",
+            fontFamily: "'Changa', sans-serif",
             color: 'rgba(255,255,255,0.9)',
             fontSize: '0.78rem',
           }}
@@ -143,13 +143,13 @@ function PortfolioItem({ project, index }: { project: Project; index: number }) 
           position: 'absolute',
           top: '8px',
           right: '8px',
-          background: '#D00000',
+          background: '#800000',
           color: '#fff',
           fontSize: '0.7rem',
           padding: '3px 10px',
           borderRadius: '20px',
-          fontFamily: "'Almarai', sans-serif",
-          fontWeight: 700,
+          fontFamily: "'Changa', sans-serif",
+          fontWeight: 800,
         }}>
           مميز ⭐
         </div>
@@ -179,10 +179,10 @@ function EmptyState() {
           }} />
         ))}
       </div>
-      <p style={{ fontFamily: "'Almarai', sans-serif", color: '#555', fontSize: '1rem' }}>
+      <p style={{ fontFamily: "'Changa', sans-serif", color: '#555', fontSize: '1rem' }}>
         لم تتم إضافة أي مشاريع بعد
       </p>
-      <p style={{ fontFamily: "'Almarai', sans-serif", color: '#444', fontSize: '0.875rem', marginTop: '0.5rem' }}>
+      <p style={{ fontFamily: "'Changa', sans-serif", color: '#444', fontSize: '0.875rem', marginTop: '0.5rem' }}>
         ادخل لوحة التحكم لإضافة مشاريعك
       </p>
     </div>
@@ -226,14 +226,14 @@ export default function Portfolio({ projects }: { projects: Project[] }) {
         >
           <span style={{
             display: 'inline-block',
-            background: 'rgba(208,0,0,0.1)',
-            border: '1px solid rgba(208,0,0,0.25)',
+            background: 'rgba(128,0,0,0.1)',
+            border: '1px solid rgba(128,0,0,0.25)',
             borderRadius: '50px',
             padding: '6px 18px',
-            color: '#D00000',
-            fontFamily: "'Almarai', sans-serif",
+            color: '#800000',
+            fontFamily: "'Changa', sans-serif",
             fontSize: '0.875rem',
-            fontWeight: 600,
+            fontWeight: 700,
             marginBottom: '1rem',
           }}>
             إبداعاتنا
@@ -247,7 +247,7 @@ export default function Portfolio({ projects }: { projects: Project[] }) {
           }}>
             أعمالنا
           </h2>
-          <p style={{ fontFamily: "'Almarai', sans-serif", color: '#777', fontSize: '1rem' }}>
+          <p style={{ fontFamily: "'Changa', sans-serif", color: '#777', fontSize: '1rem' }}>
             نماذج من مشاريعنا المنجزة مع عملائنا المميزين
           </p>
         </div>
@@ -265,14 +265,14 @@ export default function Portfolio({ projects }: { projects: Project[] }) {
               key={tab}
               onClick={() => setActiveFilter(tab)}
               style={{
-                background: activeFilter === tab ? '#D00000' : 'rgba(255,255,255,0.05)',
+                background: activeFilter === tab ? '#800000' : 'rgba(255,255,255,0.05)',
                 color: activeFilter === tab ? '#fff' : '#999',
-                border: activeFilter === tab ? '1px solid #D00000' : '1px solid rgba(255,255,255,0.08)',
+                border: activeFilter === tab ? '1px solid #800000' : '1px solid rgba(255,255,255,0.08)',
                 borderRadius: '50px',
                 padding: '8px 20px',
-                fontFamily: "'Almarai', sans-serif",
+                fontFamily: "'Changa', sans-serif",
                 fontSize: '0.875rem',
-                fontWeight: 600,
+                fontWeight: 700,
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
               }}
@@ -304,17 +304,17 @@ export default function Portfolio({ projects }: { projects: Project[] }) {
               onClick={() => setActiveFilter('all')}
               style={{
                 background: 'transparent',
-                color: '#D00000',
-                border: '1px solid rgba(208,0,0,0.4)',
+                color: '#800000',
+                border: '1px solid rgba(128,0,0,0.4)',
                 padding: '12px 32px',
                 borderRadius: '8px',
-                fontFamily: "'Almarai', sans-serif",
-                fontWeight: 700,
+                fontFamily: "'Changa', sans-serif",
+                fontWeight: 800,
                 fontSize: '0.95rem',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
               }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(208,0,0,0.1)'; }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(128,0,0,0.1)'; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
             >
               عرض كل الأعمال

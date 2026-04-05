@@ -82,7 +82,7 @@ export default function Contact() {
         transform: 'translateX(-50%)',
         width: '60%',
         height: '40%',
-        background: 'radial-gradient(ellipse at center, rgba(208,0,0,0.07) 0%, transparent 70%)',
+        background: 'radial-gradient(ellipse at center, rgba(128,0,0,0.07) 0%, transparent 70%)',
         pointerEvents: 'none',
       }} />
 
@@ -100,14 +100,14 @@ export default function Contact() {
         >
           <span style={{
             display: 'inline-block',
-            background: 'rgba(208,0,0,0.1)',
-            border: '1px solid rgba(208,0,0,0.25)',
+            background: 'rgba(128,0,0,0.1)',
+            border: '1px solid rgba(128,0,0,0.25)',
             borderRadius: '50px',
             padding: '6px 18px',
-            color: '#D00000',
-            fontFamily: "'Almarai', sans-serif",
+            color: '#800000',
+            fontFamily: "'Changa', sans-serif",
             fontSize: '0.875rem',
-            fontWeight: 600,
+            fontWeight: 700,
             marginBottom: '1rem',
           }}>
             تواصل معنا
@@ -121,7 +121,7 @@ export default function Contact() {
           }}>
             ابدأ مشروعك اليوم
           </h2>
-          <p style={{ fontFamily: "'Almarai', sans-serif", color: '#777', fontSize: '1rem' }}>
+          <p style={{ fontFamily: "'Changa', sans-serif", color: '#777', fontSize: '1rem' }}>
             يسعدنا الاستماع لفكرتك ومساعدتك في تحقيقها
           </p>
         </div>
@@ -136,22 +136,22 @@ export default function Contact() {
           {/* Info Column */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             <h3 style={{
-              fontFamily: "'Almarai', sans-serif",
+              fontFamily: "'Changa', sans-serif",
               fontSize: '1.3rem',
-              fontWeight: 700,
+              fontWeight: 800,
               color: '#f0f0f0',
             }}>
               معلومات التواصل
             </h3>
-            <p style={{ fontFamily: "'Almarai', sans-serif", color: '#777', lineHeight: 1.8, fontSize: '0.95rem' }}>
+            <p style={{ fontFamily: "'Changa', sans-serif", color: '#777', lineHeight: 1.8, fontSize: '0.95rem' }}>
               نحن هنا لمساعدتك في بناء حضور رقمي قوي. تواصل معنا وسنرد عليك في أقرب وقت ممكن.
             </p>
             {INFO_ITEMS.map((item, i) => {
               const isWhatsApp = item.label === 'واتساب';
               const isFacebook = item.label === 'فيسبوك';
-              const iconColor = isWhatsApp ? '#25D366' : isFacebook ? '#1877F2' : '#D00000';
-              const bgColor = isWhatsApp ? 'rgba(37, 211, 102, 0.1)' : isFacebook ? 'rgba(24, 119, 242, 0.1)' : 'rgba(208,0,0,0.1)';
-              const borderColor = isWhatsApp ? 'rgba(37, 211, 102, 0.25)' : isFacebook ? 'rgba(24, 119, 242, 0.25)' : 'rgba(208,0,0,0.25)';
+              const iconColor = isWhatsApp ? '#25D366' : isFacebook ? '#1877F2' : '#800000';
+              const bgColor = isWhatsApp ? 'rgba(37, 211, 102, 0.1)' : isFacebook ? 'rgba(24, 119, 242, 0.1)' : 'rgba(128,0,0,0.1)';
+              const borderColor = isWhatsApp ? 'rgba(37, 211, 102, 0.25)' : isFacebook ? 'rgba(24, 119, 242, 0.25)' : 'rgba(128,0,0,0.25)';
 
               return (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -170,13 +170,13 @@ export default function Contact() {
                     {item.icon}
                   </div>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontFamily: "'Almarai', sans-serif", color: '#888', fontSize: '0.8rem' }}>{item.label}</div>
+                    <div style={{ fontFamily: "'Changa', sans-serif", color: '#888', fontSize: '0.8rem' }}>{item.label}</div>
                     {item.href ? (
-                      <a href={item.href} target={item.target} rel="noreferrer" style={{ textDecoration: 'none', color: '#f0f0f0', fontFamily: "'Almarai', sans-serif", fontWeight: 600, fontSize: '0.95rem', transition: 'color 0.2s', display: 'inline-block' }} onMouseEnter={(e) => (e.currentTarget.style.color = iconColor)} onMouseLeave={(e) => (e.currentTarget.style.color = '#f0f0f0')}>
+                      <a href={item.href} target={item.target} rel="noreferrer" style={{ textDecoration: 'none', color: '#f0f0f0', fontFamily: "'Changa', sans-serif", fontWeight: 700, fontSize: '0.95rem', transition: 'color 0.2s', display: 'inline-block' }} onMouseEnter={(e) => (e.currentTarget.style.color = iconColor)} onMouseLeave={(e) => (e.currentTarget.style.color = '#f0f0f0')}>
                         {item.value}
                       </a>
                     ) : (
-                      <div style={{ fontFamily: "'Almarai', sans-serif", color: '#f0f0f0', fontWeight: 600, fontSize: '0.95rem' }}>{item.value}</div>
+                      <div style={{ fontFamily: "'Changa', sans-serif", color: '#f0f0f0', fontWeight: 700, fontSize: '0.95rem' }}>{item.value}</div>
                     )}
                   </div>
                 </div>
@@ -190,10 +190,10 @@ export default function Contact() {
               border: '1px solid rgba(255,255,255,0.06)',
               borderRadius: '12px',
               padding: '1.5rem',
-              borderRight: '3px solid #D00000',
+              borderRight: '3px solid #800000',
             }}>
-              <p style={{ fontFamily: "'Almarai', sans-serif", color: '#aaa', fontSize: '0.9rem', lineHeight: 1.7 }}>
-                ⚡ نرد على جميع الاستفسارات خلال <strong style={{ color: '#D00000' }}>24 ساعة</strong>
+              <p style={{ fontFamily: "'Changa', sans-serif", color: '#aaa', fontSize: '0.9rem', lineHeight: 1.7 }}>
+                ⚡ نرد على جميع الاستفسارات خلال <strong style={{ color: '#800000' }}>24 ساعة</strong>
               </p>
             </div>
           </div>
@@ -208,22 +208,22 @@ export default function Contact() {
             {success ? (
               <div style={{ textAlign: 'center', padding: '3rem 1rem' }}>
                 <CheckCircle size={56} color="#22c55e" style={{ margin: '0 auto 1rem' }} />
-                <h3 style={{ fontFamily: "'Almarai', sans-serif", color: '#f0f0f0', fontSize: '1.3rem', marginBottom: '0.75rem' }}>
+                <h3 style={{ fontFamily: "'Changa', sans-serif", color: '#f0f0f0', fontSize: '1.3rem', marginBottom: '0.75rem' }}>
                   تم الإرسال بنجاح! 🎉
                 </h3>
-                <p style={{ fontFamily: "'Almarai', sans-serif", color: '#777', fontSize: '0.95rem', marginBottom: '1.5rem' }}>
+                <p style={{ fontFamily: "'Changa', sans-serif", color: '#777', fontSize: '0.95rem', marginBottom: '1.5rem' }}>
                   شكراً لتواصلك معنا، سنرد عليك قريباً
                 </p>
                 <button
                   onClick={() => setSuccess(false)}
                   style={{
-                    background: '#D00000',
+                    background: '#800000',
                     color: '#fff',
                     border: 'none',
                     padding: '10px 24px',
                     borderRadius: '8px',
-                    fontFamily: "'Almarai', sans-serif",
-                    fontWeight: 700,
+                    fontFamily: "'Changa', sans-serif",
+                    fontWeight: 800,
                     cursor: 'pointer',
                   }}
                 >
@@ -234,7 +234,7 @@ export default function Contact() {
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                   <div>
-                    <label style={{ display: 'block', color: '#aaa', fontSize: '0.85rem', marginBottom: '6px', fontFamily: "'Almarai', sans-serif" }}>
+                    <label style={{ display: 'block', color: '#aaa', fontSize: '0.85rem', marginBottom: '6px', fontFamily: "'Changa', sans-serif" }}>
                       الاسم *
                     </label>
                     <input
@@ -250,17 +250,17 @@ export default function Contact() {
                         borderRadius: '8px',
                         padding: '12px 14px',
                         color: '#f0f0f0',
-                        fontFamily: "'Almarai', sans-serif",
+                        fontFamily: "'Changa', sans-serif",
                         fontSize: '0.9rem',
                         outline: 'none',
                         minHeight: '44px',
                       }}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = '#D00000')}
+                      onFocus={(e) => (e.currentTarget.style.borderColor = '#800000')}
                       onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                     />
                   </div>
                   <div>
-                    <label style={{ display: 'block', color: '#aaa', fontSize: '0.85rem', marginBottom: '6px', fontFamily: "'Almarai', sans-serif" }}>
+                    <label style={{ display: 'block', color: '#aaa', fontSize: '0.85rem', marginBottom: '6px', fontFamily: "'Changa', sans-serif" }}>
                       البريد الإلكتروني *
                     </label>
                     <input
@@ -277,12 +277,12 @@ export default function Contact() {
                         borderRadius: '8px',
                         padding: '12px 14px',
                         color: '#f0f0f0',
-                        fontFamily: "'Almarai', sans-serif",
+                        fontFamily: "'Changa', sans-serif",
                         fontSize: '0.9rem',
                         outline: 'none',
                         minHeight: '44px',
                       }}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = '#D00000')}
+                      onFocus={(e) => (e.currentTarget.style.borderColor = '#800000')}
                       onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                     />
                   </div>
@@ -290,7 +290,7 @@ export default function Contact() {
 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                   <div>
-                    <label style={{ display: 'block', color: '#aaa', fontSize: '0.85rem', marginBottom: '6px', fontFamily: "'Almarai', sans-serif" }}>
+                    <label style={{ display: 'block', color: '#aaa', fontSize: '0.85rem', marginBottom: '6px', fontFamily: "'Changa', sans-serif" }}>
                       الهاتف
                     </label>
                     <input
@@ -306,17 +306,17 @@ export default function Contact() {
                         borderRadius: '8px',
                         padding: '12px 14px',
                         color: '#f0f0f0',
-                        fontFamily: "'Almarai', sans-serif",
+                        fontFamily: "'Changa', sans-serif",
                         fontSize: '0.9rem',
                         outline: 'none',
                         minHeight: '44px',
                       }}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = '#D00000')}
+                      onFocus={(e) => (e.currentTarget.style.borderColor = '#800000')}
                       onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                     />
                   </div>
                   <div>
-                    <label style={{ display: 'block', color: '#aaa', fontSize: '0.85rem', marginBottom: '6px', fontFamily: "'Almarai', sans-serif" }}>
+                    <label style={{ display: 'block', color: '#aaa', fontSize: '0.85rem', marginBottom: '6px', fontFamily: "'Changa', sans-serif" }}>
                       الخدمة المطلوبة
                     </label>
                     <select
@@ -330,13 +330,13 @@ export default function Contact() {
                         borderRadius: '8px',
                         padding: '12px 14px',
                         color: form.service ? '#f0f0f0' : '#777',
-                        fontFamily: "'Almarai', sans-serif",
+                        fontFamily: "'Changa', sans-serif",
                         fontSize: '0.9rem',
                         outline: 'none',
                         minHeight: '44px',
                         cursor: 'pointer',
                       }}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = '#D00000')}
+                      onFocus={(e) => (e.currentTarget.style.borderColor = '#800000')}
                       onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                     >
                       <option value="">اختر الخدمة</option>
@@ -346,7 +346,7 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', color: '#aaa', fontSize: '0.85rem', marginBottom: '6px', fontFamily: "'Almarai', sans-serif" }}>
+                  <label style={{ display: 'block', color: '#aaa', fontSize: '0.85rem', marginBottom: '6px', fontFamily: "'Changa', sans-serif" }}>
                     رسالتك
                   </label>
                   <textarea
@@ -362,13 +362,13 @@ export default function Contact() {
                       borderRadius: '8px',
                       padding: '12px 14px',
                       color: '#f0f0f0',
-                      fontFamily: "'Almarai', sans-serif",
+                      fontFamily: "'Changa', sans-serif",
                       fontSize: '0.9rem',
                       outline: 'none',
                       resize: 'vertical',
                       minHeight: '100px',
                     }}
-                    onFocus={(e) => (e.currentTarget.style.borderColor = '#D00000')}
+                    onFocus={(e) => (e.currentTarget.style.borderColor = '#800000')}
                     onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                   />
                 </div>
@@ -379,9 +379,9 @@ export default function Contact() {
                     type="checkbox"
                     checked={agreed}
                     onChange={(e) => setAgreed(e.target.checked)}
-                    style={{ width: '18px', height: '18px', accentColor: '#D00000', cursor: 'pointer' }}
+                    style={{ width: '18px', height: '18px', accentColor: '#800000', cursor: 'pointer' }}
                   />
-                  <span style={{ fontFamily: "'Almarai', sans-serif", color: '#888', fontSize: '0.875rem' }}>
+                  <span style={{ fontFamily: "'Changa', sans-serif", color: '#888', fontSize: '0.875rem' }}>
                     أوافق على التواصل معي بخصوص خدمات Dx Media
                   </span>
                 </label>
@@ -396,7 +396,7 @@ export default function Contact() {
                     borderRadius: '8px',
                     padding: '10px 14px',
                     color: '#f87171',
-                    fontFamily: "'Almarai', sans-serif",
+                    fontFamily: "'Changa', sans-serif",
                     fontSize: '0.875rem',
                   }}>
                     <AlertCircle size={16} />
@@ -408,13 +408,13 @@ export default function Contact() {
                   type="submit"
                   disabled={loading}
                   style={{
-                    background: loading ? '#8b1c18' : '#D00000',
+                    background: loading ? '#8b1c18' : '#800000',
                     color: '#fff',
                     border: 'none',
                     padding: '14px',
                     borderRadius: '8px',
-                    fontFamily: "'Almarai', sans-serif",
-                    fontWeight: 700,
+                    fontFamily: "'Changa', sans-serif",
+                    fontWeight: 800,
                     fontSize: '1rem',
                     cursor: loading ? 'not-allowed' : 'pointer',
                     display: 'flex',

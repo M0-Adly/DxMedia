@@ -82,7 +82,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '2px' }}>
             <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2rem', color: '#fff', letterSpacing: '1px' }}>Dx</span>
-            <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2rem', color: '#D00000', letterSpacing: '1px' }}>Media</span>
+            <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2rem', color: '#800000', letterSpacing: '1px' }}>Media</span>
           </Link>
 
           {/* Desktop Nav */}
@@ -96,14 +96,14 @@ export default function Navbar() {
                   border: 'none',
                   color: '#ccc',
                   fontSize: '0.95rem',
-                  fontFamily: "'Almarai', sans-serif",
+                  fontFamily: "'Changa', sans-serif",
                   fontWeight: 500,
                   cursor: 'pointer',
                   padding: '4px 0',
                   position: 'relative',
                   transition: 'color 0.3s',
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = '#D00000')}
+                onMouseEnter={(e) => (e.currentTarget.style.color = '#800000')}
                 onMouseLeave={(e) => (e.currentTarget.style.color = '#ccc')}
               >
                 {link.label}
@@ -137,13 +137,13 @@ export default function Navbar() {
               onClick={() => handleNavClick('#contact')}
               className="hidden md:inline-flex"
               style={{
-                background: '#D00000',
+                background: '#800000',
                 color: '#fff',
                 border: 'none',
                 padding: '10px 24px',
                 borderRadius: '8px',
-                fontFamily: "'Almarai', sans-serif",
-                fontWeight: 700,
+                fontFamily: "'Changa', sans-serif",
+                fontWeight: 800,
                 fontSize: '0.95rem',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
@@ -153,7 +153,7 @@ export default function Navbar() {
                 e.currentTarget.style.transform = 'translateY(-2px)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = '#D00000';
+                e.currentTarget.style.background = '#800000';
                 e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
@@ -196,7 +196,7 @@ export default function Navbar() {
         </button>
         <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
           <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2.5rem', color: '#fff' }}>Dx</span>
-          <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2.5rem', color: '#D00000' }}>Media</span>
+          <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2.5rem', color: '#800000' }}>Media</span>
         </div>
         {navLinks.map((link, i) => (
           <button
@@ -207,8 +207,8 @@ export default function Navbar() {
               border: 'none',
               color: '#f0f0f0',
               fontSize: '1.5rem',
-              fontFamily: "'Almarai', sans-serif",
-              fontWeight: 700,
+              fontFamily: "'Changa', sans-serif",
+              fontWeight: 800,
               cursor: 'pointer',
               padding: '8px 0',
               transition: 'color 0.3s, opacity 0.4s, transform 0.4s',
@@ -216,7 +216,7 @@ export default function Navbar() {
               transform: isOpen ? 'translateY(0)' : 'translateY(20px)',
               transitionDelay: `${i * 0.08}s`,
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = '#D00000')}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#800000')}
             onMouseLeave={(e) => (e.currentTarget.style.color = '#f0f0f0')}
           >
             {link.label}
@@ -226,13 +226,13 @@ export default function Navbar() {
           onClick={() => handleNavClick('#contact')}
           style={{
             marginTop: '1rem',
-            background: '#D00000',
+            background: '#800000',
             color: '#fff',
             border: 'none',
             padding: '14px 40px',
             borderRadius: '8px',
-            fontFamily: "'Almarai', sans-serif",
-            fontWeight: 700,
+            fontFamily: "'Changa', sans-serif",
+            fontWeight: 800,
             fontSize: '1.1rem',
             cursor: 'pointer',
           }}

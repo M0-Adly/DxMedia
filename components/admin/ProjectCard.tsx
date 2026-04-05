@@ -32,7 +32,7 @@ export default function ProjectCard({ project, onEdit, onDelete, onToggleFeature
       display: 'flex',
       flexDirection: 'column',
     }}
-      onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'rgba(208,0,0,0.25)')}
+      onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'rgba(128,0,0,0.25)')}
       onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)')}
     >
       {/* Thumbnail */}
@@ -49,34 +49,34 @@ export default function ProjectCard({ project, onEdit, onDelete, onToggleFeature
           position: 'absolute', top: '8px', right: '8px',
           background: CATEGORY_COLORS[project.category] || '#777',
           color: '#fff', fontSize: '0.72rem', padding: '3px 10px', borderRadius: '20px',
-          fontFamily: "'Almarai', sans-serif", fontWeight: 700,
+          fontFamily: "'Changa', sans-serif", fontWeight: 800,
         }}>
           {CATEGORY_LABELS[project.category] || project.category}
         </span>
         {project.featured && (
           <span style={{
             position: 'absolute', top: '8px', left: '8px',
-            background: 'rgba(0,0,0,0.7)', color: '#D00000',
+            background: 'rgba(0,0,0,0.7)', color: '#800000',
             fontSize: '0.72rem', padding: '3px 8px', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '3px',
           }}>
-            <Star size={10} fill="#D00000" /> مميز
+            <Star size={10} fill="#800000" /> مميز
           </span>
         )}
       </div>
 
       {/* Body */}
       <div style={{ padding: '1rem', flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-        <h3 style={{ fontFamily: "'Almarai', sans-serif", color: '#f0f0f0', fontWeight: 700, fontSize: '0.95rem', margin: 0 }}>
+        <h3 style={{ fontFamily: "'Changa', sans-serif", color: '#f0f0f0', fontWeight: 800, fontSize: '0.95rem', margin: 0 }}>
           {project.title}
         </h3>
         {project.description && (
-          <p style={{ fontFamily: "'Almarai', sans-serif", color: '#666', fontSize: '0.8rem', lineHeight: 1.6, margin: 0 }}>
+          <p style={{ fontFamily: "'Changa', sans-serif", color: '#666', fontSize: '0.8rem', lineHeight: 1.6, margin: 0 }}>
             {project.description.length > 80 ? project.description.slice(0, 80) + '...' : project.description}
           </p>
         )}
         {project.project_url && (
           <a href={project.project_url} target="_blank" rel="noopener noreferrer"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', color: '#4d9cf8', fontFamily: "'Almarai', sans-serif", fontSize: '0.78rem', textDecoration: 'none' }}>
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', color: '#4d9cf8', fontFamily: "'Changa', sans-serif", fontSize: '0.78rem', textDecoration: 'none' }}>
             <ExternalLink size={12} /> فتح الرابط
           </a>
         )}
@@ -95,15 +95,15 @@ export default function ProjectCard({ project, onEdit, onDelete, onToggleFeature
           onClick={() => onToggleFeatured(project.id, !project.featured)}
           title={project.featured ? 'إلغاء التمييز' : 'تمييز المشروع'}
           style={{
-            background: project.featured ? 'rgba(208,0,0,0.1)' : 'rgba(255,255,255,0.05)',
-            border: `1px solid ${project.featured ? 'rgba(208,0,0,0.3)' : 'rgba(255,255,255,0.08)'}`,
+            background: project.featured ? 'rgba(128,0,0,0.1)' : 'rgba(255,255,255,0.05)',
+            border: `1px solid ${project.featured ? 'rgba(128,0,0,0.3)' : 'rgba(255,255,255,0.08)'}`,
             borderRadius: '8px', padding: '6px 12px', cursor: 'pointer',
-            color: project.featured ? '#D00000' : '#666',
+            color: project.featured ? '#800000' : '#666',
             display: 'flex', alignItems: 'center', gap: '4px',
-            fontFamily: "'Almarai', sans-serif", fontSize: '0.78rem', transition: 'all 0.3s',
+            fontFamily: "'Changa', sans-serif", fontSize: '0.78rem', transition: 'all 0.3s',
           }}
         >
-          <Star size={13} fill={project.featured ? '#D00000' : 'none'} />
+          <Star size={13} fill={project.featured ? '#800000' : 'none'} />
         </button>
 
         <div style={{ flex: 1 }} />
@@ -114,7 +114,7 @@ export default function ProjectCard({ project, onEdit, onDelete, onToggleFeature
             background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)',
             borderRadius: '8px', padding: '6px 14px', cursor: 'pointer', color: '#aaa',
             display: 'flex', alignItems: 'center', gap: '4px',
-            fontFamily: "'Almarai', sans-serif", fontSize: '0.8rem', transition: 'all 0.3s',
+            fontFamily: "'Changa', sans-serif", fontSize: '0.8rem', transition: 'all 0.3s',
           }}
           onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#4d9cf8'; e.currentTarget.style.color = '#4d9cf8'; }}
           onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#aaa'; }}
@@ -127,13 +127,13 @@ export default function ProjectCard({ project, onEdit, onDelete, onToggleFeature
             if (window.confirm(`هل أنت متأكد من حذف "${project.title}"؟`)) onDelete(project.id);
           }}
           style={{
-            background: 'rgba(208,0,0,0.08)', border: '1px solid rgba(208,0,0,0.15)',
-            borderRadius: '8px', padding: '6px 14px', cursor: 'pointer', color: '#D00000',
+            background: 'rgba(128,0,0,0.08)', border: '1px solid rgba(128,0,0,0.15)',
+            borderRadius: '8px', padding: '6px 14px', cursor: 'pointer', color: '#800000',
             display: 'flex', alignItems: 'center', gap: '4px',
-            fontFamily: "'Almarai', sans-serif", fontSize: '0.8rem', transition: 'all 0.3s',
+            fontFamily: "'Changa', sans-serif", fontSize: '0.8rem', transition: 'all 0.3s',
           }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(208,0,0,0.2)'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(208,0,0,0.08)'; }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(128,0,0,0.2)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(128,0,0,0.08)'; }}
         >
           <Trash2 size={13} /> حذف
         </button>

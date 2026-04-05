@@ -141,7 +141,7 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
       }}>
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.75rem' }}>
-          <h2 style={{ fontFamily: "'Almarai', sans-serif", color: '#f0f0f0', fontWeight: 700, fontSize: '1.15rem' }}>
+          <h2 style={{ fontFamily: "'Changa', sans-serif", color: '#f0f0f0', fontWeight: 800, fontSize: '1.15rem' }}>
             {editProject ? 'تعديل المشروع' : 'إضافة مشروع جديد'}
           </h2>
           <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#777', cursor: 'pointer', padding: '4px' }}>
@@ -152,50 +152,50 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           {/* Title */}
           <div>
-            <label style={{ display: 'block', fontFamily: "'Almarai', sans-serif", color: '#aaa', fontSize: '0.85rem', marginBottom: '6px' }}>
+            <label style={{ display: 'block', fontFamily: "'Changa', sans-serif", color: '#aaa', fontSize: '0.85rem', marginBottom: '6px' }}>
               اسم المشروع *
             </label>
             <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="اسم المشروع" style={inputStyle}
-              onFocus={(e) => (e.currentTarget.style.borderColor = '#D00000')}
+              onFocus={(e) => (e.currentTarget.style.borderColor = '#800000')}
               onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')} />
           </div>
 
           {/* Description */}
           <div>
-            <label style={{ display: 'block', fontFamily: "'Almarai', sans-serif", color: '#aaa', fontSize: '0.85rem', marginBottom: '6px' }}>
+            <label style={{ display: 'block', fontFamily: "'Changa', sans-serif", color: '#aaa', fontSize: '0.85rem', marginBottom: '6px' }}>
               الوصف
             </label>
             <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="وصف مختصر للمشروع" rows={3}
               style={{ ...inputStyle, resize: 'vertical', minHeight: '80px' }}
-              onFocus={(e) => (e.currentTarget.style.borderColor = '#D00000')}
+              onFocus={(e) => (e.currentTarget.style.borderColor = '#800000')}
               onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')} />
           </div>
 
           {/* Category */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
             <div>
-              <label style={{ display: 'block', fontFamily: "'Almarai', sans-serif", color: '#aaa', fontSize: '0.85rem', marginBottom: '6px' }}>
+              <label style={{ display: 'block', fontFamily: "'Changa', sans-serif", color: '#aaa', fontSize: '0.85rem', marginBottom: '6px' }}>
                 التصنيف *
               </label>
               <select value={category} onChange={(e) => setCategory(e.target.value as ProjectCategory)} style={inputStyle}
-                onFocus={(e) => (e.currentTarget.style.borderColor = '#D00000')}
+                onFocus={(e) => (e.currentTarget.style.borderColor = '#800000')}
                 onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}>
                 {CATEGORIES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
               </select>
             </div>
             <div>
-              <label style={{ display: 'block', fontFamily: "'Almarai', sans-serif", color: '#aaa', fontSize: '0.85rem', marginBottom: '6px' }}>
+              <label style={{ display: 'block', fontFamily: "'Changa', sans-serif", color: '#aaa', fontSize: '0.85rem', marginBottom: '6px' }}>
                 رابط المشروع
               </label>
               <input value={projectUrl} onChange={(e) => setProjectUrl(e.target.value)} placeholder="https://..." style={{ ...inputStyle, direction: 'ltr', textAlign: 'left' }}
-                onFocus={(e) => (e.currentTarget.style.borderColor = '#D00000')}
+                onFocus={(e) => (e.currentTarget.style.borderColor = '#800000')}
                 onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')} />
             </div>
           </div>
 
           {/* Image Upload */}
           <div>
-            <label style={{ display: 'block', fontFamily: "'Almarai', sans-serif", color: '#aaa', fontSize: '0.85rem', marginBottom: '6px' }}>
+            <label style={{ display: 'block', fontFamily: "'Changa', sans-serif", color: '#aaa', fontSize: '0.85rem', marginBottom: '6px' }}>
               صورة أو فيديو المشروع *
             </label>
             <div
@@ -220,7 +220,7 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
                 position: 'relative',
                 overflow: 'hidden',
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'rgba(208,0,0,0.4)')}
+              onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'rgba(128,0,0,0.4)')}
               onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)')}
             >
               {imagePreview ? (
@@ -238,14 +238,14 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
                     onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
                     onMouseLeave={(e) => (e.currentTarget.style.opacity = '0')}
                   >
-                    <span style={{ fontFamily: "'Almarai', sans-serif", color: '#fff', fontWeight: 600 }}>تغيير الميديا</span>
+                    <span style={{ fontFamily: "'Changa', sans-serif", color: '#fff', fontWeight: 700 }}>تغيير الميديا</span>
                   </div>
                 </div>
               ) : (
                 <>
                   <Upload size={32} color="#555" />
-                  <p style={{ fontFamily: "'Almarai', sans-serif", color: '#777', fontSize: '0.9rem' }}>اسحب وأفلت الصورة أو الفيديو هنا</p>
-                  <p style={{ fontFamily: "'Almarai', sans-serif", color: '#555', fontSize: '0.8rem' }}>أو اضغط للاختيار</p>
+                  <p style={{ fontFamily: "'Changa', sans-serif", color: '#777', fontSize: '0.9rem' }}>اسحب وأفلت الصورة أو الفيديو هنا</p>
+                  <p style={{ fontFamily: "'Changa', sans-serif", color: '#555', fontSize: '0.8rem' }}>أو اضغط للاختيار</p>
                 </>
               )}
             </div>
@@ -258,7 +258,7 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
             <div style={{ background: '#1a1a1a', borderRadius: '8px', height: '6px', overflow: 'hidden' }}>
               <div style={{
                 height: '100%',
-                background: '#D00000',
+                background: '#800000',
                 width: `${uploadProgress}%`,
                 borderRadius: '8px',
                 transition: 'width 0.4s ease',
@@ -272,7 +272,7 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
               onClick={() => setFeatured(!featured)}
               style={{
                 width: '44px', height: '24px',
-                background: featured ? '#D00000' : '#333',
+                background: featured ? '#800000' : '#333',
                 borderRadius: '12px',
                 position: 'relative',
                 transition: 'background 0.3s',
@@ -290,15 +290,15 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
                 boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
               }} />
             </div>
-            <span style={{ fontFamily: "'Almarai', sans-serif", color: '#aaa', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Star size={14} color={featured ? '#D00000' : '#555'} fill={featured ? '#D00000' : 'none'} />
+            <span style={{ fontFamily: "'Changa', sans-serif", color: '#aaa', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Star size={14} color={featured ? '#800000' : '#555'} fill={featured ? '#800000' : 'none'} />
               مشروع مميز
             </span>
           </label>
 
           {/* Error */}
           {error && (
-            <div style={{ background: 'rgba(208,0,0,0.08)', border: '1px solid rgba(208,0,0,0.2)', borderRadius: '8px', padding: '10px 14px', color: '#f87171', fontFamily: "'Almarai', sans-serif", fontSize: '0.875rem' }}>
+            <div style={{ background: 'rgba(128,0,0,0.08)', border: '1px solid rgba(128,0,0,0.2)', borderRadius: '8px', padding: '10px 14px', color: '#f87171', fontFamily: "'Changa', sans-serif", fontSize: '0.875rem' }}>
               {error}
             </div>
           )}
@@ -307,13 +307,13 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
           <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem' }}>
             <button onClick={onClose} style={{
               flex: 1, background: 'rgba(255,255,255,0.05)', color: '#aaa', border: '1px solid rgba(255,255,255,0.08)',
-              borderRadius: '10px', padding: '13px', fontFamily: "'Almarai', sans-serif", fontWeight: 600, fontSize: '0.95rem', cursor: 'pointer',
+              borderRadius: '10px', padding: '13px', fontFamily: "'Changa', sans-serif", fontWeight: 700, fontSize: '0.95rem', cursor: 'pointer',
             }}>
               إلغاء
             </button>
             <button onClick={handleSave} disabled={uploading} style={{
-              flex: 2, background: uploading ? '#8b1c18' : '#D00000', color: '#fff', border: 'none',
-              borderRadius: '10px', padding: '13px', fontFamily: "'Almarai', sans-serif", fontWeight: 700, fontSize: '0.95rem',
+              flex: 2, background: uploading ? '#8b1c18' : '#800000', color: '#fff', border: 'none',
+              borderRadius: '10px', padding: '13px', fontFamily: "'Changa', sans-serif", fontWeight: 800, fontSize: '0.95rem',
               cursor: uploading ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
               transition: 'background 0.3s',
             }}>
@@ -337,7 +337,7 @@ const inputStyle: React.CSSProperties = {
   borderRadius: '8px',
   padding: '12px 14px',
   color: '#f0f0f0',
-  fontFamily: "'Almarai', sans-serif",
+  fontFamily: "'Changa', sans-serif",
   fontSize: '0.9rem',
   outline: 'none',
   minHeight: '44px',

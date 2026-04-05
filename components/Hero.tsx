@@ -81,7 +81,7 @@ export default function Hero({ stats }: { stats: HeroStats }) {
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'radial-gradient(ellipse 70% 60% at 50% 0%, rgba(208,0,0,0.12) 0%, transparent 70%)',
+          background: 'radial-gradient(ellipse 70% 60% at 50% 0%, rgba(128,0,0,0.12) 0%, transparent 70%)',
         }}
       />
       <div
@@ -112,8 +112,8 @@ export default function Hero({ stats }: { stats: HeroStats }) {
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            background: 'rgba(208,0,0,0.1)',
-            border: '1px solid rgba(208,0,0,0.25)',
+            background: 'rgba(128,0,0,0.1)',
+            border: '1px solid rgba(128,0,0,0.25)',
             borderRadius: '50px',
             padding: '8px 20px',
             marginBottom: '2rem',
@@ -125,10 +125,10 @@ export default function Hero({ stats }: { stats: HeroStats }) {
           <span style={{ fontSize: '1rem' }}>🔥</span>
           <span
             style={{
-              fontFamily: "'Almarai', sans-serif",
+              fontFamily: "'Changa', sans-serif",
               fontSize: '0.9rem',
-              color: '#D00000',
-              fontWeight: 600,
+              color: '#800000',
+              fontWeight: 700,
             }}
           >
             وكالة تسويق رقمي متميزة
@@ -152,25 +152,25 @@ export default function Hero({ stats }: { stats: HeroStats }) {
               letterSpacing: '5px',
               color: '#fff',
               marginBottom: '1.5rem',
-              textShadow: '0 4px 0 #cc2211, 0 8px 0 #aa1100, 0 15px 30px rgba(208,0,0,0.5)',
+              textShadow: '0 4px 0 #cc2211, 0 8px 0 #aa1100, 0 15px 30px rgba(128,0,0,0.5)',
             }}
           >
-            Dx<span style={{ color: '#D00000' }}>Media</span>
+            Dx<span style={{ color: '#800000' }}>Media</span>
           </h1>
         </div>
 
         <style>{`
           @keyframes floatAndPulse {
-            0% { transform: translateY(0) scale(1) rotateX(0deg); filter: drop-shadow(0 0 10px rgba(208,0,0,0.2)); }
-            50% { transform: translateY(-15px) scale(1.02) rotateX(5deg); filter: drop-shadow(0 10px 25px rgba(208,0,0,0.6)); }
-            100% { transform: translateY(0) scale(1) rotateX(0deg); filter: drop-shadow(0 0 10px rgba(208,0,0,0.2)); }
+            0% { transform: translateY(0) scale(1) rotateX(0deg); filter: drop-shadow(0 0 10px rgba(128,0,0,0.2)); }
+            50% { transform: translateY(-15px) scale(1.02) rotateX(5deg); filter: drop-shadow(0 10px 25px rgba(128,0,0,0.6)); }
+            100% { transform: translateY(0) scale(1) rotateX(0deg); filter: drop-shadow(0 0 10px rgba(128,0,0,0.2)); }
           }
         `}</style>
 
         {/* Description */}
         <p
           style={{
-            fontFamily: "'Almarai', sans-serif",
+            fontFamily: "'Changa', sans-serif",
             fontSize: 'clamp(0.95rem, 2vw, 1.15rem)',
             color: '#888',
             maxWidth: '600px',
@@ -200,27 +200,27 @@ export default function Hero({ stats }: { stats: HeroStats }) {
           <button
             onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
             style={{
-              background: '#D00000',
+              background: '#800000',
               color: '#fff',
               border: 'none',
               padding: '14px 32px',
               borderRadius: '8px',
-              fontFamily: "'Almarai', sans-serif",
-              fontWeight: 700,
+              fontFamily: "'Changa', sans-serif",
+              fontWeight: 800,
               fontSize: '1rem',
               cursor: 'pointer',
               display: 'inline-flex',
               alignItems: 'center',
               gap: '8px',
               transition: 'all 0.3s ease',
-              boxShadow: '0 4px 20px rgba(208,0,0,0.35)',
+              boxShadow: '0 4px 20px rgba(128,0,0,0.35)',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = '#c0281f';
               e.currentTarget.style.transform = 'translateY(-2px)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = '#D00000';
+              e.currentTarget.style.background = '#800000';
               e.currentTarget.style.transform = 'translateY(0)';
             }}
           >
@@ -235,8 +235,8 @@ export default function Hero({ stats }: { stats: HeroStats }) {
               border: '1px solid rgba(255,255,255,0.2)',
               padding: '14px 32px',
               borderRadius: '8px',
-              fontFamily: "'Almarai', sans-serif",
-              fontWeight: 600,
+              fontFamily: "'Changa', sans-serif",
+              fontWeight: 700,
               fontSize: '1rem',
               cursor: 'pointer',
               display: 'inline-flex',
@@ -245,8 +245,8 @@ export default function Hero({ stats }: { stats: HeroStats }) {
               transition: 'all 0.3s ease',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = '#D00000';
-              e.currentTarget.style.color = '#D00000';
+              e.currentTarget.style.borderColor = '#800000';
+              e.currentTarget.style.color = '#800000';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)';
@@ -290,7 +290,7 @@ export default function Hero({ stats }: { stats: HeroStats }) {
                 style={{
                   fontFamily: '"Bebas Neue", sans-serif',
                   fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
-                  color: '#D00000',
+                  color: '#800000',
                   lineHeight: 1,
                   marginBottom: '0.5rem',
                 }}
@@ -299,7 +299,7 @@ export default function Hero({ stats }: { stats: HeroStats }) {
               </div>
               <div
                 style={{
-                  fontFamily: "'Almarai', sans-serif",
+                  fontFamily: "'Changa', sans-serif",
                   fontSize: '0.9rem',
                   color: '#777',
                   fontWeight: 500,
