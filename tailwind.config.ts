@@ -10,7 +10,7 @@ const config: Config = {
     extend: {
       colors: {
         red: {
-          DEFAULT: '#e63329',
+          DEFAULT: '#D00000',
           dark: '#c0281f',
         },
         dark: {
@@ -23,7 +23,7 @@ const config: Config = {
         },
       },
       fontFamily: {
-        cairo: ['Cairo', 'sans-serif'],
+        Almarai: ['Almarai', 'sans-serif'],
         bebas: ['"Bebas Neue"', 'sans-serif'],
       },
       animation: {
@@ -42,8 +42,8 @@ const config: Config = {
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         pulseGlow: {
-          '0%, 100%': { boxShadow: '0 0 20px rgba(230,51,41,0.3)' },
-          '50%': { boxShadow: '0 0 40px rgba(230,51,41,0.6)' },
+          '0%, 100%': { boxShadow: '0 0 20px rgba(208,0,0,0.3)' },
+          '50%': { boxShadow: '0 0 40px rgba(208,0,0,0.6)' },
         },
       },
     },

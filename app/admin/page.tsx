@@ -56,7 +56,7 @@ export default function AdminLoginPage() {
         transform: 'translate(-50%, -50%)',
         width: '500px',
         height: '400px',
-        background: 'radial-gradient(ellipse, rgba(230,51,41,0.08) 0%, transparent 70%)',
+        background: 'radial-gradient(ellipse, rgba(208,0,0,0.08) 0%, transparent 70%)',
         pointerEvents: 'none',
       }} />
 
@@ -78,10 +78,10 @@ export default function AdminLoginPage() {
           <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
             <div style={{ marginBottom: '0.5rem' }}>
               <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2.5rem', color: '#fff', letterSpacing: '2px' }}>Dx</span>
-              <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2.5rem', color: '#e63329', letterSpacing: '2px' }}>Media</span>
+              <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2.5rem', color: '#D00000', letterSpacing: '2px' }}>Media</span>
             </div>
             <h1 style={{
-              fontFamily: "'Cairo', sans-serif",
+              fontFamily: "'Almarai', sans-serif",
               fontSize: '1.1rem',
               color: '#888',
               fontWeight: 500,
@@ -98,7 +98,7 @@ export default function AdminLoginPage() {
             <div>
               <label style={{
                 display: 'block',
-                fontFamily: "'Cairo', sans-serif",
+                fontFamily: "'Almarai', sans-serif",
                 color: '#aaa',
                 fontSize: '0.875rem',
                 marginBottom: '8px',
@@ -119,7 +119,7 @@ export default function AdminLoginPage() {
                   borderRadius: '10px',
                   padding: '13px 16px',
                   color: '#f0f0f0',
-                  fontFamily: "'Cairo', sans-serif",
+                  fontFamily: "'Almarai', sans-serif",
                   fontSize: '0.95rem',
                   outline: 'none',
                   transition: 'border-color 0.3s',
@@ -127,7 +127,7 @@ export default function AdminLoginPage() {
                   direction: 'ltr',
                   textAlign: 'left',
                 }}
-                onFocus={(e) => (e.currentTarget.style.borderColor = '#e63329')}
+                onFocus={(e) => (e.currentTarget.style.borderColor = '#D00000')}
                 onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
               />
             </div>
@@ -136,7 +136,7 @@ export default function AdminLoginPage() {
             <div>
               <label style={{
                 display: 'block',
-                fontFamily: "'Cairo', sans-serif",
+                fontFamily: "'Almarai', sans-serif",
                 color: '#aaa',
                 fontSize: '0.875rem',
                 marginBottom: '8px',
@@ -158,13 +158,13 @@ export default function AdminLoginPage() {
                     borderRadius: '10px',
                     padding: '13px 48px 13px 16px',
                     color: '#f0f0f0',
-                    fontFamily: "'Cairo', sans-serif",
+                    fontFamily: "'Almarai', sans-serif",
                     fontSize: '0.95rem',
                     outline: 'none',
                     transition: 'border-color 0.3s',
                     minHeight: '48px',
                   }}
-                  onFocus={(e) => (e.currentTarget.style.borderColor = '#e63329')}
+                  onFocus={(e) => (e.currentTarget.style.borderColor = '#D00000')}
                   onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                 />
                 <button
@@ -195,12 +195,12 @@ export default function AdminLoginPage() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                background: 'rgba(230,51,41,0.08)',
-                border: '1px solid rgba(230,51,41,0.2)',
+                background: 'rgba(208,0,0,0.08)',
+                border: '1px solid rgba(208,0,0,0.2)',
                 borderRadius: '8px',
                 padding: '10px 14px',
                 color: '#f87171',
-                fontFamily: "'Cairo', sans-serif",
+                fontFamily: "'Almarai', sans-serif",
                 fontSize: '0.875rem',
               }}>
                 <AlertCircle size={16} />
@@ -214,12 +214,12 @@ export default function AdminLoginPage() {
               type="submit"
               disabled={loading}
               style={{
-                background: loading ? '#8b1c18' : '#e63329',
+                background: loading ? '#8b1c18' : '#D00000',
                 color: '#fff',
                 border: 'none',
                 borderRadius: '10px',
                 padding: '14px',
-                fontFamily: "'Cairo', sans-serif",
+                fontFamily: "'Almarai', sans-serif",
                 fontWeight: 700,
                 fontSize: '1rem',
                 cursor: loading ? 'not-allowed' : 'pointer',
@@ -230,10 +230,10 @@ export default function AdminLoginPage() {
                 transition: 'all 0.3s ease',
                 minHeight: '48px',
                 marginTop: '0.5rem',
-                boxShadow: '0 4px 20px rgba(230,51,41,0.3)',
+                boxShadow: '0 4px 20px rgba(208,0,0,0.3)',
               }}
               onMouseEnter={(e) => { if (!loading) e.currentTarget.style.background = '#c0281f'; }}
-              onMouseLeave={(e) => { if (!loading) e.currentTarget.style.background = '#e63329'; }}
+              onMouseLeave={(e) => { if (!loading) e.currentTarget.style.background = '#D00000'; }}
             >
               {loading ? (
                 <>
@@ -259,7 +259,7 @@ export default function AdminLoginPage() {
           <p style={{
             textAlign: 'center',
             marginTop: '1.5rem',
-            fontFamily: "'Cairo', sans-serif",
+            fontFamily: "'Almarai', sans-serif",
             color: '#555',
             fontSize: '0.8rem',
           }}>

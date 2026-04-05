@@ -66,8 +66,8 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
       onMouseLeave={() => setHovered(false)}
       style={{
         background: hovered ? '#1c1c1c' : '#141414',
-        border: hovered ? '1px solid rgba(230,51,41,0.35)' : '1px solid rgba(255,255,255,0.06)',
-        borderBottom: hovered ? '3px solid #e63329' : '1px solid rgba(255,255,255,0.06)',
+        border: hovered ? '1px solid rgba(208,0,0,0.35)' : '1px solid rgba(255,255,255,0.06)',
+        borderBottom: hovered ? '3px solid #D00000' : '1px solid rgba(255,255,255,0.06)',
         borderRadius: '12px',
         padding: '1.75rem',
         cursor: 'pointer',
@@ -85,8 +85,8 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
         style={{
           width: '52px',
           height: '52px',
-          background: hovered ? 'rgba(230,51,41,0.2)' : 'rgba(230,51,41,0.1)',
-          border: '1px solid rgba(230,51,41,0.25)',
+          background: hovered ? 'rgba(208,0,0,0.2)' : 'rgba(208,0,0,0.1)',
+          border: '1px solid rgba(208,0,0,0.25)',
           borderRadius: '10px',
           display: 'flex',
           alignItems: 'center',
@@ -100,7 +100,7 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
 
       <h3
         style={{
-          fontFamily: "'Cairo', sans-serif",
+          fontFamily: "'Almarai', sans-serif",
           fontSize: '1.1rem',
           fontWeight: 700,
           color: '#f0f0f0',
@@ -112,7 +112,7 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
 
       <p
         style={{
-          fontFamily: "'Cairo', sans-serif",
+          fontFamily: "'Almarai', sans-serif",
           fontSize: '0.9rem',
           color: '#777',
           lineHeight: 1.7,
@@ -127,8 +127,8 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
           display: 'flex',
           alignItems: 'center',
           gap: '6px',
-          color: '#e63329',
-          fontFamily: "'Cairo', sans-serif",
+          color: '#D00000',
+          fontFamily: "'Almarai', sans-serif",
           fontSize: '0.875rem',
           fontWeight: 600,
           marginTop: 'auto',
@@ -179,12 +179,12 @@ export default function Services() {
           <span
             style={{
               display: 'inline-block',
-              background: 'rgba(230,51,41,0.1)',
-              border: '1px solid rgba(230,51,41,0.25)',
+              background: 'rgba(208,0,0,0.1)',
+              border: '1px solid rgba(208,0,0,0.25)',
               borderRadius: '50px',
               padding: '6px 18px',
-              color: '#e63329',
-              fontFamily: "'Cairo', sans-serif",
+              color: '#D00000',
+              fontFamily: "'Almarai', sans-serif",
               fontSize: '0.875rem',
               fontWeight: 600,
               marginBottom: '1rem',
@@ -205,7 +205,7 @@ export default function Services() {
           </h2>
           <p
             style={{
-              fontFamily: "'Cairo', sans-serif",
+              fontFamily: "'Almarai', sans-serif",
               color: '#777',
               fontSize: '1rem',
               maxWidth: '500px',

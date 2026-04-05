@@ -184,7 +184,7 @@ export default function AdminDashboard() {
   const unreadCount = messages.filter(m => !m.is_read).length;
 
   return (
-    <div style={{ minHeight: '100vh', background: '#050505', display: 'flex', fontFamily: "'Cairo', sans-serif" }}>
+    <div style={{ minHeight: '100vh', background: '#050505', display: 'flex', fontFamily: "'Almarai', sans-serif" }}>
       {/* ── SIDEBAR (desktop) ── */}
       <aside style={{
         width: '240px',
@@ -201,7 +201,7 @@ export default function AdminDashboard() {
         {/* Logo */}
         <div style={{ padding: '1.5rem', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '1.75rem', color: '#fff' }}>Dx</span>
-          <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '1.75rem', color: '#e63329' }}>Media</span>
+          <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '1.75rem', color: '#D00000' }}>Media</span>
           <p style={{ color: '#555', fontSize: '0.75rem', marginTop: '2px' }}>لوحة التحكم</p>
         </div>
 
@@ -212,11 +212,11 @@ export default function AdminDashboard() {
               key={item.id}
               onClick={() => setActiveTab(item.id)}
               style={{
-                background: activeTab === item.id ? 'rgba(230,51,41,0.12)' : 'transparent',
-                border: activeTab === item.id ? '1px solid rgba(230,51,41,0.25)' : '1px solid transparent',
+                background: activeTab === item.id ? 'rgba(208,0,0,0.12)' : 'transparent',
+                border: activeTab === item.id ? '1px solid rgba(208,0,0,0.25)' : '1px solid transparent',
                 borderRadius: '10px',
                 padding: '12px 16px',
-                color: activeTab === item.id ? '#e63329' : '#777',
+                color: activeTab === item.id ? '#D00000' : '#777',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
@@ -234,7 +234,7 @@ export default function AdminDashboard() {
               {item.id === 'messages' && unreadCount > 0 && (
                 <span style={{
                   marginRight: 'auto',
-                  background: '#e63329',
+                  background: '#D00000',
                   color: '#fff',
                   fontSize: '0.7rem',
                   padding: '1px 7px',
@@ -258,7 +258,7 @@ export default function AdminDashboard() {
               cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '12px',
               fontSize: '0.9rem', width: '100%', transition: 'all 0.2s',
             }}
-            onMouseEnter={(e) => { e.currentTarget.style.color = '#e63329'; e.currentTarget.style.borderColor = 'rgba(230,51,41,0.2)'; }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = '#D00000'; e.currentTarget.style.borderColor = 'rgba(208,0,0,0.2)'; }}
             onMouseLeave={(e) => { e.currentTarget.style.color = '#666'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; }}
           >
             <LogOut size={18} /> تسجيل الخروج
@@ -280,11 +280,11 @@ export default function AdminDashboard() {
           top: 0,
           zIndex: 50,
         }}>
-          <h1 style={{ fontSize: '1rem', fontWeight: 700, color: '#f0f0f0', fontFamily: "'Cairo', sans-serif" }}>
+          <h1 style={{ fontSize: '1rem', fontWeight: 700, color: '#f0f0f0', fontFamily: "'Almarai', sans-serif" }}>
             {SIDEBAR_ITEMS.find(i => i.id === activeTab)?.label}
           </h1>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <span style={{ color: '#555', fontSize: '0.8rem', fontFamily: "'Cairo', sans-serif" }}>لوحة تحكم Dx Media</span>
+            <span style={{ color: '#555', fontSize: '0.8rem', fontFamily: "'Almarai', sans-serif" }}>لوحة تحكم Dx Media</span>
             <a href="/" target="_blank" style={{ color: '#4d9cf8', fontSize: '0.8rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}>
               <Eye size={14} /> الموقع
             </a>
@@ -300,7 +300,7 @@ export default function AdminDashboard() {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
                 {[
                   { label: 'إجمالي المشاريع', value: projects.length, color: '#4d9cf8' },
-                  { label: 'مشاريع مميزة', value: projects.filter(p => p.featured).length, color: '#e63329' },
+                  { label: 'مشاريع مميزة', value: projects.filter(p => p.featured).length, color: '#D00000' },
                   { label: 'التصنيفات', value: new Set(projects.map(p => p.category)).size, color: '#a78bfa' },
                 ].map((stat, i) => (
                   <div key={i} style={{
@@ -318,14 +318,14 @@ export default function AdminDashboard() {
                 <button
                   onClick={() => { setEditProject(null); setShowUploadModal(true); }}
                   style={{
-                    background: '#e63329', color: '#fff', border: 'none',
+                    background: '#D00000', color: '#fff', border: 'none',
                     borderRadius: '10px', padding: '10px 20px',
-                    fontFamily: "'Cairo', sans-serif", fontWeight: 700, fontSize: '0.9rem',
+                    fontFamily: "'Almarai', sans-serif", fontWeight: 700, fontSize: '0.9rem',
                     cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px',
                     transition: 'background 0.3s',
                   }}
                   onMouseEnter={(e) => (e.currentTarget.style.background = '#c0281f')}
-                  onMouseLeave={(e) => (e.currentTarget.style.background = '#e63329')}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = '#D00000')}
                 >
                   <Plus size={18} /> إضافة مشروع
                 </button>
@@ -334,13 +334,13 @@ export default function AdminDashboard() {
               {/* Projects grid */}
               {projectsLoading ? (
                 <div style={{ textAlign: 'center', padding: '3rem', color: '#555' }}>
-                  <div style={{ width: '40px', height: '40px', border: '3px solid #333', borderTopColor: '#e63329', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 1rem' }} />
-                  <p style={{ fontFamily: "'Cairo', sans-serif" }}>جاري التحميل...</p>
+                  <div style={{ width: '40px', height: '40px', border: '3px solid #333', borderTopColor: '#D00000', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 1rem' }} />
+                  <p style={{ fontFamily: "'Almarai', sans-serif" }}>جاري التحميل...</p>
                 </div>
               ) : projects.length === 0 ? (
                 <div style={{ textAlign: 'center', padding: '4rem', color: '#555' }}>
                   <FolderOpen size={48} style={{ margin: '0 auto 1rem', opacity: 0.3 }} />
-                  <p style={{ fontFamily: "'Cairo', sans-serif" }}>لا توجد مشاريع بعد</p>
+                  <p style={{ fontFamily: "'Almarai', sans-serif" }}>لا توجد مشاريع بعد</p>
                 </div>
               ) : (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1rem' }}>
@@ -362,25 +362,25 @@ export default function AdminDashboard() {
           {activeTab === 'messages' && (
             <div>
               <div style={{ marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <span style={{ color: '#777', fontFamily: "'Cairo', sans-serif", fontSize: '0.9rem' }}>
+                <span style={{ color: '#777', fontFamily: "'Almarai', sans-serif", fontSize: '0.9rem' }}>
                   {unreadCount > 0 ? `${unreadCount} رسالة غير مقروءة` : 'جميع الرسائل مقروءة'}
                 </span>
               </div>
               {messagesLoading ? (
                 <div style={{ textAlign: 'center', padding: '3rem', color: '#555' }}>
-                  <div style={{ width: '40px', height: '40px', border: '3px solid #333', borderTopColor: '#e63329', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 1rem' }} />
+                  <div style={{ width: '40px', height: '40px', border: '3px solid #333', borderTopColor: '#D00000', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 1rem' }} />
                 </div>
               ) : messages.length === 0 ? (
                 <div style={{ textAlign: 'center', padding: '4rem', color: '#555' }}>
                   <MessageSquare size={48} style={{ margin: '0 auto 1rem', opacity: 0.3 }} />
-                  <p style={{ fontFamily: "'Cairo', sans-serif" }}>لا توجد رسائل بعد</p>
+                  <p style={{ fontFamily: "'Almarai', sans-serif" }}>لا توجد رسائل بعد</p>
                 </div>
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                   {messages.map(msg => (
                     <div key={msg.id} style={{
                       background: msg.is_read ? '#141414' : '#1a1212',
-                      border: `1px solid ${msg.is_read ? 'rgba(255,255,255,0.06)' : 'rgba(230,51,41,0.2)'}`,
+                      border: `1px solid ${msg.is_read ? 'rgba(255,255,255,0.06)' : 'rgba(208,0,0,0.2)'}`,
                       borderRadius: '12px',
                       overflow: 'hidden',
                       transition: 'all 0.3s',
@@ -399,9 +399,9 @@ export default function AdminDashboard() {
                       >
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                            <span style={{ fontFamily: "'Cairo', sans-serif", fontWeight: 700, color: '#f0f0f0', fontSize: '0.95rem' }}>{msg.name}</span>
+                            <span style={{ fontFamily: "'Almarai', sans-serif", fontWeight: 700, color: '#f0f0f0', fontSize: '0.95rem' }}>{msg.name}</span>
                             {!msg.is_read && (
-                              <span style={{ background: '#e63329', color: '#fff', fontSize: '0.65rem', padding: '2px 8px', borderRadius: '10px', fontWeight: 700 }}>جديد</span>
+                              <span style={{ background: '#D00000', color: '#fff', fontSize: '0.65rem', padding: '2px 8px', borderRadius: '10px', fontWeight: 700 }}>جديد</span>
                             )}
                             {msg.service && (
                               <span style={{ background: 'rgba(255,255,255,0.06)', color: '#888', fontSize: '0.72rem', padding: '2px 8px', borderRadius: '10px' }}>{msg.service}</span>
@@ -423,7 +423,7 @@ export default function AdminDashboard() {
                       {expandedMsg === msg.id && (
                         <div style={{ padding: '0 1.25rem 1.25rem', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                           {msg.message && (
-                            <p style={{ fontFamily: "'Cairo', sans-serif", color: '#bbb', fontSize: '0.9rem', lineHeight: 1.75, margin: '1rem 0' }}>
+                            <p style={{ fontFamily: "'Almarai', sans-serif", color: '#bbb', fontSize: '0.9rem', lineHeight: 1.75, margin: '1rem 0' }}>
                               {msg.message}
                             </p>
                           )}
@@ -431,7 +431,7 @@ export default function AdminDashboard() {
                             {!msg.is_read && (
                               <button onClick={() => handleMarkRead(msg.id)} style={{
                                 background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', borderRadius: '8px',
-                                padding: '7px 14px', color: '#4ade80', fontFamily: "'Cairo', sans-serif", fontSize: '0.8rem',
+                                padding: '7px 14px', color: '#4ade80', fontFamily: "'Almarai', sans-serif", fontSize: '0.8rem',
                                 cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px',
                               }}>
                                 <Check size={14} /> تحديد كمقروء
@@ -439,14 +439,14 @@ export default function AdminDashboard() {
                             )}
                             <a href={`mailto:${msg.email}`} style={{
                               background: 'rgba(77,156,248,0.1)', border: '1px solid rgba(77,156,248,0.2)', borderRadius: '8px',
-                              padding: '7px 14px', color: '#4d9cf8', fontFamily: "'Cairo', sans-serif", fontSize: '0.8rem',
+                              padding: '7px 14px', color: '#4d9cf8', fontFamily: "'Almarai', sans-serif", fontSize: '0.8rem',
                               textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '5px',
                             }}>
                               رد بالبريد
                             </a>
                             <button onClick={() => handleDeleteMessage(msg.id)} style={{
-                              background: 'rgba(230,51,41,0.08)', border: '1px solid rgba(230,51,41,0.15)', borderRadius: '8px',
-                              padding: '7px 14px', color: '#e63329', fontFamily: "'Cairo', sans-serif", fontSize: '0.8rem',
+                              background: 'rgba(208,0,0,0.08)', border: '1px solid rgba(208,0,0,0.15)', borderRadius: '8px',
+                              padding: '7px 14px', color: '#D00000', fontFamily: "'Almarai', sans-serif", fontSize: '0.8rem',
                               cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px',
                             }}>
                               <Trash2 size={14} /> حذف
@@ -469,7 +469,7 @@ export default function AdminDashboard() {
                 background: '#141414', border: '1px solid rgba(255,255,255,0.06)',
                 borderRadius: '14px', padding: '1.5rem', marginBottom: '1.5rem',
               }}>
-                <h3 style={{ fontFamily: "'Cairo', sans-serif", color: '#f0f0f0', fontWeight: 700, marginBottom: '1.25rem', fontSize: '1rem' }}>
+                <h3 style={{ fontFamily: "'Almarai', sans-serif", color: '#f0f0f0', fontWeight: 700, marginBottom: '1.25rem', fontSize: '1rem' }}>
                   إضافة شهادة جديدة
                 </h3>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
@@ -480,7 +480,7 @@ export default function AdminDashboard() {
                       value={newTestimonial[field as keyof typeof newTestimonial] as string}
                       onChange={(e) => setNewTestimonial(prev => ({ ...prev, [field]: e.target.value }))}
                       style={inputStyle}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = '#e63329')}
+                      onFocus={(e) => (e.currentTarget.style.borderColor = '#D00000')}
                       onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                     />
                   ))}
@@ -493,7 +493,7 @@ export default function AdminDashboard() {
                     onChange={(e) => setNewTestimonial(prev => ({ ...prev, content: e.target.value }))}
                     rows={3}
                     style={{ ...inputStyle, resize: 'vertical', width: '100%' }}
-                    onFocus={(e) => (e.currentTarget.style.borderColor = '#e63329')}
+                    onFocus={(e) => (e.currentTarget.style.borderColor = '#D00000')}
                     onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                   />
                   
@@ -521,7 +521,7 @@ export default function AdminDashboard() {
                       {testimonialFile ? 'تغيير الصورة' : 'رفع صورة الرأي'}
                     </label>
                     {testimonialPreview && (
-                      <img src={testimonialPreview} style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '5px', border: '1px solid #e63329' }} />
+                      <img src={testimonialPreview} style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '5px', border: '1px solid #D00000' }} />
                     )}
                     <span style={{ fontSize: '0.75rem', color: '#555' }}>يمكنك رفع سكرين شوت للرأي</span>
                   </div>
@@ -529,7 +529,7 @@ export default function AdminDashboard() {
 
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ fontFamily: "'Cairo', sans-serif", color: '#888', fontSize: '0.875rem' }}>التقييم:</span>
+                    <span style={{ fontFamily: "'Almarai', sans-serif", color: '#888', fontSize: '0.875rem' }}>التقييم:</span>
                     {[1, 2, 3, 4, 5].map(n => (
                       <button key={n} onClick={() => setNewTestimonial(prev => ({ ...prev, rating: n }))}
                         style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '2px', fontSize: '1.2rem', opacity: n <= newTestimonial.rating ? 1 : 0.3, transition: 'opacity 0.2s' }}>
@@ -541,8 +541,8 @@ export default function AdminDashboard() {
                     onClick={handleAddTestimonial}
                     disabled={addingTestimonial}
                     style={{
-                      background: '#e63329', color: '#fff', border: 'none', borderRadius: '8px',
-                      padding: '10px 20px', fontFamily: "'Cairo', sans-serif", fontWeight: 700, fontSize: '0.875rem',
+                      background: '#D00000', color: '#fff', border: 'none', borderRadius: '8px',
+                      padding: '10px 20px', fontFamily: "'Almarai', sans-serif", fontWeight: 700, fontSize: '0.875rem',
                       cursor: addingTestimonial ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', gap: '6px',
                     }}
                   >
@@ -554,7 +554,7 @@ export default function AdminDashboard() {
               {/* Testimonials list */}
               {testimonialsLoading ? (
                 <div style={{ textAlign: 'center', padding: '3rem', color: '#555' }}>
-                  <div style={{ width: '40px', height: '40px', border: '3px solid #333', borderTopColor: '#e63329', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto' }} />
+                  <div style={{ width: '40px', height: '40px', border: '3px solid #333', borderTopColor: '#D00000', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto' }} />
                 </div>
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
@@ -566,11 +566,11 @@ export default function AdminDashboard() {
                     }}>
                       <div style={{ flex: 1, minWidth: '200px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px', flexWrap: 'wrap' }}>
-                          <span style={{ fontFamily: "'Cairo', sans-serif", fontWeight: 700, color: '#f0f0f0', fontSize: '0.95rem' }}>{t.name}</span>
+                          <span style={{ fontFamily: "'Almarai', sans-serif", fontWeight: 700, color: '#f0f0f0', fontSize: '0.95rem' }}>{t.name}</span>
                           <span style={{ color: '#666', fontSize: '0.8rem' }}>{t.role} {t.company ? `— ${t.company}` : ''}</span>
                           <span style={{ fontSize: '0.8rem' }}>{'⭐'.repeat(t.rating)}</span>
                         </div>
-                        <p style={{ fontFamily: "'Cairo', sans-serif", color: '#888', fontSize: '0.85rem', lineHeight: 1.6 }}>{t.content}</p>
+                        <p style={{ fontFamily: "'Almarai', sans-serif", color: '#888', fontSize: '0.85rem', lineHeight: 1.6 }}>{t.content}</p>
                       </div>
                       <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                         <button onClick={() => handleToggleTestimonial(t.id, !t.is_active)} style={{
@@ -578,14 +578,14 @@ export default function AdminDashboard() {
                           border: `1px solid ${t.is_active ? 'rgba(34,197,94,0.2)' : 'rgba(255,255,255,0.08)'}`,
                           borderRadius: '8px', padding: '6px 12px',
                           color: t.is_active ? '#4ade80' : '#666',
-                          fontFamily: "'Cairo', sans-serif", fontSize: '0.78rem', cursor: 'pointer',
+                          fontFamily: "'Almarai', sans-serif", fontSize: '0.78rem', cursor: 'pointer',
                           display: 'flex', alignItems: 'center', gap: '4px',
                         }}>
                           {t.is_active ? <><Check size={12} /> نشط</> : <><X size={12} /> مخفي</>}
                         </button>
                         <button onClick={() => handleDeleteTestimonial(t.id)} style={{
-                          background: 'rgba(230,51,41,0.08)', border: '1px solid rgba(230,51,41,0.15)',
-                          borderRadius: '8px', padding: '6px 10px', color: '#e63329', cursor: 'pointer',
+                          background: 'rgba(208,0,0,0.08)', border: '1px solid rgba(208,0,0,0.15)',
+                          borderRadius: '8px', padding: '6px 10px', color: '#D00000', cursor: 'pointer',
                         }}>
                           <Trash2 size={14} />
                         </button>
@@ -604,10 +604,10 @@ export default function AdminDashboard() {
                 background: '#141414', border: '1px solid rgba(255,255,255,0.06)',
                 borderRadius: '16px', padding: '2rem',
               }}>
-                <h3 style={{ fontFamily: "'Cairo', sans-serif", color: '#f0f0f0', fontWeight: 700, marginBottom: '0.5rem' }}>
+                <h3 style={{ fontFamily: "'Almarai', sans-serif", color: '#f0f0f0', fontWeight: 700, marginBottom: '0.5rem' }}>
                   إحصائيات الصفحة الرئيسية
                 </h3>
-                <p style={{ fontFamily: "'Cairo', sans-serif", color: '#666', fontSize: '0.875rem', marginBottom: '1.75rem' }}>
+                <p style={{ fontFamily: "'Almarai', sans-serif", color: '#666', fontSize: '0.875rem', marginBottom: '1.75rem' }}>
                   الأرقام التي تظهر في قسم الإحصائيات بصفحة الهيرو
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
@@ -617,7 +617,7 @@ export default function AdminDashboard() {
                     { key: 'years', label: 'سنوات الخبرة', icon: '🏆' },
                   ].map(({ key, label, icon }) => (
                     <div key={key}>
-                      <label style={{ display: 'block', fontFamily: "'Cairo', sans-serif", color: '#aaa', fontSize: '0.875rem', marginBottom: '6px' }}>
+                      <label style={{ display: 'block', fontFamily: "'Almarai', sans-serif", color: '#aaa', fontSize: '0.875rem', marginBottom: '6px' }}>
                         {icon} {label}
                       </label>
                       <input
@@ -625,7 +625,7 @@ export default function AdminDashboard() {
                         value={heroStats[key as keyof typeof heroStats]}
                         onChange={(e) => setHeroStats(prev => ({ ...prev, [key]: e.target.value }))}
                         style={{ ...inputStyle, direction: 'ltr', textAlign: 'center', fontSize: '1.1rem', fontWeight: 700 }}
-                        onFocus={(e) => (e.currentTarget.style.borderColor = '#e63329')}
+                        onFocus={(e) => (e.currentTarget.style.borderColor = '#D00000')}
                         onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                       />
                     </div>
@@ -637,11 +637,11 @@ export default function AdminDashboard() {
                   disabled={settingsLoading}
                   style={{
                     marginTop: '2rem',
-                    background: settingsSaved ? 'rgba(34,197,94,0.2)' : '#e63329',
+                    background: settingsSaved ? 'rgba(34,197,94,0.2)' : '#D00000',
                     color: settingsSaved ? '#4ade80' : '#fff',
                     border: settingsSaved ? '1px solid rgba(34,197,94,0.3)' : 'none',
                     borderRadius: '10px', padding: '13px', width: '100%',
-                    fontFamily: "'Cairo', sans-serif", fontWeight: 700, fontSize: '0.95rem',
+                    fontFamily: "'Almarai', sans-serif", fontWeight: 700, fontSize: '0.95rem',
                     cursor: settingsLoading ? 'not-allowed' : 'pointer',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
                     transition: 'all 0.4s',
@@ -681,17 +681,17 @@ export default function AdminDashboard() {
               flexDirection: 'column',
               alignItems: 'center',
               gap: '4px',
-              color: activeTab === item.id ? '#e63329' : '#555',
+              color: activeTab === item.id ? '#D00000' : '#555',
               transition: 'color 0.2s',
               position: 'relative',
             }}
           >
             {item.icon}
-            <span style={{ fontSize: '0.65rem', fontFamily: "'Cairo', sans-serif", fontWeight: 600 }}>{item.label}</span>
+            <span style={{ fontSize: '0.65rem', fontFamily: "'Almarai', sans-serif", fontWeight: 600 }}>{item.label}</span>
             {item.id === 'messages' && unreadCount > 0 && (
               <span style={{
                 position: 'absolute', top: '8px', right: '25%',
-                background: '#e63329', color: '#fff', fontSize: '0.6rem',
+                background: '#D00000', color: '#fff', fontSize: '0.6rem',
                 width: '16px', height: '16px', borderRadius: '50%',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700,
               }}>{unreadCount}</span>
@@ -710,7 +710,7 @@ export default function AdminDashboard() {
             left: '20px',
             width: '56px',
             height: '56px',
-            background: '#e63329',
+            background: '#D00000',
             border: 'none',
             borderRadius: '50%',
             color: '#fff',
@@ -718,7 +718,7 @@ export default function AdminDashboard() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: '0 4px 20px rgba(230,51,41,0.5)',
+            boxShadow: '0 4px 20px rgba(208,0,0,0.5)',
             zIndex: 150,
             transition: 'transform 0.2s',
           }}
@@ -751,7 +751,7 @@ const inputStyle: React.CSSProperties = {
   borderRadius: '8px',
   padding: '11px 14px',
   color: '#f0f0f0',
-  fontFamily: "'Cairo', sans-serif",
+  fontFamily: "'Almarai', sans-serif",
   fontSize: '0.9rem',
   outline: 'none',
   minHeight: '44px',

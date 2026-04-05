@@ -53,17 +53,17 @@ export default function Footer() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', gridColumn: 'span 1' }}>
             <div>
               <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2rem', color: '#fff' }}>Dx</span>
-              <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2rem', color: '#e63329' }}>Media</span>
+              <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2rem', color: '#D00000' }}>Media</span>
             </div>
-            <p style={{ fontFamily: "'Cairo', sans-serif", color: '#666', fontSize: '0.9rem', lineHeight: 1.8 }}>
+            <p style={{ fontFamily: "'Almarai', sans-serif", color: '#666', fontSize: '0.9rem', lineHeight: 1.8 }}>
               وكالة تسويق رقمي متميزة متخصصة في بناء علامات تجارية قوية وتحقيق نتائج ملموسة.
             </p>
             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
               {[
-                { icon: '📘', href: 'https://www.facebook.com/share/1J15UQLn6B/' },
-                { icon: '📷', href: '#' },
-                { icon: '🎵', href: '#' },
-                { icon: '🐦', href: '#' },
+                { icon: '📘', href: 'https://www.facebook.com/share/1J15UQLn6B/', color: '#1877F2', bgColor: 'rgba(24,119,242,0.1)' },
+                { icon: '📷', href: '#', color: '#E4405F', bgColor: 'rgba(228,64,95,0.1)' },
+                { icon: '🎵', href: '#', color: '#000000', bgColor: 'rgba(255,255,255,0.1)' },
+                { icon: '🐦', href: '#', color: '#1DA1F2', bgColor: 'rgba(29,161,242,0.1)' },
               ].map((social, i) => (
                 <a
                   key={i}
@@ -73,7 +73,7 @@ export default function Footer() {
                   style={{
                     width: '36px',
                     height: '36px',
-                    background: 'rgba(255,255,255,0.05)',
+                    background: social.bgColor,
                     border: '1px solid rgba(255,255,255,0.08)',
                     borderRadius: '8px',
                     cursor: 'pointer',
@@ -83,9 +83,9 @@ export default function Footer() {
                     justifyContent: 'center',
                     transition: 'all 0.3s',
                     textDecoration: 'none',
-                    color: 'white'
+                    color: social.color
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#e63329')}
+                  onMouseEnter={(e) => (e.currentTarget.style.borderColor = social.color)}
                   onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                 >
                   {social.icon}
@@ -96,7 +96,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 style={{ fontFamily: "'Cairo', sans-serif", color: '#f0f0f0', fontWeight: 700, marginBottom: '1rem', fontSize: '1rem' }}>
+            <h4 style={{ fontFamily: "'Almarai', sans-serif", color: '#f0f0f0', fontWeight: 700, marginBottom: '1rem', fontSize: '1rem' }}>
               روابط سريعة
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
@@ -108,7 +108,7 @@ export default function Footer() {
                     background: 'none',
                     border: 'none',
                     color: '#666',
-                    fontFamily: "'Cairo', sans-serif",
+                    fontFamily: "'Almarai', sans-serif",
                     fontSize: '0.9rem',
                     cursor: 'pointer',
                     textAlign: 'right',
@@ -118,10 +118,10 @@ export default function Footer() {
                     alignItems: 'center',
                     gap: '6px',
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = '#e63329')}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = '#D00000')}
                   onMouseLeave={(e) => (e.currentTarget.style.color = '#666')}
                 >
-                  <span style={{ color: '#e63329', fontSize: '0.7rem' }}>◆</span>
+                  <span style={{ color: '#D00000', fontSize: '0.7rem' }}>◆</span>
                   {link.label}
                 </button>
               ))}
@@ -130,12 +130,12 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h4 style={{ fontFamily: "'Cairo', sans-serif", color: '#f0f0f0', fontWeight: 700, marginBottom: '1rem', fontSize: '1rem' }}>
+            <h4 style={{ fontFamily: "'Almarai', sans-serif", color: '#f0f0f0', fontWeight: 700, marginBottom: '1rem', fontSize: '1rem' }}>
               خدماتنا
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
               {SERVICES.map((s) => (
-                <span key={s} style={{ fontFamily: "'Cairo', sans-serif", color: '#666', fontSize: '0.9rem' }}>
+                <span key={s} style={{ fontFamily: "'Almarai', sans-serif", color: '#666', fontSize: '0.9rem' }}>
                   {s}
                 </span>
               ))}
@@ -144,10 +144,10 @@ export default function Footer() {
 
           {/* Newsletter */}
           <div>
-            <h4 style={{ fontFamily: "'Cairo', sans-serif", color: '#f0f0f0', fontWeight: 700, marginBottom: '1rem', fontSize: '1rem' }}>
+            <h4 style={{ fontFamily: "'Almarai', sans-serif", color: '#f0f0f0', fontWeight: 700, marginBottom: '1rem', fontSize: '1rem' }}>
               النشرة البريدية
             </h4>
-            <p style={{ fontFamily: "'Cairo', sans-serif", color: '#666', fontSize: '0.875rem', marginBottom: '1rem', lineHeight: 1.7 }}>
+            <p style={{ fontFamily: "'Almarai', sans-serif", color: '#666', fontSize: '0.875rem', marginBottom: '1rem', lineHeight: 1.7 }}>
               اشترك للحصول على آخر مقالاتنا ونصائح التسويق الرقمي
             </p>
             {subDone ? (
@@ -156,7 +156,7 @@ export default function Footer() {
                 border: '1px solid rgba(34,197,94,0.2)',
                 borderRadius: '8px',
                 padding: '12px',
-                fontFamily: "'Cairo', sans-serif",
+                fontFamily: "'Almarai', sans-serif",
                 color: '#4ade80',
                 fontSize: '0.875rem',
                 textAlign: 'center',
@@ -177,18 +177,18 @@ export default function Footer() {
                     borderRadius: '8px',
                     padding: '10px 12px',
                     color: '#f0f0f0',
-                    fontFamily: "'Cairo', sans-serif",
+                    fontFamily: "'Almarai', sans-serif",
                     fontSize: '0.875rem',
                     outline: 'none',
                     minHeight: '44px',
                   }}
-                  onFocus={(e) => (e.currentTarget.style.borderColor = '#e63329')}
+                  onFocus={(e) => (e.currentTarget.style.borderColor = '#D00000')}
                   onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                 />
                 <button
                   type="submit"
                   style={{
-                    background: '#e63329',
+                    background: '#D00000',
                     color: '#fff',
                     border: 'none',
                     borderRadius: '8px',
@@ -202,7 +202,7 @@ export default function Footer() {
                     transition: 'background 0.3s',
                   }}
                   onMouseEnter={(e) => (e.currentTarget.style.background = '#c0281f')}
-                  onMouseLeave={(e) => (e.currentTarget.style.background = '#e63329')}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = '#D00000')}
                 >
                   <Send size={18} />
                 </button>
@@ -220,10 +220,10 @@ export default function Footer() {
             flexWrap: 'wrap',
             gap: '1rem',
           }}>
-            <p style={{ fontFamily: "'Cairo', sans-serif", color: '#444', fontSize: '0.85rem' }}>
+            <p style={{ fontFamily: "'Almarai', sans-serif", color: '#444', fontSize: '0.85rem' }}>
               © {new Date().getFullYear()} Dx Media. جميع الحقوق محفوظة.
             </p>
-            <p style={{ fontFamily: "'Cairo', sans-serif", color: '#444', fontSize: '0.85rem' }}>
+            <p style={{ fontFamily: "'Almarai', sans-serif", color: '#444', fontSize: '0.85rem' }}>
               صُمِّم للتميز ✨
             </p>
           </div>
