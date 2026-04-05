@@ -16,7 +16,7 @@ type Tab = 'projects' | 'messages' | 'testimonials' | 'settings';
 const SIDEBAR_ITEMS: { id: Tab; label: string; icon: React.ReactNode }[] = [
   { id: 'projects', label: 'المشاريع', icon: <FolderOpen size={18} /> },
   { id: 'messages', label: 'الرسائل', icon: <MessageSquare size={18} /> },
-  { id: 'testimonials', label: 'الشهادات', icon: <Star size={18} /> },
+  { id: 'testimonials', label: 'آراء وصور العملاء', icon: <Star size={18} /> },
   { id: 'settings', label: 'الإعدادات', icon: <Settings size={18} /> },
 ];
 
@@ -39,7 +39,9 @@ export default function AdminDashboard() {
   // Testimonials state
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [testimonialsLoading, setTestimonialsLoading] = useState(true);
-  const [newTestimonial, setNewTestimonial] = useState({ name: '', role: '', company: '', content: '', rating: 5 });
+  const [newTestimonial, setNewTestimonial] = useState({ name: '', role: '', company: '', content: '', link_url: '', rating: 5 });
+  const [testimonialFile, setTestimonialFile] = useState<File | null>(null);
+  const [testimonialPreview, setTestimonialPreview] = useState<string>('');
   const [addingTestimonial, setAddingTestimonial] = useState(false);
 
   // Settings state
@@ -135,12 +137,36 @@ export default function AdminDashboard() {
   };
 
   const handleAddTestimonial = async () => {
-    if (!newTestimonial.name || !newTestimonial.content) return;
+    if (!newTestimonial.name) return;
     setAddingTestimonial(true);
-    const { data } = await supabase.from('testimonials').insert([newTestimonial]).select().single();
-    if (data) setTestimonials(prev => [data as Testimonial, ...prev]);
-    setNewTestimonial({ name: '', role: '', company: '', content: '', rating: 5 });
-    setAddingTestimonial(false);
+    try {
+      let imageUrl = '';
+      if (testimonialFile) {
+        const ext = testimonialFile.name.split('.').pop();
+        const fileName = `${crypto.randomUUID()}.${ext}`;
+        const { error: uploadError } = await supabase.storage.from('projects').upload(fileName, testimonialFile);
+        if (uploadError) throw uploadError;
+        const { data: urlData } = supabase.storage.from('projects').getPublicUrl(fileName);
+        imageUrl = urlData.publicUrl;
+      }
+
+      const payload = {
+        ...newTestimonial,
+        image_url: imageUrl || null,
+        content: newTestimonial.content || null
+      };
+
+      const { data } = await supabase.from('testimonials').insert([payload]).select().single();
+      if (data) setTestimonials(prev => [data as Testimonial, ...prev]);
+      setNewTestimonial({ name: '', role: '', company: '', content: '', link_url: '', rating: 5 });
+      setTestimonialFile(null);
+      setTestimonialPreview('');
+    } catch (err) {
+      console.error(err);
+      alert('حدث خطأ أثناء الإضافة');
+    } finally {
+      setAddingTestimonial(false);
+    }
   };
 
   const handleSaveSettings = async () => {
@@ -447,10 +473,10 @@ export default function AdminDashboard() {
                   إضافة شهادة جديدة
                 </h3>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
-                  {['name', 'role', 'company'].map(field => (
+                  {['name', 'role', 'company', 'link_url'].map(field => (
                     <input
                       key={field}
-                      placeholder={field === 'name' ? 'الاسم *' : field === 'role' ? 'الوظيفة *' : 'الشركة'}
+                      placeholder={field === 'name' ? 'الاسم (أو اسم البراند) *' : field === 'role' ? 'الوظيفة' : field === 'company' ? 'الشركة' : 'رابط (عند الضغط على الصورة)'}
                       value={newTestimonial[field as keyof typeof newTestimonial] as string}
                       onChange={(e) => setNewTestimonial(prev => ({ ...prev, [field]: e.target.value }))}
                       style={inputStyle}
@@ -459,15 +485,48 @@ export default function AdminDashboard() {
                     />
                   ))}
                 </div>
-                <textarea
-                  placeholder="نص الشهادة *"
-                  value={newTestimonial.content}
-                  onChange={(e) => setNewTestimonial(prev => ({ ...prev, content: e.target.value }))}
-                  rows={3}
-                  style={{ ...inputStyle, resize: 'vertical', marginBottom: '1rem', width: '100%' }}
-                  onFocus={(e) => (e.currentTarget.style.borderColor = '#e63329')}
-                  onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
-                />
+                
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
+                  <textarea
+                    placeholder="نص الشهادة (اختياري إذا أضفت صورة)"
+                    value={newTestimonial.content}
+                    onChange={(e) => setNewTestimonial(prev => ({ ...prev, content: e.target.value }))}
+                    rows={3}
+                    style={{ ...inputStyle, resize: 'vertical', width: '100%' }}
+                    onFocus={(e) => (e.currentTarget.style.borderColor = '#e63329')}
+                    onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
+                  />
+                  
+                  <div style={{ 
+                    border: '1px dashed rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px',
+                    display: 'flex', alignItems: 'center', gap: '12px', background: 'rgba(255,255,255,0.02)'
+                  }}>
+                    <input 
+                      type="file" 
+                      id="test-img" 
+                      hidden 
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          setTestimonialFile(file);
+                          setTestimonialPreview(URL.createObjectURL(file));
+                        }
+                      }}
+                    />
+                    <label htmlFor="test-img" style={{ 
+                      background: '#222', padding: '8px 15px', borderRadius: '8px', color: '#eee',
+                      fontSize: '0.8rem', cursor: 'pointer', border: '1px solid #333'
+                    }}>
+                      {testimonialFile ? 'تغيير الصورة' : 'رفع صورة الرأي'}
+                    </label>
+                    {testimonialPreview && (
+                      <img src={testimonialPreview} style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '5px', border: '1px solid #e63329' }} />
+                    )}
+                    <span style={{ fontSize: '0.75rem', color: '#555' }}>يمكنك رفع سكرين شوت للرأي</span>
+                  </div>
+                </div>
+
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ fontFamily: "'Cairo', sans-serif", color: '#888', fontSize: '0.875rem' }}>التقييم:</span>

@@ -68,21 +68,32 @@ function TestimonialCard({ t, index }: { t: Testimonial; index: number }) {
       </div>
 
       {/* Content */}
-      <p style={{
-        fontFamily: "'Cairo', sans-serif",
-        fontSize: '0.95rem',
-        color: '#bbb',
-        lineHeight: 1.8,
-        fontStyle: 'italic',
-        flex: 1,
-        position: 'relative',
-        zIndex: 1,
-      }}>
-        {t.content}
-      </p>
+      {t.image_url ? (
+        <div style={{ position: 'relative', width: '100%', borderRadius: '8px', overflow: 'hidden', cursor: t.link_url ? 'pointer' : 'default' }} onClick={() => t.link_url && window.open(t.link_url, '_blank')}>
+          <img src={t.image_url} alt={t.name} style={{ width: '100%', height: 'auto', display: 'block', transition: 'transform 0.3s ease' }} onMouseEnter={(e) => t.link_url && (e.currentTarget.style.transform = 'scale(1.05)')} onMouseLeave={(e) => t.link_url && (e.currentTarget.style.transform = 'scale(1)')} />
+          {t.link_url && (
+            <div style={{ position: 'absolute', top: '10px', right: '10px', background: 'rgba(230,51,41,0.9)', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+              <Star size={14} fill="white" />
+            </div>
+          )}
+        </div>
+      ) : (
+        <p style={{
+          fontFamily: "'Cairo', sans-serif",
+          fontSize: '0.95rem',
+          color: '#bbb',
+          lineHeight: 1.8,
+          fontStyle: 'italic',
+          flex: 1,
+          position: 'relative',
+          zIndex: 1,
+        }}>
+          {t.content}
+        </p>
+      )}
 
       {/* Author */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: t.image_url ? '0.5rem' : '0' }}>
         {t.avatar_url ? (
           <div style={{ position: 'relative', width: '44px', height: '44px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0 }}>
             <Image src={t.avatar_url} alt={t.name} fill style={{ objectFit: 'cover' }} />
