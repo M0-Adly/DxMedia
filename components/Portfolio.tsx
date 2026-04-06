@@ -46,103 +46,174 @@ function PortfolioItem({ project, index }: { project: Project; index: number }) 
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        position: 'relative',
-        aspectRatio: '1',
-        borderRadius: '10px',
+        display: 'flex',
+        flexDirection: 'column',
+        borderRadius: '16px',
         overflow: 'hidden',
         cursor: project.project_url ? 'pointer' : 'default',
-        background: '#0a0a0a',
+        background: '#0d0d0d',
         border: '1px solid rgba(255,255,255,0.06)',
         opacity: visible ? 1 : 0,
-        transform: visible ? 'scale(1)' : 'scale(0.95)',
-        transition: `opacity 0.5s ease ${index * 0.06}s, transform 0.5s ease ${index * 0.06}s`,
+        transform: visible ? 'translateY(0)' : 'translateY(20px)',
+        transition: `opacity 0.6s ease ${index * 0.08}s, transform 0.6s ease ${index * 0.08}s`,
+        boxShadow: hovered ? '0 20px 40px rgba(0,0,0,0.4), 0 0 15px rgba(255,16,34,0.05)' : 'none',
+        height: '100%',
       }}
     >
-      {project.image_url ? (
-        isVideo ? (
-          <video
-            src={project.image_url}
-            autoPlay
-            muted
-            loop
-            playsInline
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          />
+      {/* Media Section */}
+      <div style={{
+        position: 'relative',
+        width: '100%',
+        aspectRatio: '16 / 10',
+        overflow: 'hidden',
+        background: '#151515',
+      }}>
+        {project.image_url ? (
+          isVideo ? (
+            <video
+              src={project.image_url}
+              autoPlay
+              muted
+              loop
+              playsInline
+              style={{ 
+                width: '100%', 
+                height: '100%', 
+                objectFit: 'cover',
+                transform: hovered ? 'scale(1.05)' : 'scale(1)',
+                transition: 'transform 0.4s ease',
+              }}
+            />
+          ) : (
+            <Image
+              src={project.image_url}
+              alt={project.title}
+              fill
+              style={{ 
+                objectFit: 'cover', 
+                transform: hovered ? 'scale(1.05)' : 'scale(1)',
+                transition: 'transform 0.4s ease',
+              }}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          )
         ) : (
-          <Image
-            src={project.image_url}
-            alt={project.title}
-            fill
-            style={{ objectFit: 'cover', transition: 'transform 0.4s ease' }}
-            sizes="(max-width: 768px) 50vw, 25vw"
-          />
-        )
-      ) : (
-        <div style={{
-          width: '100%',
-          height: '100%',
-          background: 'linear-gradient(135deg, #1a1a1a 0%, #222 100%)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '0.5rem',
-        }}>
-          <span style={{ fontSize: '2.5rem' }}>🎨</span>
-          <span style={{ color: '#555', fontSize: '0.8rem', fontFamily: "'Changa', sans-serif" }}>{project.title}</span>
-        </div>
-      )}
+          <div style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#333',
+          }}>
+            🎨
+          </div>
+        )}
 
-      {/* Hover overlay */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'rgba(255,16,34,0.88)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '0.75rem',
-          opacity: hovered ? 1 : 0,
-          transition: 'opacity 0.3s ease',
-        }}
-      >
-        <ExternalLink size={28} color="#fff" />
-        <span style={{ fontFamily: "'Changa', sans-serif", color: '#fff', fontWeight: 800, fontSize: '1rem' }}>
-          عرض المشروع
-        </span>
-        <span
-          style={{
-            background: 'rgba(255,255,255,0.15)',
-            borderRadius: '20px',
-            padding: '3px 12px',
-            fontFamily: "'Changa', sans-serif",
-            color: 'rgba(255,255,255,0.9)',
-            fontSize: '0.78rem',
-          }}
-        >
-          {CATEGORY_LABELS[project.category] || project.category}
-        </span>
-      </div>
+        {/* Hover Overlay Icon */}
+        {project.project_url && (
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'rgba(0,0,0,0.3)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            opacity: hovered ? 1 : 0,
+            transition: 'opacity 0.3s ease',
+            zIndex: 2,
+          }}>
+            <div style={{
+              background: '#ff1022',
+              width: '44px',
+              height: '44px',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 8px 16px rgba(255,16,34,0.4)',
+            }}>
+              <ExternalLink size={20} color="#fff" />
+            </div>
+          </div>
+        )}
 
-      {/* Featured badge */}
-      {project.featured && (
+        {/* Category Badge */}
         <div style={{
           position: 'absolute',
-          top: '8px',
-          right: '8px',
-          background: '#ff1022',
+          bottom: '12px',
+          right: '12px',
+          background: 'rgba(0,0,0,0.6)',
+          backdropFilter: 'blur(10px)',
+          borderRadius: '20px',
+          padding: '4px 12px',
+          fontFamily: "'Changa', sans-serif",
           color: '#fff',
           fontSize: '0.7rem',
-          padding: '3px 10px',
-          borderRadius: '20px',
-          fontFamily: "'Changa', sans-serif",
-          fontWeight: 800,
+          fontWeight: 600,
+          zIndex: 3,
         }}>
-          مميز ⭐
+          {CATEGORY_LABELS[project.category] || project.category}
         </div>
-      )}
+
+        {/* Featured Tag */}
+        {project.featured && (
+          <div style={{
+            position: 'absolute',
+            top: '12px',
+            left: '12px',
+            background: 'linear-gradient(90deg, #ff1022, #b00010)',
+            color: '#fff',
+            fontSize: '0.65rem',
+            padding: '3px 10px',
+            borderRadius: '4px',
+            fontFamily: "'Changa', sans-serif",
+            fontWeight: 800,
+            zIndex: 3,
+            boxShadow: '0 4px 10px rgba(255,16,34,0.3)',
+          }}>
+            مميز ⭐
+          </div>
+        )}
+      </div>
+
+      {/* Content Section */}
+      <div style={{
+        padding: '1.25rem',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '0.6rem',
+        flexGrow: 1,
+        textAlign: 'right', // Support RTL
+      }}>
+        <h3 style={{
+          fontFamily: "'Changa', sans-serif",
+          fontSize: '1.15rem',
+          fontWeight: 800,
+          color: hovered ? '#ff1022' : '#fff',
+          margin: 0,
+          transition: 'color 0.3s ease',
+          lineHeight: 1.3,
+        }}>
+          {project.title}
+        </h3>
+        
+        {project.description && (
+          <p style={{
+            fontFamily: "'Changa', sans-serif",
+            fontSize: '0.85rem',
+            color: '#888',
+            margin: 0,
+            lineHeight: 1.6,
+            display: '-webkit-box',
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+          }}>
+            {project.description}
+          </p>
+        )}
+      </div>
     </div>
   );
 }
@@ -277,8 +348,8 @@ export default function Portfolio({ projects }: { projects: Project[] }) {
         ) : (
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
-            gap: '0.75rem',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+            gap: '1.5rem',
           }}>
             {filtered.map((project, i) => (
               <PortfolioItem key={project.id} project={project} index={i} />
