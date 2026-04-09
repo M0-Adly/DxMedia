@@ -7,13 +7,13 @@ import { createClient } from '@/lib/supabase';
 import { Project, ProjectCategory } from '@/lib/types';
 
 const CATEGORIES: { value: ProjectCategory; label: string }[] = [
-  { value: 'images', label: 'صور' },
+  { value: 'graphic', label: 'جرافيك' },
   { value: 'motion', label: 'موشن جرافيك' },
-  { value: 'video', label: 'فيديو' },
-  { value: 'ads', label: 'إعلانات' },
-  { value: 'web', label: 'مواقع' },
+  { value: 'video', label: 'مونتاج فيديو' },
+  { value: 'ads', label: 'إعلانات ممولة' },
+  { value: 'web', label: 'تطوير مواقع' },
   { value: 'ai', label: 'ذكاء اصطناعي' },
-  { value: 'data', label: 'بيانات' },
+  { value: 'data', label: 'برمجة وإدارة' },
   { value: 'other', label: 'أخرى' },
 ];
 
@@ -26,7 +26,7 @@ interface UploadModalProps {
 export default function UploadModal({ onClose, onSuccess, editProject }: UploadModalProps) {
   const [title, setTitle] = useState(editProject?.title || '');
   const [description, setDescription] = useState(editProject?.description || '');
-  const [category, setCategory] = useState<ProjectCategory>(editProject?.category || 'images');
+  const [category, setCategory] = useState<ProjectCategory>(editProject?.category || 'graphic');
   const [projectUrl, setProjectUrl] = useState(editProject?.project_url || '');
   const [featured, setFeatured] = useState(editProject?.featured || false);
   const [isArchived, setIsArchived] = useState(editProject?.is_archived || false);

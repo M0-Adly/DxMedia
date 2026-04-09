@@ -249,7 +249,7 @@ function EmptyState() {
 }
 
 export default function Portfolio({ projects }: { projects: Project[] }) {
-  const [activeFilter, setActiveFilter] = useState('graphic');
+  const [activeTab, setActiveTab] = useState('graphic');
   const titleRef = useRef<HTMLDivElement>(null);
   const [titleVisible, setTitleVisible] = useState(false);
 
@@ -262,122 +262,86 @@ export default function Portfolio({ projects }: { projects: Project[] }) {
     return () => observer.disconnect();
   }, []);
 
-  const filtered = projects
-    .filter(p => !p.is_archived && p.category === activeFilter)
-    .sort((a, b) => (a.order_index || 0) - (b.order_index || 0));
+  const filteredProjects = projects
+    .filter(p => !p.is_archived && p.category === activeTab)
+    .sort((a, b) => {
+      const orderA = a.order_index === 0 ? 999999 : a.order_index;
+      const orderB = b.order_index === 0 ? 999999 : b.order_index;
+      if (orderA !== orderB) return orderA - orderB;
+      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+    });
 
   return (
-    <section
-      id="portfolio"
-      style={{ padding: '6rem 1.5rem', background: '#050505', position: 'relative' }}
-    >
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+    <section id="portfolio" style={{ padding: '6rem 1.5rem', background: '#050505', position: 'relative' }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
         {/* Header */}
-        <div
-          ref={titleRef}
-          style={{
-            textAlign: 'center',
-            marginBottom: '3rem',
-            opacity: titleVisible ? 1 : 0,
-            transform: titleVisible ? 'translateY(0)' : 'translateY(20px)',
-            transition: 'all 0.6s ease',
-          }}
-        >
-          <span style={{
-            display: 'inline-block',
-            background: 'rgba(255,16,34,0.1)',
-            border: '1px solid rgba(255,16,34,0.25)',
-            borderRadius: '50px',
-            padding: '6px 18px',
-            color: '#ff1022',
-            fontFamily: "'Changa', sans-serif",
-            fontSize: '0.875rem',
-            fontWeight: 700,
-            marginBottom: '1rem',
-          }}>
-            إبداعاتنا
-          </span>
+        <div ref={titleRef} style={{
+          textAlign: 'center',
+          marginBottom: '4rem',
+          opacity: titleVisible ? 1 : 0,
+          transform: titleVisible ? 'translateY(0)' : 'translateY(20px)',
+          transition: 'all 0.6s ease',
+        }}>
           <h2 style={{
             fontFamily: '"Bebas Neue", sans-serif',
-            fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+            fontSize: 'clamp(3rem, 8vw, 6rem)',
             color: '#fff',
-            letterSpacing: '2px',
+            letterSpacing: '4px',
             marginBottom: '1rem',
           }}>
-            أعمالنا
+            معرض <span style={{ color: '#ff1022' }}>الأعمال</span>
           </h2>
-          <p style={{ fontFamily: "'Changa', sans-serif", color: '#777', fontSize: '1rem' }}>
-            نماذج من مشاريعنا المنجزة مع عملائنا المميزين
+          <p style={{ fontFamily: "'Changa', sans-serif", color: '#777', fontSize: '1.1rem', maxWidth: '600px', margin: '0 auto' }}>
+            نحول الأفكار إلى واقع رقمي ملموس من خلال تصاميم وحلول برمجية مبتكرة
           </p>
         </div>
 
-        {/* Filter Tabs */}
+        {/* Tabs */}
         <div style={{
           display: 'flex',
-          gap: '0.5rem',
           justifyContent: 'center',
+          gap: '10px',
+          marginBottom: '3.5rem',
           flexWrap: 'wrap',
-          marginBottom: '2.5rem',
+          padding: '0 10px',
         }}>
-          {FILTER_TABS.map(tab => (
+          {FILTER_TABS.map((tab) => (
             <button
               key={tab}
-              onClick={() => setActiveFilter(tab)}
+              onClick={() => setActiveTab(tab)}
               style={{
-                background: activeFilter === tab ? '#ff1022' : 'rgba(255,255,255,0.05)',
-                color: activeFilter === tab ? '#fff' : '#999',
-                border: activeFilter === tab ? '1px solid #ff1022' : '1px solid rgba(255,255,255,0.08)',
+                background: activeTab === tab ? '#ff1022' : 'transparent',
+                color: activeTab === tab ? '#fff' : '#888',
+                border: activeTab === tab ? '1px solid #ff1022' : '1px solid rgba(255,255,255,0.1)',
+                padding: '10px 24px',
                 borderRadius: '50px',
-                padding: '8px 20px',
                 fontFamily: "'Changa', sans-serif",
-                fontSize: '0.875rem',
+                fontSize: '0.9rem',
                 fontWeight: 700,
                 cursor: 'pointer',
-                transition: 'all 0.3s ease',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                boxShadow: activeTab === tab ? '0 10px 20px rgba(255,16,34,0.2)' : 'none',
               }}
             >
-              {CATEGORY_LABELS[tab]}
+              {CATEGORY_LABELS[tab] || tab}
             </button>
           ))}
         </div>
 
         {/* Grid */}
-        {filtered.length === 0 ? (
-          <EmptyState />
+        {filteredProjects.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '5rem 0', color: '#444', fontFamily: "'Changa', sans-serif" }}>
+            <p>لا توجد أعمال في هذا القسم حالياً</p>
+          </div>
         ) : (
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-            gap: '1.5rem',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+            gap: '2rem',
           }}>
-            {filtered.map((project, i) => (
-              <PortfolioItem key={project.id} project={project} index={i} />
+            {filteredProjects.map((project, idx) => (
+              <PortfolioItem key={project.id} project={project} index={idx} />
             ))}
-          </div>
-        )}
-
-        {/* CTA */}
-        {projects.length > 0 && (
-          <div style={{ textAlign: 'center', marginTop: '3rem' }}>
-            <button
-              onClick={() => setActiveFilter('graphic')}
-              style={{
-                background: 'transparent',
-                color: '#ff1022',
-                border: '1px solid rgba(255,16,34,0.4)',
-                padding: '12px 32px',
-                borderRadius: '8px',
-                fontFamily: "'Changa', sans-serif",
-                fontWeight: 800,
-                fontSize: '0.95rem',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,16,34,0.1)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
-            >
-              عرض كل الأعمال
-            </button>
           </div>
         )}
       </div>
