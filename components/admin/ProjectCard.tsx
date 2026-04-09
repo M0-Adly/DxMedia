@@ -48,24 +48,42 @@ export default function ProjectCard({ project, onEdit, onDelete, onToggleFeature
             <span style={{ fontSize: '2rem', opacity: 0.3 }}>🖼️</span>
           </div>
         )}
-        {/* Category badge */}
-        <span style={{
-          position: 'absolute', top: '8px', right: '8px',
-          background: CATEGORY_COLORS[project.category] || '#777',
-          color: '#fff', fontSize: '0.72rem', padding: '3px 10px', borderRadius: '20px',
-          fontFamily: "'Changa', sans-serif", fontWeight: 800,
-        }}>
-          {CATEGORY_LABELS[project.category] || project.category}
-        </span>
-        {project.featured && (
+        
+        {/* badges */}
+        <div style={{ position: 'absolute', top: '8px', right: '8px', display: 'flex', flexDirection: 'column', gap: '4px', alignItems: 'flex-end' }}>
           <span style={{
-            position: 'absolute', top: '8px', left: '8px',
-            background: 'rgba(0,0,0,0.7)', color: '#ff1022',
-            fontSize: '0.72rem', padding: '3px 8px', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '3px',
+            background: CATEGORY_COLORS[project.category] || '#777',
+            color: '#fff', fontSize: '0.72rem', padding: '3px 10px', borderRadius: '20px',
+            fontFamily: "'Changa', sans-serif", fontWeight: 800,
           }}>
-            <Star size={10} fill="#ff1022" /> مميز
+            {CATEGORY_LABELS[project.category] || project.category}
           </span>
-        )}
+          {project.order_index !== undefined && (
+            <span style={{ background: 'rgba(0,0,0,0.7)', color: '#fff', fontSize: '0.65rem', padding: '2px 8px', borderRadius: '4px' }}>
+              الترتيب: {project.order_index}
+            </span>
+          )}
+        </div>
+
+        <div style={{ position: 'absolute', top: '8px', left: '8px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          {project.featured && (
+            <span style={{
+              background: 'rgba(0,0,0,0.7)', color: '#ff1022',
+              fontSize: '0.72rem', padding: '3px 8px', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '3px',
+            }}>
+              <Star size={10} fill="#ff1022" /> مميز
+            </span>
+          )}
+          {project.is_archived && (
+            <span style={{
+              background: '#333', color: '#ff1022',
+              fontSize: '0.72rem', padding: '3px 8px', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '3px',
+              border: '1px solid #ff1022'
+            }}>
+              مؤرشف 📁
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Body */}

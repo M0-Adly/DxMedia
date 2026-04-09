@@ -8,8 +8,18 @@ export interface Project {
   image_url?: string;
   project_url?: string;
   featured: boolean;
+  is_archived: boolean;
+  order_index: number;
   created_at: string;
   updated_at: string;
+}
+
+export interface MarketingPlan {
+  id: string;
+  title: string;
+  images: string[];
+  order_index: number;
+  created_at: string;
 }
 
 export interface Testimonial {

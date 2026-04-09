@@ -29,6 +29,8 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
   const [category, setCategory] = useState<ProjectCategory>(editProject?.category || 'images');
   const [projectUrl, setProjectUrl] = useState(editProject?.project_url || '');
   const [featured, setFeatured] = useState(editProject?.featured || false);
+  const [isArchived, setIsArchived] = useState(editProject?.is_archived || false);
+  const [orderIndex, setOrderIndex] = useState(editProject?.order_index || 0);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>(editProject?.image_url || '');
   const [mediaType, setMediaType] = useState<'image' | 'video'>((editProject?.image_url?.match(/\.(mp4|webm|mov)$/i)) ? 'video' : 'image');
@@ -91,7 +93,16 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
 
       setUploadProgress(90);
 
-      const payload = { title, description: description || null, category, project_url: projectUrl || null, featured, image_url: imageUrl || null };
+      const payload = { 
+        title, 
+        description: description || null, 
+        category, 
+        project_url: projectUrl || null, 
+        featured, 
+        is_archived: isArchived,
+        order_index: Number(orderIndex),
+        image_url: imageUrl || null 
+      };
 
       if (editProject) {
         const { data, error: dbError } = await supabase
@@ -265,6 +276,43 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
               }} />
             </div>
           )}
+
+          {/* Order and Archive */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', alignItems: 'center' }}>
+            <div>
+              <label style={{ display: 'block', fontFamily: "'Changa', sans-serif", color: '#aaa', fontSize: '0.85rem', marginBottom: '6px' }}>
+                ترتيب العرض
+              </label>
+              <input type="number" value={orderIndex} onChange={(e) => setOrderIndex(Number(e.target.value))} style={inputStyle} />
+            </div>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', marginTop: '22px' }}>
+              <div
+                onClick={() => setIsArchived(!isArchived)}
+                style={{
+                  width: '44px', height: '24px',
+                  background: isArchived ? '#666' : '#333',
+                  borderRadius: '12px',
+                  position: 'relative',
+                  transition: 'background 0.3s',
+                  cursor: 'pointer',
+                }}
+              >
+                <div style={{
+                  position: 'absolute',
+                  top: '2px',
+                  right: isArchived ? '2px' : '22px',
+                  width: '20px', height: '20px',
+                  background: '#fff',
+                  borderRadius: '50%',
+                  transition: 'right 0.3s',
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                }} />
+              </div>
+              <span style={{ fontFamily: "'Changa', sans-serif", color: isArchived ? '#ff1022' : '#aaa', fontSize: '0.9rem', fontWeight: isArchived ? 700 : 400 }}>
+                أرشفة المشروع
+              </span>
+            </label>
+          </div>
 
           {/* Featured toggle */}
           <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>

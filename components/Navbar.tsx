@@ -8,6 +8,7 @@ const navLinks = [
   { label: 'الرئيسية', href: '#home' },
   { label: 'من نحن', href: '#about' },
   { label: 'خدماتنا', href: '#services' },
+  { label: 'الخطط التسويقية', href: '#marketing-plans' },
   { label: 'أعمالنا', href: '#portfolio' },
   { label: 'آراء العملاء', href: '#testimonials' },
 ];

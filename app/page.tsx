@@ -7,7 +7,8 @@ import Testimonials from '@/components/Testimonials';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import About from '@/components/About';
-import { Project, Testimonial } from '@/lib/types';
+import MarketingPlans from '@/components/MarketingPlans';
+import { Project, Testimonial, MarketingPlan } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
@@ -45,12 +46,19 @@ export default async function HomePage() {
     .eq('is_active', true)
     .order('created_at', { ascending: false });
 
+  // Fetch marketing plans
+  const { data: marketingPlans } = await supabase
+    .from('marketing_plans')
+    .select('*')
+    .order('order_index', { ascending: true });
+
   return (
     <main>
       <Navbar />
       <Hero stats={heroStats} />
       <About text={aboutText} />
       <Services />
+      <MarketingPlans plans={(marketingPlans as MarketingPlan[]) || []} />
       <Portfolio projects={(projects as Project[]) || []} />
       <Testimonials testimonials={(testimonials as Testimonial[]) || []} />
       <Contact />

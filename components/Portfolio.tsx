@@ -6,7 +6,6 @@ import { ExternalLink } from 'lucide-react';
 import { Project } from '@/lib/types';
 
 const CATEGORY_LABELS: Record<string, string> = {
-  all: 'الكل',
   graphic: 'جرافيك',
   motion: 'موشن جرافيك',
   video: 'مونتاج فيديو',
@@ -17,7 +16,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   marketing: 'تسويق رقمي',
 };
 
-const FILTER_TABS = ['all', 'graphic', 'video', 'marketing', 'motion', 'web', 'ai', 'ads', 'data'];
+const FILTER_TABS = ['graphic', 'video', 'marketing', 'motion', 'web', 'ai', 'ads', 'data'];
 
 function PortfolioItem({ project, index }: { project: Project; index: number }) {
   const [hovered, setHovered] = useState(false);
@@ -250,7 +249,7 @@ function EmptyState() {
 }
 
 export default function Portfolio({ projects }: { projects: Project[] }) {
-  const [activeFilter, setActiveFilter] = useState('all');
+  const [activeFilter, setActiveFilter] = useState('graphic');
   const titleRef = useRef<HTMLDivElement>(null);
   const [titleVisible, setTitleVisible] = useState(false);
 
@@ -263,9 +262,9 @@ export default function Portfolio({ projects }: { projects: Project[] }) {
     return () => observer.disconnect();
   }, []);
 
-  const filtered = activeFilter === 'all'
-    ? projects
-    : projects.filter(p => p.category === activeFilter);
+  const filtered = projects
+    .filter(p => !p.is_archived && p.category === activeFilter)
+    .sort((a, b) => (a.order_index || 0) - (b.order_index || 0));
 
   return (
     <section
@@ -361,7 +360,7 @@ export default function Portfolio({ projects }: { projects: Project[] }) {
         {projects.length > 0 && (
           <div style={{ textAlign: 'center', marginTop: '3rem' }}>
             <button
-              onClick={() => setActiveFilter('all')}
+              onClick={() => setActiveFilter('graphic')}
               style={{
                 background: 'transparent',
                 color: '#ff1022',
