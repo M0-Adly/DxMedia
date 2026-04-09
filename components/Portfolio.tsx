@@ -265,18 +265,13 @@ export default function Portfolio({ projects }: { projects: Project[] }) {
   const filteredProjects = projects
     .filter(p => !p.is_archived && p.category === activeTab)
     .sort((a, b) => {
-      const valA = a.order_index ?? 0;
-      const valB = b.order_index ?? 0;
+      // 1. Sort by order_index (treating 0, null, or undefined as 999999)
+      const aOrder = (a.order_index && a.order_index > 0) ? a.order_index : 999999;
+      const bOrder = (b.order_index && b.order_index > 0) ? b.order_index : 999999;
       
-      // Treat 0 as the end of the list (mapped to a high number)
-      const effectiveA = valA === 0 ? 999999 : valA;
-      const effectiveB = valB === 0 ? 999999 : valB;
+      if (aOrder !== bOrder) return aOrder - bOrder;
       
-      if (effectiveA !== effectiveB) {
-        return effectiveA - effectiveB;
-      }
-      
-      // Secondary sort: Newest first within the same order index
+      // 2. Secondary sort: Created Date descending
       return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
     });
 
@@ -328,12 +323,24 @@ export default function Portfolio({ projects }: { projects: Project[] }) {
                 fontSize: '0.9rem',
                 fontWeight: 700,
                 cursor: 'pointer',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                boxShadow: activeTab === tab ? '0 10px 20px rgba(255,16,34,0.2)' : 'none',
-              }}
-            >
-              {CATEGORY_LABELS[tab] || tab}
-            </button>
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    boxShadow: activeTab === tab ? '0 10px 20px rgba(255,16,34,0.2)' : 'none',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (activeTab !== tab) {
+                      e.currentTarget.style.borderColor = 'rgba(255,16,34,0.5)';
+                      e.currentTarget.style.color = '#fff';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (activeTab !== tab) {
+                      e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+                      e.currentTarget.style.color = '#888';
+                    }
+                  }}
+                >
+                  {CATEGORY_LABELS[tab] || tab}
+                </button>
           ))}
         </div>
 

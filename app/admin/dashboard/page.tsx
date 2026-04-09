@@ -461,15 +461,21 @@ export default function AdminDashboard() {
                       if (adminCategory !== 'all') return p.category === adminCategory && !p.is_archived;
                       return true;
                     })
+                    .sort((a, b) => {
+                      const aO = (a.order_index && a.order_index > 0) ? a.order_index : 999999;
+                      const bO = (b.order_index && b.order_index > 0) ? b.order_index : 999999;
+                      if (aO !== bO) return aO - bO;
+                      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+                    })
                     .map(p => (
-                    <ProjectCard
-                      key={p.id}
-                      project={p}
-                      onEdit={(proj) => { setEditProject(proj); setShowUploadModal(true); }}
-                      onDelete={handleDeleteProject}
-                      onToggleFeatured={handleToggleFeatured}
-                    />
-                  ))}
+                      <ProjectCard
+                        key={p.id}
+                        project={p}
+                        onEdit={(proj) => { setEditProject(proj); setShowUploadModal(true); }}
+                        onDelete={handleDeleteProject}
+                        onToggleFeatured={handleToggleFeatured}
+                      />
+                    ))}
                 </div>
               )}
             </div>
