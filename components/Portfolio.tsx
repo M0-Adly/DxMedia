@@ -263,16 +263,32 @@ export default function Portfolio({ projects }: { projects: Project[] }) {
   }, []);
 
   const filteredProjects = projects
-    .filter(p => !p.is_archived && p.category === activeTab)
+    .filter(p => {
+      if (p.is_archived) return false;
+      
+      // Match category - handling both 'graphic' and old 'images'
+      if (activeTab === 'graphic') {
+        return p.category === 'graphic' || (p.category as string) === 'images' || !p.category;
+      }
+      return p.category === activeTab;
+    })
     .sort((a, b) => {
-      // Robust Sort: (1, 2, 3...) comes first, (0, null, undefined) comes last
-      const aO = (a.order_index && a.order_index > 0) ? Number(a.order_index) : 999999;
-      const bO = (b.order_index && b.order_index > 0) ? Number(b.order_index) : 999999;
+      // 1. Get numeric values, default to a very high number (1,000,000) for items with no order
+      const aVal = (a.order_index === undefined || a.order_index === null || Number(a.order_index) === 0) 
+        ? 1000000 
+        : Number(a.order_index);
+        
+      const bVal = (b.order_index === undefined || b.order_index === null || Number(b.order_index) === 0) 
+        ? 1000000 
+        : Number(b.order_index);
+
+      // 2. Sort by order_index ascending
+      if (aVal !== bVal) return aVal - bVal;
       
-      if (aO !== bO) return aO - bO;
-      
-      // Secondary sort: Newest projects first
-      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      // 3. Tie-breaker: Newest creation date first
+      const dateA = a.created_at ? new Date(a.created_at).getTime() : 0;
+      const dateB = b.created_at ? new Date(b.created_at).getTime() : 0;
+      return dateB - dateA;
     });
 
   return (

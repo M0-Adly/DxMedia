@@ -458,13 +458,19 @@ export default function AdminDashboard() {
                   {projects
                     .filter(p => {
                       if (adminCategory === 'archived') return p.is_archived;
-                      if (adminCategory !== 'all') return p.category === adminCategory && !p.is_archived;
+                      if (adminCategory !== 'all') {
+                        // Allow matching old 'images' to 'graphic'
+                        if (adminCategory === 'graphic') {
+                          return p.category === 'graphic' || (p.category as string) === 'images' || !p.category;
+                        }
+                        return p.category === adminCategory && !p.is_archived;
+                      }
                       return true;
                     })
                     .sort((a, b) => {
-                      const aO = (a.order_index && a.order_index > 0) ? a.order_index : 999999;
-                      const bO = (b.order_index && b.order_index > 0) ? b.order_index : 999999;
-                      if (aO !== bO) return aO - bO;
+                      const aV = (a.order_index === undefined || a.order_index === null || Number(a.order_index) === 0) ? 1000000 : Number(a.order_index);
+                      const bV = (b.order_index === undefined || b.order_index === null || Number(b.order_index) === 0) ? 1000000 : Number(b.order_index);
+                      if (aV !== bV) return aV - bV;
                       return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
                     })
                     .map(p => (
