@@ -7,7 +7,7 @@ import {
   Plus, Check, X, Eye, Trash2, ChevronDown, ChevronUp, Save,
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase';
-import { Project, Testimonial, Message } from '@/lib/types';
+import { Project, Testimonial, Message, ProjectCategory } from '@/lib/types';
 import ProjectCard from '@/components/admin/ProjectCard';
 import UploadModal from '@/components/admin/UploadModal';
 
@@ -31,6 +31,7 @@ export default function AdminDashboard() {
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [editProject, setEditProject] = useState<Project | null>(null);
   const [projectsLoading, setProjectsLoading] = useState(true);
+  const [adminCategory, setAdminCategory] = useState<ProjectCategory | 'all' | 'archived'>('all');
 
   // Messages state
   const [messages, setMessages] = useState<Message[]>([]);
@@ -398,6 +399,49 @@ export default function AdminDashboard() {
                 </button>
               </div>
 
+              {/* Category Filter */}
+              <div style={{
+                display: 'flex',
+                gap: '8px',
+                marginBottom: '1.5rem',
+                overflowX: 'auto',
+                paddingBottom: '8px',
+                scrollbarWidth: 'none',
+              }}>
+                {[
+                  { id: 'all', label: 'الكل' },
+                  { id: 'graphic', label: 'جرافيك' },
+                  { id: 'video', label: 'فيديو' },
+                  { id: 'motion', label: 'موشن' },
+                  { id: 'ads', label: 'إعلانات' },
+                  { id: 'web', label: 'مواقع' },
+                  { id: 'ai', label: 'ذكاء اصطناعي' },
+                  { id: 'data', label: 'بيانات' },
+                  { id: 'archived', label: 'الأرشيف 📁' },
+                ].map(cat => (
+                  <button
+                    key={cat.id}
+                    onClick={() => setAdminCategory(cat.id as any)}
+                    style={{
+                      background: adminCategory === cat.id ? '#ff1022' : '#111',
+                      color: adminCategory === cat.id ? '#fff' : '#666',
+                      border: '1px solid',
+                      borderColor: adminCategory === cat.id ? '#ff1022' : 'rgba(255,255,255,0.06)',
+                      borderRadius: '8px',
+                      padding: '6px 14px',
+                      fontSize: '0.825rem',
+                      fontFamily: "'Almarai', sans-serif",
+                      fontWeight: adminCategory === cat.id ? 700 : 500,
+                      cursor: 'pointer',
+                      whiteSpace: 'nowrap',
+                      transition: 'all 0.2s',
+                    }}
+                  >
+                    {cat.label}
+                  </button>
+                ))}
+              </div>
+
               {/* Projects grid */}
               {projectsLoading ? (
                 <div style={{ textAlign: 'center', padding: '3rem', color: '#555' }}>
@@ -411,7 +455,13 @@ export default function AdminDashboard() {
                 </div>
               ) : (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1rem' }}>
-                  {projects.map(p => (
+                  {projects
+                    .filter(p => {
+                      if (adminCategory === 'archived') return p.is_archived;
+                      if (adminCategory !== 'all') return p.category === adminCategory && !p.is_archived;
+                      return true;
+                    })
+                    .map(p => (
                     <ProjectCard
                       key={p.id}
                       project={p}
