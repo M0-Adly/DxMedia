@@ -265,13 +265,13 @@ export default function Portfolio({ projects }: { projects: Project[] }) {
   const filteredProjects = projects
     .filter(p => !p.is_archived && p.category === activeTab)
     .sort((a, b) => {
-      // 1. Sort by order_index (treating 0, null, or undefined as 999999)
-      const aOrder = (a.order_index && a.order_index > 0) ? a.order_index : 999999;
-      const bOrder = (b.order_index && b.order_index > 0) ? b.order_index : 999999;
+      // Robust Sort: (1, 2, 3...) comes first, (0, null, undefined) comes last
+      const aO = (a.order_index && a.order_index > 0) ? Number(a.order_index) : 999999;
+      const bO = (b.order_index && b.order_index > 0) ? Number(b.order_index) : 999999;
       
-      if (aOrder !== bOrder) return aOrder - bOrder;
+      if (aO !== bO) return aO - bO;
       
-      // 2. Secondary sort: Created Date descending
+      // Secondary sort: Newest projects first
       return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
     });
 
