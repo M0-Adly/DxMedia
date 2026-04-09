@@ -277,15 +277,8 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
             </div>
           )}
 
-          {/* Order and Archive */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', alignItems: 'center' }}>
-            <div>
-              <label style={{ display: 'block', fontFamily: "'Changa', sans-serif", color: '#aaa', fontSize: '0.85rem', marginBottom: '6px' }}>
-                ترتيب العرض
-              </label>
-              <input type="number" value={orderIndex} onChange={(e) => setOrderIndex(Number(e.target.value))} style={inputStyle} />
-            </div>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', marginTop: '22px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem', alignItems: 'center' }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', marginTop: '10px' }}>
               <div
                 onClick={() => setIsArchived(!isArchived)}
                 style={{

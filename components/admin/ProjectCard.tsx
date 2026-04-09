@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { Pencil, Trash2, ExternalLink, Star } from 'lucide-react';
+import { Pencil, Trash2, ExternalLink, Star, ChevronUp, ChevronDown } from 'lucide-react';
 import { Project } from '@/lib/types';
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -19,9 +19,10 @@ interface ProjectCardProps {
   onEdit: (p: Project) => void;
   onDelete: (id: string) => void;
   onToggleFeatured: (id: string, featured: boolean) => void;
+  onMove?: (id: string, direction: 'up' | 'down') => void;
 }
 
-export default function ProjectCard({ project, onEdit, onDelete, onToggleFeatured }: ProjectCardProps) {
+export default function ProjectCard({ project, onEdit, onDelete, onToggleFeatured, onMove }: ProjectCardProps) {
   return (
     <div style={{
       background: '#1a1a1a',
@@ -58,7 +59,7 @@ export default function ProjectCard({ project, onEdit, onDelete, onToggleFeature
           }}>
             {CATEGORY_LABELS[project.category] || project.category}
           </span>
-          {project.order_index !== undefined && (
+          {project.order_index !== undefined && project.order_index > 0 && project.order_index < 1000000 && (
             <span style={{ background: 'rgba(0,0,0,0.7)', color: '#fff', fontSize: '0.65rem', padding: '2px 8px', borderRadius: '4px' }}>
               الترتيب: {project.order_index}
             </span>
@@ -105,60 +106,42 @@ export default function ProjectCard({ project, onEdit, onDelete, onToggleFeature
       </div>
 
       {/* Actions */}
-      <div style={{
-        padding: '0.75rem 1rem',
-        borderTop: '1px solid rgba(255,255,255,0.06)',
-        display: 'flex',
-        gap: '0.5rem',
-        alignItems: 'center',
-      }}>
-        {/* Featured toggle */}
-        <button
-          onClick={() => onToggleFeatured(project.id, !project.featured)}
-          title={project.featured ? 'إلغاء التمييز' : 'تمييز المشروع'}
-          style={{
-            background: project.featured ? 'rgba(255,16,34,0.1)' : 'rgba(255,255,255,0.05)',
-            border: `1px solid ${project.featured ? 'rgba(255,16,34,0.3)' : 'rgba(255,255,255,0.08)'}`,
-            borderRadius: '8px', padding: '6px 12px', cursor: 'pointer',
-            color: project.featured ? '#ff1022' : '#666',
-            display: 'flex', alignItems: 'center', gap: '4px',
-            fontFamily: "'Changa', sans-serif", fontSize: '0.78rem', transition: 'all 0.3s',
-          }}
-        >
-          <Star size={13} fill={project.featured ? '#ff1022' : 'none'} />
-        </button>
+      <div style={{ padding: '0.75rem 1rem', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(0,0,0,0.2)' }}>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <button
+            onClick={() => onMove?.(project.id, 'up')}
+            title="تحريك للأعلى"
+            style={{ padding: '6px', background: '#222', color: '#888', border: '1px solid #333', borderRadius: '6px', cursor: 'pointer', display: 'flex' }}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#fff'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#888'}
+          >
+            <ChevronUp size={16} />
+          </button>
+          <button
+            onClick={() => onMove?.(project.id, 'down')}
+            title="تحريك للأسفل"
+            style={{ padding: '6px', background: '#222', color: '#888', border: '1px solid #333', borderRadius: '6px', cursor: 'pointer', display: 'flex' }}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#fff'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#888'}
+          >
+            <ChevronDown size={16} />
+          </button>
+        </div>
 
-        <div style={{ flex: 1 }} />
-
-        <button
-          onClick={() => onEdit(project)}
-          style={{
-            background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)',
-            borderRadius: '8px', padding: '6px 14px', cursor: 'pointer', color: '#aaa',
-            display: 'flex', alignItems: 'center', gap: '4px',
-            fontFamily: "'Changa', sans-serif", fontSize: '0.8rem', transition: 'all 0.3s',
-          }}
-          onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#4d9cf8'; e.currentTarget.style.color = '#4d9cf8'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#aaa'; }}
-        >
-          <Pencil size={13} /> تعديل
-        </button>
-
-        <button
-          onClick={() => {
-            if (window.confirm(`هل أنت متأكد من حذف "${project.title}"؟`)) onDelete(project.id);
-          }}
-          style={{
-            background: 'rgba(255,16,34,0.08)', border: '1px solid rgba(255,16,34,0.15)',
-            borderRadius: '8px', padding: '6px 14px', cursor: 'pointer', color: '#ff1022',
-            display: 'flex', alignItems: 'center', gap: '4px',
-            fontFamily: "'Changa', sans-serif", fontSize: '0.8rem', transition: 'all 0.3s',
-          }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,16,34,0.2)'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,16,34,0.08)'; }}
-        >
-          <Trash2 size={13} /> حذف
-        </button>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <button onClick={() => onToggleFeatured(project.id, !project.featured)}
+            style={{ color: project.featured ? '#ff1022' : '#555', background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}>
+            <Star size={18} fill={project.featured ? '#ff1022' : 'none'} />
+          </button>
+          <button onClick={() => onEdit(project)}
+            style={{ color: '#888', background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}>
+            <Pencil size={18} />
+          </button>
+          <button onClick={() => { if(confirm('حذف؟')) onDelete(project.id)}}
+            style={{ color: '#ff1022', background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}>
+            <Trash2 size={18} />
+          </button>
+        </div>
       </div>
     </div>
   );

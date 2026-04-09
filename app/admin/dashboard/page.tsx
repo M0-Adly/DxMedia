@@ -132,6 +132,49 @@ export default function AdminDashboard() {
     setProjects(prev => prev.map(p => p.id === id ? { ...p, featured } : p));
   };
 
+  const handleMoveProject = async (id: string, direction: 'up' | 'down') => {
+    // 1. Get visible projects for the same logic as display
+    const visibleProjects = projects
+      .filter(p => {
+        if (adminCategory === 'archived') return p.is_archived;
+        if (adminCategory !== 'all') {
+          if (adminCategory === 'graphic') return p.category === 'graphic' || (p.category as string) === 'images' || !p.category;
+          return p.category === adminCategory && !p.is_archived;
+        }
+        return true;
+      })
+      .sort((a, b) => {
+        const aV = (a.order_index === undefined || a.order_index === null || Number(a.order_index) === 0) ? 1000000 : Number(a.order_index);
+        const bV = (b.order_index === undefined || b.order_index === null || Number(b.order_index) === 0) ? 1000000 : Number(b.order_index);
+        if (aV !== bV) return aV - bV;
+        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      });
+
+    const currentIndex = visibleProjects.findIndex(p => p.id === id);
+    if (currentIndex === -1) return;
+
+    const targetIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
+    if (targetIndex < 0 || targetIndex >= visibleProjects.length) return;
+
+    const newItems = [...visibleProjects];
+    const [movedItem] = newItems.splice(currentIndex, 1);
+    newItems.splice(targetIndex, 0, movedItem);
+
+    // Dynamic update with sequential order
+    const updatedWithOrder = newItems.map((p, idx) => ({ ...p, order_index: idx + 1 }));
+
+    // Optimistically update all projects in local state
+    setProjects(prev => prev.map(p => {
+      const updated = updatedWithOrder.find(u => u.id === p.id);
+      return updated || p;
+    }));
+
+    // Update DB
+    for (let i = 0; i < updatedWithOrder.length; i++) {
+      await supabase.from('projects').update({ order_index: i + 1 }).eq('id', updatedWithOrder[i].id);
+    }
+  };
+
   const handleMarkRead = async (id: string) => {
     await supabase.from('messages').update({ is_read: true }).eq('id', id);
     setMessages(prev => prev.map(m => m.id === id ? { ...m, is_read: true } : m));
@@ -480,6 +523,7 @@ export default function AdminDashboard() {
                         onEdit={(proj) => { setEditProject(proj); setShowUploadModal(true); }}
                         onDelete={handleDeleteProject}
                         onToggleFeatured={handleToggleFeatured}
+                        onMove={handleMoveProject}
                       />
                     ))}
                 </div>
