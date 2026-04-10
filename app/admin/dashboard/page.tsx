@@ -11,11 +11,10 @@ import { Project, Testimonial, Message, ProjectCategory } from '@/lib/types';
 import ProjectCard from '@/components/admin/ProjectCard';
 import UploadModal from '@/components/admin/UploadModal';
 
-type Tab = 'projects' | 'messages' | 'testimonials' | 'settings' | 'marketing';
+type Tab = 'projects' | 'messages' | 'testimonials' | 'settings';
 
 const SIDEBAR_ITEMS: { id: Tab; label: string; icon: React.ReactNode }[] = [
   { id: 'projects', label: 'المشاريع', icon: <FolderOpen size={18} /> },
-  { id: 'marketing', label: 'الخطط التسويقية', icon: <Star size={18} /> },
   { id: 'messages', label: 'الرسائل', icon: <MessageSquare size={18} /> },
   { id: 'testimonials', label: 'آراء وصور العملاء', icon: <Star size={18} /> },
   { id: 'settings', label: 'الإعدادات', icon: <Settings size={18} /> },
@@ -46,12 +45,6 @@ export default function AdminDashboard() {
   const [testimonialPreview, setTestimonialPreview] = useState<string>('');
   const [addingTestimonial, setAddingTestimonial] = useState(false);
 
-  // Marketing Plans state
-  const [marketingPlans, setMarketingPlans] = useState<any[]>([]);
-  const [marketingLoading, setMarketingLoading] = useState(true);
-  const [newMarketingPlan, setNewMarketingPlan] = useState({ title: '', order_index: 0 });
-  const [marketingFiles, setMarketingFiles] = useState<File[]>([]);
-  const [addingMarketing, setAddingMarketing] = useState(false);
 
   // Settings state
   const [heroStats, setHeroStats] = useState({ clients: '150', projects: '420', years: '6' });
@@ -82,12 +75,6 @@ export default function AdminDashboard() {
     setTestimonialsLoading(false);
   }, []);
 
-  const fetchMarketingPlans = useCallback(async () => {
-    setMarketingLoading(true);
-    const { data } = await supabase.from('marketing_plans').select('*').order('order_index', { ascending: true });
-    setMarketingPlans(data || []);
-    setMarketingLoading(false);
-  }, []);
 
   const fetchSettings = useCallback(async () => {
     const { data } = await supabase.from('settings').select('key, value');
@@ -107,9 +94,8 @@ export default function AdminDashboard() {
     fetchProjects();
     fetchMessages();
     fetchTestimonials();
-    fetchMarketingPlans();
     fetchSettings();
-  }, [fetchProjects, fetchMessages, fetchTestimonials, fetchMarketingPlans, fetchSettings]);
+  }, [fetchProjects, fetchMessages, fetchTestimonials, fetchSettings]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -231,43 +217,6 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleAddMarketingPlan = async () => {
-    if (!newMarketingPlan.title) return;
-    setAddingMarketing(true);
-    try {
-      const imageUrls: string[] = [];
-      for (const file of marketingFiles) {
-        const ext = file.name.split('.').pop();
-        const fileName = `marketing/${crypto.randomUUID()}.${ext}`;
-        const { error: uploadError } = await supabase.storage.from('projects').upload(fileName, file);
-        if (uploadError) throw uploadError;
-        const { data: urlData } = supabase.storage.from('projects').getPublicUrl(fileName);
-        imageUrls.push(urlData.publicUrl);
-      }
-
-      const payload = {
-        ...newMarketingPlan,
-        images: imageUrls,
-      };
-
-      const { data, error } = await supabase.from('marketing_plans').insert([payload]).select().single();
-      if (error) throw error;
-      if (data) setMarketingPlans(prev => [...prev, data]);
-      setNewMarketingPlan({ title: '', order_index: 0 });
-      setMarketingFiles([]);
-    } catch (err) {
-      console.error(err);
-      alert('حدث خطأ أثناء إضافة الخطة');
-    } finally {
-      setAddingMarketing(false);
-    }
-  };
-
-  const handleDeleteMarketingPlan = async (id: string) => {
-    if (!window.confirm('حذف هذه الخطة؟')) return;
-    await supabase.from('marketing_plans').delete().eq('id', id);
-    setMarketingPlans(prev => prev.filter(p => p.id !== id));
-  };
 
   const handleSaveSettings = async () => {
     setSettingsLoading(true);
@@ -779,117 +728,6 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* ── MARKETING TABS ── */}
-          {activeTab === 'marketing' && (
-            <div>
-              {/* Add new marketing plan */}
-              <div style={{
-                background: '#0a0a0a', border: '1px solid rgba(255,255,255,0.06)',
-                borderRadius: '14px', padding: '1.5rem', marginBottom: '1.5rem',
-              }}>
-                <h3 style={{ fontFamily: "'Almarai', sans-serif", color: '#ffffff', fontWeight: 700, marginBottom: '1.25rem', fontSize: '1rem' }}>
-                  إضافة خطة تسويقية جديدة
-                </h3>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
-                  <input
-                    placeholder="عنوان الخطة التسويقية *"
-                    value={newMarketingPlan.title}
-                    onChange={(e) => setNewMarketingPlan(prev => ({ ...prev, title: e.target.value }))}
-                    style={inputStyle}
-                  />
-                  <input
-                    type="number"
-                    placeholder="الترتيب"
-                    value={newMarketingPlan.order_index}
-                    onChange={(e) => setNewMarketingPlan(prev => ({ ...prev, order_index: Number(e.target.value) }))}
-                    style={inputStyle}
-                  />
-                </div>
-                
-                <div style={{ marginBottom: '1rem' }}>
-                  <div style={{ 
-                    border: '1px dashed rgba(255,255,255,0.1)', borderRadius: '10px', padding: '15px',
-                    display: 'flex', flexDirection: 'column', gap: '12px', background: 'rgba(255,255,255,0.02)'
-                  }}>
-                    <input 
-                      type="file" 
-                      id="mkt-imgs" 
-                      multiple
-                      hidden 
-                      accept="image/*"
-                      onChange={(e) => {
-                        const files = Array.from(e.target.files || []);
-                        setMarketingFiles(prev => [...prev, ...files]);
-                      }}
-                    />
-                    <label htmlFor="mkt-imgs" style={{ 
-                      alignSelf: 'center',
-                      background: '#222', padding: '10px 20px', borderRadius: '8px', color: '#eee',
-                      fontSize: '0.9rem', cursor: 'pointer', border: '1px solid #333'
-                    }}>
-                      اختر صور الخطة (يمكن اختيار أكثر من صورة)
-                    </label>
-                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
-                      {marketingFiles.map((f, i) => (
-                        <div key={i} style={{ position: 'relative' }}>
-                          <img src={URL.createObjectURL(f)} style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #ff1022' }} />
-                          <button onClick={() => setMarketingFiles(prev => prev.filter((_, idx) => idx !== i))} style={{ position: 'absolute', top: '-5px', right: '-5px', background: '#ff1022', color: '#fff', border: 'none', borderRadius: '50%', width: '18px', height: '18px', fontSize: '10px', cursor: 'pointer' }}>×</button>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <button
-                    onClick={handleAddMarketingPlan}
-                    disabled={addingMarketing}
-                    style={{
-                      background: '#ff1022', color: '#fff', border: 'none', borderRadius: '8px',
-                      padding: '10px 24px', fontFamily: "'Almarai', sans-serif", fontWeight: 700, fontSize: '0.9rem',
-                      cursor: addingMarketing ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', gap: '8px',
-                    }}
-                  >
-                    {addingMarketing ? 'جاري الحفظ...' : <><Plus size={18} /> حفظ الخطة</>}
-                  </button>
-                </div>
-              </div>
-
-              {/* Marketing plans list */}
-              {marketingLoading ? (
-                <div style={{ textAlign: 'center', padding: '3rem', color: '#555' }}>
-                  <div style={{ width: '40px', height: '40px', border: '3px solid #333', borderTopColor: '#ff1022', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto' }} />
-                </div>
-              ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                  {marketingPlans.map(plan => (
-                    <div key={plan.id} style={{
-                      background: '#0a0a0a', border: '1px solid rgba(255,255,255,0.06)',
-                      borderRadius: '12px', padding: '1.25rem',
-                    }}>
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                        <div>
-                          <h4 style={{ fontFamily: "'Almarai', sans-serif", fontWeight: 700, color: '#ffffff', fontSize: '1.1rem', margin: 0 }}>{plan.title}</h4>
-                          <span style={{ color: '#555', fontSize: '0.8rem' }}>الترتيب: {plan.order_index} | {plan.images?.length || 0} صور</span>
-                        </div>
-                        <button onClick={() => handleDeleteMarketingPlan(plan.id)} style={{
-                          background: 'rgba(255,16,34,0.08)', border: '1px solid rgba(255,16,34,0.15)',
-                          borderRadius: '8px', padding: '8px 12px', color: '#ff1022', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem'
-                        }}>
-                          <Trash2 size={14} /> حذف
-                        </button>
-                      </div>
-                      <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '8px' }}>
-                        {plan.images?.map((img: string, i: number) => (
-                          <img key={i} src={img} style={{ height: '80px', borderRadius: '8px', border: '1px solid #1a1a1a' }} alt="" />
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
 
           {/* ── SETTINGS TAB ── */}
           {activeTab === 'settings' && (

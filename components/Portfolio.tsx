@@ -187,7 +187,7 @@ function PortfolioItem({ project, index }: { project: Project; index: number }) 
       }}>
         <h3 style={{
           fontFamily: "'Changa', sans-serif",
-          fontSize: '1.15rem',
+          fontSize: 'clamp(0.85rem, 4vw, 1.15rem)',
           fontWeight: 800,
           color: hovered ? '#ff1022' : '#fff',
           margin: 0,
@@ -196,16 +196,15 @@ function PortfolioItem({ project, index }: { project: Project; index: number }) 
         }}>
           {project.title}
         </h3>
-        
         {project.description && (
           <p style={{
             fontFamily: "'Changa', sans-serif",
-            fontSize: '0.85rem',
+            fontSize: 'clamp(0.65rem, 3.5vw, 0.85rem)',
             color: '#888',
             margin: 0,
-            lineHeight: 1.6,
+            lineHeight: 1.4,
             display: '-webkit-box',
-            WebkitLineClamp: 3,
+            WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical',
             overflow: 'hidden',
           }}>
@@ -366,11 +365,7 @@ export default function Portfolio({ projects }: { projects: Project[] }) {
             <p>لا توجد أعمال في هذا القسم حالياً</p>
           </div>
         ) : (
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-            gap: '2rem',
-          }}>
+          <div className="grid-responsive">
             {filteredProjects.map((project, idx) => (
               <PortfolioItem key={project.id} project={project} index={idx} />
             ))}

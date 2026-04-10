@@ -171,6 +171,18 @@ body {
     transform: translateY(0);
   }
 
+  .grid-responsive {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  @media (min-width: 768px) {
+    .grid-responsive {
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+  }
+
   /* Scrollbar */
   ::-webkit-scrollbar {
     width: 6px;

@@ -69,7 +69,7 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
         border: hovered ? '1px solid rgba(255,16,34,0.35)' : '1px solid rgba(255,255,255,0.06)',
         borderBottom: hovered ? '3px solid #ff1022' : '1px solid rgba(255,255,255,0.06)',
         borderRadius: '12px',
-        padding: '1.75rem',
+        padding: 'clamp(1rem, 4vw, 1.75rem)',
         cursor: 'pointer',
         transition: 'all 0.35s ease',
         transform: visible ? `translateY(0)` : 'translateY(30px)',
@@ -77,7 +77,7 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
         transitionDelay: `${index * 0.08}s`,
         display: 'flex',
         flexDirection: 'column',
-        gap: '1rem',
+        gap: '0.75rem',
       }}
     >
       {/* Icon box */}
@@ -101,10 +101,11 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
       <h3
         style={{
           fontFamily: "'Changa', sans-serif",
-          fontSize: '1.1rem',
+          fontSize: 'clamp(0.9rem, 4.5vw, 1.1rem)',
           fontWeight: 800,
           color: '#ffffff',
           textAlign: 'right',
+          margin: 0,
         }}
       >
         {service.title}
@@ -113,31 +114,15 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
       <p
         style={{
           fontFamily: "'Changa', sans-serif",
-          fontSize: '0.9rem',
+          fontSize: 'clamp(0.7rem, 3.5vw, 0.9rem)',
           color: '#777',
-          lineHeight: 1.7,
+          lineHeight: 1.5,
           flex: 1,
+          margin: 0,
         }}
       >
         {service.desc}
       </p>
-
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '6px',
-          color: '#ff1022',
-          fontFamily: "'Changa', sans-serif",
-          fontSize: '0.875rem',
-          fontWeight: 700,
-          marginTop: 'auto',
-          transition: 'gap 0.3s ease',
-        }}
-      >
-        <span>اعرف المزيد</span>
-        <span style={{ transform: hovered ? 'translateX(-4px)' : 'translateX(0)', transition: 'transform 0.3s' }}>←</span>
-      </div>
     </div>
   );
 }
@@ -217,13 +202,7 @@ export default function Services() {
         </div>
 
         {/* Grid */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-            gap: '1.25rem',
-          }}
-        >
+        <div className="grid-responsive">
           {services.map((s, i) => (
             <ServiceCard key={i} service={s} index={i} />
           ))}
