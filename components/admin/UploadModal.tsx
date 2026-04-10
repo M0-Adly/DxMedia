@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import Image from 'next/image';
-import { X, Upload, Star, Loader2 } from 'lucide-react';
+import { X, Upload, Star, Loader2, File as FileIcon } from 'lucide-react';
 import { createClient } from '@/lib/supabase';
 import { Project, ProjectCategory } from '@/lib/types';
 
@@ -33,7 +33,10 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
   const [orderIndex, setOrderIndex] = useState(editProject?.order_index || 0);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>(editProject?.image_url || '');
-  const [mediaType, setMediaType] = useState<'image' | 'video'>((editProject?.image_url?.match(/\.(mp4|webm|mov)$/i)) ? 'video' : 'image');
+  const [mediaType, setMediaType] = useState<'image' | 'video' | 'file'>(
+    (editProject?.image_url?.match(/\.(mp4|webm|mov)$/i)) ? 'video' : 
+    (editProject?.image_url?.match(/\.(jpg|jpeg|png|webp|gif|svg)$/i)) ? 'image' : 'file'
+  );
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [error, setError] = useState('');
@@ -41,18 +44,20 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
   const dragRef = useRef<HTMLDivElement>(null);
 
   const handleFileSelect = (file: File) => {
-    if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) return setError('يرجى اختيار ملف صورة أو فيديو صالح');
     setImageFile(file);
     setError('');
     
     if (file.type.startsWith('video/')) {
       setMediaType('video');
       setImagePreview(URL.createObjectURL(file));
-    } else {
+    } else if (file.type.startsWith('image/')) {
       setMediaType('image');
       const reader = new FileReader();
       reader.onload = (e) => setImagePreview(e.target?.result as string);
       reader.readAsDataURL(file);
+    } else {
+      setMediaType('file');
+      setImagePreview(file.name); // Using name as preview indicator
     }
   };
 
@@ -65,7 +70,6 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
   const handleSave = async () => {
     if (!title) return setError('اسم المشروع مطلوب');
     if (!category) return setError('التصنيف مطلوب');
-    if (!imageFile && !editProject?.image_url) return setError('صورة المشروع مطلوبة');
 
     setUploading(true);
     setError('');
@@ -207,7 +211,7 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
           {/* Image Upload */}
           <div>
             <label style={{ display: 'block', fontFamily: "'Changa', sans-serif", color: '#aaa', fontSize: '0.85rem', marginBottom: '6px' }}>
-              صورة أو فيديو المشروع *
+              ملف المشروع (صورة، فيديو، أو أي ملف آخر)
             </label>
             <div
               ref={dragRef}
@@ -238,8 +242,13 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
                 <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', borderRadius: '8px', overflow: 'hidden', background: '#000' }}>
                   {mediaType === 'video' ? (
                     <video src={imagePreview} autoPlay muted loop style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  ) : (
+                  ) : mediaType === 'image' ? (
                     <Image src={imagePreview} alt="Preview" fill style={{ objectFit: 'cover' }} />
+                  ) : (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#ff1022' }}>
+                      <FileIcon size={48} />
+                      <span style={{ fontSize: '0.8rem', marginTop: '10px', color: '#aaa', padding: '0 20px', textAlign: 'center' }}>{imagePreview}</span>
+                    </div>
                   )}
                   <div style={{
                     position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)',
@@ -260,7 +269,7 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
                 </>
               )}
             </div>
-            <input ref={fileInputRef} type="file" accept="image/*,video/mp4,video/webm,video/quicktime" style={{ display: 'none' }}
+            <input ref={fileInputRef} type="file" style={{ display: 'none' }}
               onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFileSelect(f); }} />
           </div>
 

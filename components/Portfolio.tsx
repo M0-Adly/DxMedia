@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, File as FileIcon } from 'lucide-react';
 import { Project } from '@/lib/types';
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -83,7 +83,7 @@ function PortfolioItem({ project, index }: { project: Project; index: number }) 
                 transition: 'transform 0.4s ease',
               }}
             />
-          ) : (
+          ) : project.image_url.match(/\.(jpg|jpeg|png|webp|gif|svg)$/i) ? (
             <Image
               src={project.image_url}
               alt={project.title}
@@ -95,6 +95,11 @@ function PortfolioItem({ project, index }: { project: Project; index: number }) 
               }}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
+          ) : (
+            <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#ff1022', background: '#0a0a0a' }}>
+              <FileIcon size={48} />
+              <span style={{ fontSize: '0.7rem', color: '#555', marginTop: '10px', fontFamily: "'Changa', sans-serif" }}>ملف مشروع</span>
+            </div>
           )
         ) : (
           <div style={{
@@ -104,8 +109,9 @@ function PortfolioItem({ project, index }: { project: Project; index: number }) 
             alignItems: 'center',
             justifyContent: 'center',
             color: '#333',
+            background: '#0a0a0a'
           }}>
-            🎨
+            <FileIcon size={40} opacity={0.2} />
           </div>
         )}
 
@@ -124,15 +130,15 @@ function PortfolioItem({ project, index }: { project: Project; index: number }) 
           }}>
             <div style={{
               background: '#ff1022',
-              width: '44px',
-              height: '44px',
+              width: '52px',
+              height: '52px',
               borderRadius: '50%',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               boxShadow: '0 8px 16px rgba(255,16,34,0.4)',
             }}>
-              <ExternalLink size={20} color="#fff" />
+              <ExternalLink size={32} color="#fff" />
             </div>
           </div>
         )}
@@ -172,7 +178,7 @@ function PortfolioItem({ project, index }: { project: Project; index: number }) 
       }}>
         <h3 style={{
           fontFamily: "'Changa', sans-serif",
-          fontSize: 'clamp(0.65rem, 3.5vw, 1.15rem)',
+          fontSize: 'clamp(0.5rem, 2.8vw, 1.1rem)',
           fontWeight: 800,
           color: hovered ? '#ff1022' : '#fff',
           margin: 0,

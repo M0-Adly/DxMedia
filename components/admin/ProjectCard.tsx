@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { Pencil, Trash2, ExternalLink, Star, ChevronUp, ChevronDown } from 'lucide-react';
+import { Pencil, Trash2, ExternalLink, Star, ChevronUp, ChevronDown, File as FileIcon } from 'lucide-react';
 import { Project } from '@/lib/types';
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -41,12 +41,17 @@ export default function ProjectCard({ project, onEdit, onDelete, onToggleFeature
         {project.image_url ? (
           project.image_url.match(/\.(mp4|webm|mov)$/i) ? (
             <video src={project.image_url} autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }} />
-          ) : (
+          ) : project.image_url.match(/\.(jpg|jpeg|png|webp|gif|svg)$/i) ? (
             <Image src={project.image_url} alt={project.title} fill style={{ objectFit: 'cover' }} sizes="400px" />
+          ) : (
+            <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#ff1022' }}>
+              <FileIcon size={40} />
+              <span style={{ fontSize: '0.6rem', color: '#555', marginTop: '4px' }}>ملف</span>
+            </div>
           )
         ) : (
           <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontSize: '2rem', opacity: 0.3 }}>🖼️</span>
+            <span style={{ fontSize: '2rem', opacity: 0.3 }}>📁</span>
           </div>
         )}
         
