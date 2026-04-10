@@ -178,36 +178,39 @@ function PortfolioItem({ project, index }: { project: Project; index: number }) 
 
       {/* Content Section */}
       <div style={{
-        padding: '1.25rem',
+        padding: 'clamp(0.5rem, 2vw, 1.25rem)',
         display: 'flex',
         flexDirection: 'column',
-        gap: '0.6rem',
+        gap: '0.4rem',
         flexGrow: 1,
-        textAlign: 'right', // Support RTL
+        textAlign: 'center', // Support RTL
       }}>
         <h3 style={{
           fontFamily: "'Changa', sans-serif",
-          fontSize: 'clamp(0.85rem, 4vw, 1.15rem)',
+          fontSize: 'clamp(0.65rem, 3.5vw, 1.15rem)',
           fontWeight: 800,
           color: hovered ? '#ff1022' : '#fff',
           margin: 0,
           transition: 'color 0.3s ease',
-          lineHeight: 1.3,
+          lineHeight: 1.2,
         }}>
           {project.title}
         </h3>
         {project.description && (
-          <p style={{
-            fontFamily: "'Changa', sans-serif",
-            fontSize: 'clamp(0.65rem, 3.5vw, 0.85rem)',
-            color: '#888',
-            margin: 0,
-            lineHeight: 1.4,
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical',
-            overflow: 'hidden',
-          }}>
+          <p 
+            className="hidden-mobile"
+            style={{
+              fontFamily: "'Changa', sans-serif",
+              fontSize: 'clamp(0.65rem, 3.5vw, 0.85rem)',
+              color: '#888',
+              margin: 0,
+              lineHeight: 1.4,
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+            }}
+          >
             {project.description}
           </p>
         )}

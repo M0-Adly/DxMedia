@@ -62,7 +62,6 @@ export default function Footer() {
               {[
                 { icon: '📘', href: 'https://www.facebook.com/share/1J15UQLn6B/', color: '#1877F2', bgColor: 'rgba(24,119,242,0.1)' },
                 { icon: '💬', href: 'https://wa.me/201092157086', color: '#25D366', bgColor: 'rgba(37,211,102,0.1)' },
-                { icon: '💬', href: 'https://wa.me/201070425411', color: '#25D366', bgColor: 'rgba(37,211,102,0.1)' },
               ].map((social, i) => (
                 <a
                   key={i}

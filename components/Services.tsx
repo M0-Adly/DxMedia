@@ -69,7 +69,7 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
         border: hovered ? '1px solid rgba(255,16,34,0.35)' : '1px solid rgba(255,255,255,0.06)',
         borderBottom: hovered ? '3px solid #ff1022' : '1px solid rgba(255,255,255,0.06)',
         borderRadius: '12px',
-        padding: 'clamp(1rem, 4vw, 1.75rem)',
+        padding: 'clamp(0.5rem, 2vw, 1.75rem)',
         cursor: 'pointer',
         transition: 'all 0.35s ease',
         transform: visible ? `translateY(0)` : 'translateY(30px)',
@@ -77,22 +77,23 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
         transitionDelay: `${index * 0.08}s`,
         display: 'flex',
         flexDirection: 'column',
-        gap: '0.75rem',
+        gap: '0.4rem',
       }}
     >
       {/* Icon box */}
       <div
         style={{
-          width: '52px',
-          height: '52px',
+          width: 'clamp(28px, 8vw, 52px)',
+          height: 'clamp(28px, 8vw, 52px)',
           background: hovered ? 'rgba(255,16,34,0.2)' : 'rgba(255,16,34,0.1)',
           border: '1px solid rgba(255,16,34,0.25)',
-          borderRadius: '10px',
+          borderRadius: '6px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: '1.5rem',
+          fontSize: 'clamp(0.9rem, 4vw, 1.5rem)',
           transition: 'all 0.3s ease',
+          margin: '0 auto',
         }}
       >
         {service.icon}
@@ -101,10 +102,10 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
       <h3
         style={{
           fontFamily: "'Changa', sans-serif",
-          fontSize: 'clamp(0.9rem, 4.5vw, 1.1rem)',
+          fontSize: 'clamp(0.65rem, 3.5vw, 1.1rem)',
           fontWeight: 800,
           color: '#ffffff',
-          textAlign: 'right',
+          textAlign: 'center',
           margin: 0,
         }}
       >
@@ -112,6 +113,7 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
       </h3>
 
       <p
+        className="hidden-mobile"
         style={{
           fontFamily: "'Changa', sans-serif",
           fontSize: 'clamp(0.7rem, 3.5vw, 0.9rem)',
