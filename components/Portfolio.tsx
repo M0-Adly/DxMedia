@@ -60,13 +60,15 @@ function PortfolioItem({ project, index }: { project: Project; index: number }) 
       }}
     >
       {/* Media Section */}
-      <div style={{
-        position: 'relative',
-        width: '100%',
-        aspectRatio: '16 / 10',
-        overflow: 'hidden',
-        background: '#151515',
-      }}>
+      <div 
+        className="project-media"
+        style={{
+          position: 'relative',
+          width: '100%',
+          overflow: 'hidden',
+          background: '#151515',
+        }}
+      >
         {project.image_url ? (
           isVideo ? (
             <video
@@ -97,8 +99,15 @@ function PortfolioItem({ project, index }: { project: Project; index: number }) 
             />
           ) : (
             <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#ff1022', background: '#0a0a0a' }}>
-              <FileIcon size={48} />
-              <span style={{ fontSize: '0.7rem', color: '#555', marginTop: '10px', fontFamily: "'Changa', sans-serif" }}>ملف مشروع</span>
+              <div style={{ 
+                width: '64px', height: '64px', borderRadius: '12px', background: 'rgba(255,16,34,0.1)', 
+                display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '10px' 
+              }}>
+                <FileIcon size={32} />
+              </div>
+              <span style={{ fontSize: '0.65rem', color: '#888', fontFamily: "'Changa', sans-serif", textTransform: 'uppercase', letterSpacing: '1px' }}>
+                {project.image_url.split('.').pop() || 'ملف'}
+              </span>
             </div>
           )
         ) : (
@@ -176,15 +185,17 @@ function PortfolioItem({ project, index }: { project: Project; index: number }) 
         flexGrow: 1,
         textAlign: 'center', // Support RTL
       }}>
-        <h3 style={{
-          fontFamily: "'Changa', sans-serif",
-          fontSize: 'clamp(0.5rem, 2.8vw, 1.1rem)',
-          fontWeight: 800,
-          color: hovered ? '#ff1022' : '#fff',
-          margin: 0,
-          transition: 'color 0.3s ease',
-          lineHeight: 1.2,
-        }}>
+        <h3 
+          className="project-title"
+          style={{
+            fontFamily: "'Changa', sans-serif",
+            fontWeight: 800,
+            color: hovered ? '#ff1022' : '#fff',
+            margin: 0,
+            transition: 'color 0.3s ease',
+            lineHeight: 1.2,
+          }}
+        >
           {project.title}
         </h3>
         {project.description && (

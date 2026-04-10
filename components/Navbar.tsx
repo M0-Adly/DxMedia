@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 
 const navLinks = [
@@ -80,9 +81,14 @@ export default function Navbar() {
       >
         <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '72px' }}>
           {/* Logo */}
-          <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '2px' }}>
-            <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2rem', color: '#fff', letterSpacing: '1px' }}>Dx</span>
-            <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2rem', color: '#ff1022', letterSpacing: '1px' }}>Media</span>
+          <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div className="branding-logo" style={{ position: 'relative', width: '48px', height: '48px' }}>
+              <Image src="/logo.png" alt="Dx Media Logo" fill style={{ objectFit: 'contain' }} />
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <span className="branding-text" style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2rem', color: '#fff', letterSpacing: '1px' }}>Dx</span>
+              <span className="branding-text" style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2rem', color: '#ff1022', letterSpacing: '1px' }}>Media</span>
+            </div>
           </Link>
 
           {/* Desktop Nav */}
@@ -194,9 +200,14 @@ export default function Navbar() {
         >
           <X size={28} />
         </button>
-        <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
-          <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2.5rem', color: '#fff' }}>Dx</span>
-          <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2.5rem', color: '#ff1022' }}>Media</span>
+        <div style={{ marginBottom: '2rem', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
+          <div style={{ position: 'relative', width: '90px', height: '90px' }}>
+            <Image src="/logo.png" alt="Dx Media Logo" fill style={{ objectFit: 'contain' }} />
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2.2rem', color: '#fff' }}>Dx</span>
+            <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2.2rem', color: '#ff1022' }}>Media</span>
+          </div>
         </div>
         {navLinks.map((link, i) => (
           <button

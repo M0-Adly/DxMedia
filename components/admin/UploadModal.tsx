@@ -165,6 +165,15 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          {/* Information Notice */}
+          <div style={{ background: 'rgba(255,16,34,0.05)', border: '1px solid rgba(255,16,34,0.15)', borderRadius: '10px', padding: '12px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{ background: '#ff1022', width: '32px', height: '32px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Upload size={16} color="#fff" />
+            </div>
+            <p style={{ fontFamily: "'Changa', sans-serif", fontSize: '0.8rem', color: '#ccc', margin: 0 }}>
+              يمكنك الآن رفع <b>صور</b>، <b>فيديوهات</b> (MP4)، أو <b>ملفات</b> (PDF, ZIP, إلخ). سيتم عرض أيقونة مناسبة للملفات تلقائياً.
+            </p>
+          </div>
           {/* Title */}
           <div>
             <label style={{ display: 'block', fontFamily: "'Changa', sans-serif", color: '#aaa', fontSize: '0.85rem', marginBottom: '6px' }}>
@@ -245,9 +254,15 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
                   ) : mediaType === 'image' ? (
                     <Image src={imagePreview} alt="Preview" fill style={{ objectFit: 'cover' }} />
                   ) : (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#ff1022' }}>
-                      <FileIcon size={48} />
-                      <span style={{ fontSize: '0.8rem', marginTop: '10px', color: '#aaa', padding: '0 20px', textAlign: 'center' }}>{imagePreview}</span>
+                    <div style={{ 
+                      width: '100%', height: '100%', display: 'flex', flexDirection: 'column', 
+                      alignItems: 'center', justifyContent: 'center', color: '#ff1022', background: '#111'
+                    }}>
+                      <div style={{ width: '80px', height: '80px', borderRadius: '20px', background: 'rgba(255,16,34,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }}>
+                        <FileIcon size={40} />
+                      </div>
+                      <span style={{ fontSize: '0.9rem', fontWeight: 700, color: '#fff' }}>ملف مشروع</span>
+                      <span style={{ fontSize: '0.75rem', marginTop: '6px', color: '#666', padding: '0 20px', textAlign: 'center', maxWidth: '80%', overflow: 'hidden', textOverflow: 'ellipsis' }}>{imagePreview}</span>
                     </div>
                   )}
                   <div style={{

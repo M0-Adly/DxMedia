@@ -159,7 +159,7 @@ export default function Hero({ stats }: { stats: HeroStats }) {
             <h1
             style={{
               fontFamily: '"Bebas Neue", sans-serif',
-              fontSize: 'clamp(3.5rem, 12vw, 10rem)',
+              fontSize: 'clamp(2.5rem, 9vw, 10rem)',
               lineHeight: 1,
               letterSpacing: '2px',
               color: '#fff',

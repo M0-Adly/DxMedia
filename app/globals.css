@@ -187,6 +187,26 @@ body {
     .hidden-mobile {
       display: none !important;
     }
+    .project-media {
+      aspect-ratio: 1 / 1 !important;
+    }
+    .project-title {
+      font-size: 0.65rem !important;
+    }
+    .branding-text {
+      font-size: 1.35rem !important;
+    }
+    .branding-logo {
+      width: 44px !important;
+      height: 44px !important;
+    }
+  }
+  
+  .project-media {
+    aspect-ratio: 16 / 10;
+  }
+  .project-title {
+    font-size: clamp(0.7rem, 2.5vw, 1.1rem);
   }
 
   /* Scrollbar */
