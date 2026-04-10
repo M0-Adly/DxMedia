@@ -7,41 +7,49 @@ const services = [
     icon: '🎨',
     title: 'تصاميم الجرافكس',
     desc: 'تصاميم بصرية مذهلة تخطف الأنظار وتوصل رسالتك بوضوح.',
+    category: 'graphic',
   },
   {
     icon: '🎬',
     title: 'تحرير الفيديوهات',
     desc: 'مونتاج سينمائي احترافي مصمم لزيادة التفاعل وبقاء المشاهد.',
+    category: 'video',
   },
   {
     icon: '📈',
     title: 'التسويق الرقمي',
     desc: 'استراتيجيات مبنية على البيانات لتنمية علامتك التجارية وتصدر السوق.',
+    category: 'marketing',
   },
   {
     icon: '🌐',
     title: 'تصميم المواقع والمتاجر',
     desc: 'مواقع متجاوبة ومتاجر قوية تساعدك على بيع منتجاتك.',
+    category: 'web',
   },
   {
     icon: '🤖',
     title: 'فيديوهات الذكاء الاصطناعي',
     desc: 'محتوى مبتكر بالذكاء الاصطناعي لقصص بصرية استثنائية.',
+    category: 'ai',
   },
   {
     icon: '📢',
     title: 'الإعلانات الممولة',
     desc: 'حملات إعلانية عالية العائد على Meta وTikTok وGoogle.',
+    category: 'ads',
   },
   {
     icon: '🗄️',
     title: 'برامج الإدارة والبيانات',
     desc: 'برامج احترافية لإدارة المؤسسات وتحليل البيانات المعقدة.',
+    category: 'data',
   },
   {
     icon: '🎞️',
     title: 'فيديوهات موشن جرافيك',
     desc: 'رسوم متحركة حيوية وجذابة لشرح فكرتك ومنتجاتك.',
+    category: 'motion',
   },
 ];
 
@@ -59,9 +67,19 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
     return () => observer.disconnect();
   }, []);
 
+  const handleClick = () => {
+    // 1. Dispatch event to filter portfolio
+    window.dispatchEvent(new CustomEvent('setPortfolioCategory', { detail: service.category }));
+    
+    // 2. Scroll to portfolio
+    const el = document.querySelector('#portfolio');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div
       ref={ref}
+      onClick={handleClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{

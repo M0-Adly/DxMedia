@@ -263,7 +263,17 @@ export default function Portfolio({ projects }: { projects: Project[] }) {
       { threshold: 0.2 }
     );
     if (titleRef.current) observer.observe(titleRef.current);
-    return () => observer.disconnect();
+
+    // External filter listener
+    const handleExternalFilter = (e: any) => {
+      if (e.detail) setActiveTab(e.detail);
+    };
+    window.addEventListener('setPortfolioCategory', handleExternalFilter);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('setPortfolioCategory', handleExternalFilter);
+    };
   }, []);
 
   const filteredProjects = projects
