@@ -173,8 +173,8 @@ body {
 
   .grid-responsive {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.5rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
   }
   @media (min-width: 768px) {
     .grid-responsive {

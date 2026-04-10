@@ -137,40 +137,25 @@ function PortfolioItem({ project, index }: { project: Project; index: number }) 
           </div>
         )}
 
-        {/* Category Badge */}
-        <div style={{
-          position: 'absolute',
-          bottom: '12px',
-          right: '12px',
-          background: 'rgba(0,0,0,0.6)',
-          backdropFilter: 'blur(10px)',
-          borderRadius: '20px',
-          padding: '4px 12px',
-          fontFamily: "'Changa', sans-serif",
-          color: '#fff',
-          fontSize: '0.7rem',
-          fontWeight: 600,
-          zIndex: 3,
-        }}>
-          {CATEGORY_LABELS[project.category] || project.category}
-        </div>
-
         {/* Featured Tag */}
         {project.featured && (
-          <div style={{
-            position: 'absolute',
-            top: '12px',
-            left: '12px',
-            background: 'linear-gradient(90deg, #ff1022, #b00010)',
-            color: '#fff',
-            fontSize: '0.65rem',
-            padding: '3px 10px',
-            borderRadius: '4px',
-            fontFamily: "'Changa', sans-serif",
-            fontWeight: 800,
-            zIndex: 3,
-            boxShadow: '0 4px 10px rgba(255,16,34,0.3)',
-          }}>
+          <div 
+            className="hidden-mobile"
+            style={{
+              position: 'absolute',
+              top: '12px',
+              left: '12px',
+              background: 'linear-gradient(90deg, #ff1022, #b00010)',
+              color: '#fff',
+              fontSize: '0.65rem',
+              padding: '3px 10px',
+              borderRadius: '4px',
+              fontFamily: "'Changa', sans-serif",
+              fontWeight: 800,
+              zIndex: 3,
+              boxShadow: '0 4px 10px rgba(255,16,34,0.3)',
+            }}
+          >
             مميز ⭐
           </div>
         )}
