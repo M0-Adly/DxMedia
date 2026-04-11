@@ -6,7 +6,7 @@ import { Project } from '@/lib/types';
 
 const CATEGORY_LABELS: Record<string, string> = {
   graphic: 'جرافيك', motion: 'موشن', video: 'فيديو', ads: 'إعلانات',
-  web: 'مواقع', ai: 'ذكاء اصطناعي', other: 'أخرى',
+  web: 'مواقع وتطبيقات', ai: 'ذكاء اصطناعي', other: 'أخرى',
 };
 
 const CATEGORY_COLORS: Record<string, string> = {

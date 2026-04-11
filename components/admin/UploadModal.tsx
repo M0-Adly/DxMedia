@@ -11,7 +11,7 @@ const CATEGORIES: { value: ProjectCategory; label: string }[] = [
   { value: 'motion', label: 'موشن جرافيك' },
   { value: 'video', label: 'مونتاج فيديو' },
   { value: 'ads', label: 'إعلانات ممولة' },
-  { value: 'web', label: 'تطوير مواقع' },
+  { value: 'web', label: 'تطوير مواقع وتطبيقات' },
   { value: 'ai', label: 'ذكاء اصطناعي' },
   { value: 'other', label: 'أخرى' },
 ];

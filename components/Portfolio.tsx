@@ -10,7 +10,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   motion: 'موشن جرافيك',
   video: 'مونتاج فيديو',
   ads: 'إعلانات ممولة',
-  web: 'تطوير مواقع',
+  web: 'تطوير مواقع وتطبيقات',
   ai: 'ذكاء اصطناعي',
   marketing: 'تسويق رقمي',
 };

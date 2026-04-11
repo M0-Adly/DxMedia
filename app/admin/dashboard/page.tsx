@@ -406,7 +406,7 @@ export default function AdminDashboard() {
                   { id: 'video', label: 'فيديو' },
                   { id: 'motion', label: 'موشن' },
                   { id: 'ads', label: 'إعلانات' },
-                  { id: 'web', label: 'مواقع' },
+                  { id: 'web', label: 'مواقع وتطبيقات' },
                   { id: 'ai', label: 'ذكاء اصطناعي' },
                   { id: 'archived', label: 'الأرشيف 📁' },
                 ].map(cat => (
