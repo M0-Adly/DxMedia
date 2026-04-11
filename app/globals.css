@@ -193,12 +193,20 @@ body {
     .project-title {
       font-size: 0.65rem !important;
     }
-    .branding-text {
-      font-size: 1.35rem !important;
+    .branding-container {
+      display: none !important;
     }
-    .branding-logo {
-      width: 44px !important;
-      height: 44px !important;
+    .navbar-inner-container {
+      justify-content: center !important;
+    }
+    .navbar-mobile-padding {
+      padding: 0 0.5rem !important;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .branding-container {
+      display: flex !important;
     }
   }
   

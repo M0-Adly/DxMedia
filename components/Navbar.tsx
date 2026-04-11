@@ -76,12 +76,13 @@ export default function Navbar() {
           background: scrolled ? 'rgba(5,5,5,0.97)' : 'rgba(5,5,5,0.8)',
           backdropFilter: 'blur(20px)',
           borderBottom: scrolled ? '1px solid rgba(255,255,255,0.06)' : 'none',
-          padding: '0 1.5rem',
+          padding: '0 1rem',
         }}
+        className="navbar-mobile-padding"
       >
-        <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '72px' }}>
+        <div className="navbar-inner-container" style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '72px' }}>
           {/* Logo */}
-          <Link href="/" className="hidden md:flex" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Link href="/" className="branding-container" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <span className="branding-text" style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2rem', color: '#fff', letterSpacing: '1px' }}>Dx</span>
               <span className="branding-text" style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2rem', color: '#ff1022', letterSpacing: '1px' }}>Media</span>
@@ -115,7 +116,7 @@ export default function Navbar() {
           </div>
 
           {/* CTA + Actions */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <button
               onClick={toggleTheme}
               style={{
