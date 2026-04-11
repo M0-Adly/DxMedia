@@ -6,12 +6,12 @@ import { Project } from '@/lib/types';
 
 const CATEGORY_LABELS: Record<string, string> = {
   graphic: 'جرافيك', motion: 'موشن', video: 'فيديو', ads: 'إعلانات',
-  web: 'مواقع', ai: 'ذكاء اصطناعي', data: 'بيانات', other: 'أخرى',
+  web: 'مواقع', ai: 'ذكاء اصطناعي', other: 'أخرى',
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
   graphic: '#6366f1', motion: '#8b5cf6', video: '#ec4899',
-  ads: '#f97316', web: '#06b6d4', ai: '#14b8a6', data: '#22c55e', other: '#777',
+  ads: '#f97316', web: '#06b6d4', ai: '#14b8a6', other: '#777',
 };
 
 interface ProjectCardProps {

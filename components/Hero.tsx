@@ -74,7 +74,8 @@ export default function Hero({ stats }: { stats: HeroStats }) {
           position: 'absolute',
           inset: 0,
           backgroundImage: 'url(/dx.jpeg)',
-          backgroundSize: 'cover',
+          backgroundSize: 'contain',
+          backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
           opacity: 0.15,
           zIndex: 0,
@@ -134,7 +135,6 @@ export default function Hero({ stats }: { stats: HeroStats }) {
             transition: 'all 0.6s ease',
           }}
         >
-          <span style={{ fontSize: '1rem' }}>🔥</span>
           <span
             style={{
               fontFamily: "'Changa', sans-serif",

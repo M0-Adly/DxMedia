@@ -12,11 +12,10 @@ const CATEGORY_LABELS: Record<string, string> = {
   ads: 'إعلانات ممولة',
   web: 'تطوير مواقع',
   ai: 'ذكاء اصطناعي',
-  data: 'برمجة وإدارة',
   marketing: 'تسويق رقمي',
 };
 
-const FILTER_TABS = ['graphic', 'video', 'marketing', 'motion', 'web', 'ai', 'ads', 'data'];
+const FILTER_TABS = ['graphic', 'video', 'marketing', 'motion', 'web', 'ai', 'ads'];
 
 function PortfolioItem({ project, index }: { project: Project; index: number }) {
   const [hovered, setHovered] = useState(false);

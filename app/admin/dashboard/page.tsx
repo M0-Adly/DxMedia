@@ -408,7 +408,6 @@ export default function AdminDashboard() {
                   { id: 'ads', label: 'إعلانات' },
                   { id: 'web', label: 'مواقع' },
                   { id: 'ai', label: 'ذكاء اصطناعي' },
-                  { id: 'data', label: 'بيانات' },
                   { id: 'archived', label: 'الأرشيف 📁' },
                 ].map(cat => (
                   <button
