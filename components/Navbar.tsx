@@ -81,7 +81,7 @@ export default function Navbar() {
       >
         <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '72px' }}>
           {/* Logo */}
-          <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Link href="/" className="hidden md:flex" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <span className="branding-text" style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2rem', color: '#fff', letterSpacing: '1px' }}>Dx</span>
               <span className="branding-text" style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '2rem', color: '#ff1022', letterSpacing: '1px' }}>Media</span>
@@ -138,16 +138,15 @@ export default function Navbar() {
 
             <button
               onClick={() => handleNavClick('#contact')}
-              className="hidden md:inline-flex"
               style={{
                 background: '#ff1022',
                 color: '#fff',
                 border: 'none',
-                padding: '10px 24px',
+                padding: '8px 16px',
                 borderRadius: '8px',
                 fontFamily: "'Changa', sans-serif",
                 fontWeight: 800,
-                fontSize: '0.95rem',
+                fontSize: '0.85rem',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
               }}
