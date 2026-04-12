@@ -32,6 +32,16 @@ export default async function HomePage() {
 
   const aboutText = settings['about_text'] || 'رؤيتنا هي ضمان نجاحك، وعملنا هو تحويل فكرتك لواقع رقمي مسيطر. في مكان واحد، بنجمع لك بين عبقرية البيانات وتطوير البرامج والأنظمة الإدارية المعقدة، وبين سحر الإبداع في تصميم الجرافيك والمواقع، وتحرير الفيديوهات والموشن جرافيك اللي بيخطف الأنظار. إحنا مش بس بنصمم أو بنبرمج، إحنا بنبني لك حضور ذكي من خلال تسويق رقمي مبني على الأرقام وإعلانات ممولة عالية العائد، مع دمج أحدث تقنيات الذكاء الاصطناعي لضمان ريادتك في السوق. باختصار.. إحنا الشريك اللي هيبدأ معاك من أول خطوة تخطيط لحد ما توصل للقمة وتستمر فيها';
 
+  // Parse portfolio tab order
+  let tabOrder: string[] | undefined;
+  try {
+    if (settings['portfolio_tab_order']) {
+      tabOrder = JSON.parse(settings['portfolio_tab_order']);
+    }
+  } catch {
+    tabOrder = undefined;
+  }
+
   // Fetch projects
   const { data: projectsRaw } = await supabase
     .from('projects')
@@ -59,7 +69,7 @@ export default async function HomePage() {
       <Hero stats={heroStats} />
       <About text={aboutText} />
       <Services />
-      <Portfolio projects={sortedProjects} />
+      <Portfolio projects={sortedProjects} tabOrder={tabOrder} />
       <Testimonials testimonials={(testimonials as Testimonial[]) || []} />
       <Contact />
       <Footer />

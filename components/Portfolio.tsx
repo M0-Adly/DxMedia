@@ -15,7 +15,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   marketing: 'تسويق رقمي',
 };
 
-const FILTER_TABS = ['graphic', 'video', 'marketing', 'motion', 'web', 'ai', 'ads'];
+const DEFAULT_FILTER_TABS = ['graphic', 'video', 'marketing', 'motion', 'web', 'ai', 'ads'];
 
 function PortfolioItem({ project, index }: { project: Project; index: number }) {
   const [hovered, setHovered] = useState(false);
@@ -251,8 +251,9 @@ function EmptyState() {
   );
 }
 
-export default function Portfolio({ projects }: { projects: Project[] }) {
-  const [activeTab, setActiveTab] = useState('graphic');
+export default function Portfolio({ projects, tabOrder }: { projects: Project[]; tabOrder?: string[] }) {
+  const FILTER_TABS = (tabOrder && tabOrder.length > 0) ? tabOrder : DEFAULT_FILTER_TABS;
+  const [activeTab, setActiveTab] = useState(FILTER_TABS[0]);
   const titleRef = useRef<HTMLDivElement>(null);
   const [titleVisible, setTitleVisible] = useState(false);
 

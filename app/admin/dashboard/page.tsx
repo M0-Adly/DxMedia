@@ -52,6 +52,19 @@ export default function AdminDashboard() {
   const [settingsSaved, setSettingsSaved] = useState(false);
   const [settingsLoading, setSettingsLoading] = useState(false);
 
+  // Portfolio tab order state
+  const CATEGORY_LABELS_MAP: Record<string, string> = {
+    graphic: 'جرافيك',
+    motion: 'موشن جرافيك',
+    video: 'مونتاج فيديو',
+    ads: 'إعلانات ممولة',
+    web: 'تطوير مواقع وتطبيقات',
+    ai: 'ذكاء اصطناعي',
+    marketing: 'تسويق رقمي',
+  };
+  const DEFAULT_TAB_ORDER = ['graphic', 'video', 'marketing', 'motion', 'web', 'ai', 'ads'];
+  const [tabOrder, setTabOrder] = useState<string[]>(DEFAULT_TAB_ORDER);
+
   const supabase = createClient();
 
   const fetchProjects = useCallback(async () => {
@@ -87,6 +100,12 @@ export default function AdminDashboard() {
         years: map['hero_years'] || '6',
       });
       if (map['about_text']) setAboutUsText(map['about_text']);
+      if (map['portfolio_tab_order']) {
+        try {
+          const parsed = JSON.parse(map['portfolio_tab_order']);
+          if (Array.isArray(parsed) && parsed.length > 0) setTabOrder(parsed);
+        } catch {}
+      }
     }
   }, []);
 
@@ -225,6 +244,7 @@ export default function AdminDashboard() {
       supabase.from('settings').upsert({ key: 'hero_projects', value: heroStats.projects }),
       supabase.from('settings').upsert({ key: 'hero_years', value: heroStats.years }),
       supabase.from('settings').upsert({ key: 'about_text', value: aboutUsText }),
+      supabase.from('settings').upsert({ key: 'portfolio_tab_order', value: JSON.stringify(tabOrder) }),
     ]);
 
     const error = results.find(r => r.error)?.error;
@@ -236,6 +256,14 @@ export default function AdminDashboard() {
       setTimeout(() => setSettingsSaved(false), 2500);
     }
     setSettingsLoading(false);
+  };
+
+  const handleMoveTab = (index: number, direction: 'up' | 'down') => {
+    const newOrder = [...tabOrder];
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= newOrder.length) return;
+    [newOrder[index], newOrder[targetIndex]] = [newOrder[targetIndex], newOrder[index]];
+    setTabOrder(newOrder);
   };
 
   const unreadCount = messages.filter(m => !m.is_read).length;
@@ -775,6 +803,90 @@ export default function AdminDashboard() {
                     onFocus={(e) => (e.currentTarget.style.borderColor = '#ff1022')}
                     onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                   />
+                </div>
+
+                {/* Portfolio Tab Order */}
+                <div style={{ marginTop: '2rem' }}>
+                  <h3 style={{ fontFamily: "'Changa', sans-serif", color: '#ffffff', fontWeight: 800, fontSize: '0.9rem', marginBottom: '0.5rem' }}>
+                    ترتيب أقسام معرض الأعمال
+                  </h3>
+                  <p style={{ fontFamily: "'Almarai', sans-serif", color: '#666', fontSize: '0.8rem', marginBottom: '1rem' }}>
+                    اسحب الأقسام لأعلى أو لأسفل لتغيير ترتيب ظهورها في معرض الأعمال
+                  </p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    {tabOrder.map((tab, index) => (
+                      <div
+                        key={tab}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '10px',
+                          background: '#111',
+                          border: '1px solid rgba(255,255,255,0.08)',
+                          borderRadius: '10px',
+                          padding: '10px 14px',
+                          transition: 'all 0.2s',
+                        }}
+                      >
+                        {/* Order number */}
+                        <span style={{
+                          width: '26px', height: '26px', borderRadius: '50%',
+                          background: 'rgba(255,16,34,0.15)', color: '#ff1022',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          fontSize: '0.75rem', fontWeight: 700, fontFamily: "'Almarai', sans-serif",
+                          flexShrink: 0,
+                        }}>
+                          {index + 1}
+                        </span>
+
+                        {/* Label */}
+                        <span style={{
+                          flex: 1, fontFamily: "'Almarai', sans-serif", color: '#ddd',
+                          fontSize: '0.9rem', fontWeight: 600,
+                        }}>
+                          {CATEGORY_LABELS_MAP[tab] || tab}
+                        </span>
+
+                        {/* Move buttons */}
+                        <div style={{ display: 'flex', gap: '4px' }}>
+                          <button
+                            onClick={() => handleMoveTab(index, 'up')}
+                            disabled={index === 0}
+                            style={{
+                              background: index === 0 ? '#1a1a1a' : 'rgba(255,255,255,0.06)',
+                              border: '1px solid rgba(255,255,255,0.08)',
+                              borderRadius: '6px', width: '32px', height: '32px',
+                              display: 'flex', alignItems: 'center', justifyContent: 'center',
+                              cursor: index === 0 ? 'not-allowed' : 'pointer',
+                              color: index === 0 ? '#333' : '#aaa',
+                              transition: 'all 0.2s',
+                            }}
+                            onMouseEnter={(e) => { if (index !== 0) { e.currentTarget.style.borderColor = '#ff1022'; e.currentTarget.style.color = '#ff1022'; } }}
+                            onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = index === 0 ? '#333' : '#aaa'; }}
+                          >
+                            <ChevronUp size={16} />
+                          </button>
+                          <button
+                            onClick={() => handleMoveTab(index, 'down')}
+                            disabled={index === tabOrder.length - 1}
+                            style={{
+                              background: index === tabOrder.length - 1 ? '#1a1a1a' : 'rgba(255,255,255,0.06)',
+                              border: '1px solid rgba(255,255,255,0.08)',
+                              borderRadius: '6px', width: '32px', height: '32px',
+                              display: 'flex', alignItems: 'center', justifyContent: 'center',
+                              cursor: index === tabOrder.length - 1 ? 'not-allowed' : 'pointer',
+                              color: index === tabOrder.length - 1 ? '#333' : '#aaa',
+                              transition: 'all 0.2s',
+                            }}
+                            onMouseEnter={(e) => { if (index !== tabOrder.length - 1) { e.currentTarget.style.borderColor = '#ff1022'; e.currentTarget.style.color = '#ff1022'; } }}
+                            onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = index === tabOrder.length - 1 ? '#333' : '#aaa'; }}
+                          >
+                            <ChevronDown size={16} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 <button
