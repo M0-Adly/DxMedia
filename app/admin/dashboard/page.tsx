@@ -30,7 +30,7 @@ export default function AdminDashboard() {
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [editProject, setEditProject] = useState<Project | null>(null);
   const [projectsLoading, setProjectsLoading] = useState(true);
-  const [adminCategory, setAdminCategory] = useState<ProjectCategory | 'all' | 'archived'>('all');
+  const [adminCategory, setAdminCategory] = useState<ProjectCategory | 'all' | 'archived'>('graphic');
 
   // Messages state
   const [messages, setMessages] = useState<Message[]>([]);
@@ -473,7 +473,12 @@ export default function AdminDashboard() {
                   <p style={{ fontFamily: "'Almarai', sans-serif" }}>لا توجد مشاريع بعد</p>
                 </div>
               ) : (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1rem' }}>
+                <div style={{ 
+                  display: 'grid', 
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(min(300px, 100%), 1fr))', 
+                  gap: '1rem',
+                  padding: '0.25rem' 
+                }}>
                   {projects
                     .filter(p => {
                       if (adminCategory === 'archived') return p.is_archived;
@@ -915,18 +920,22 @@ export default function AdminDashboard() {
       {/* ── MOBILE BOTTOM TABS (Modern Floating Style) ── */}
       <div style={{
         position: 'fixed',
-        bottom: '20px',
-        left: '15px',
-        right: '15px',
-        background: 'rgba(10, 10, 10, 0.85)',
+        bottom: '12px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: 'calc(100% - 24px)',
+        maxWidth: '450px',
+        background: 'rgba(10, 10, 10, 0.98)',
         backdropFilter: 'blur(20px)',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
+        WebkitBackdropFilter: 'blur(20px)',
+        border: '1px solid rgba(255, 255, 255, 0.12)',
         borderRadius: '24px',
-        display: 'grid',
-        gridTemplateColumns: `repeat(${SIDEBAR_ITEMS.length}, 1fr)`,
+        display: 'flex',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
         zIndex: 200,
-        padding: '8px 4px',
-        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 16, 34, 0.1)',
+        padding: '8px 0',
+        boxShadow: '0 10px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 16, 34, 0.15)',
       }} className="md:hidden">
         {SIDEBAR_ITEMS.map(item => (
           <button
@@ -935,27 +944,50 @@ export default function AdminDashboard() {
             style={{
               background: 'none',
               border: 'none',
-              padding: '8px 0',
+              padding: '4px 0',
               cursor: 'pointer',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               gap: '4px',
-              color: activeTab === item.id ? '#ff1022' : '#555',
-              transition: 'all 0.3s',
+              color: activeTab === item.id ? '#ff1022' : '#777',
+              transition: 'all 0.3s ease',
               position: 'relative',
-              transform: activeTab === item.id ? 'scale(1.1)' : 'scale(1)',
+              flex: 1,
+              minWidth: 0,
             }}
           >
-            {item.icon}
-            <span style={{ fontSize: '0.6rem', fontFamily: "'Almarai', sans-serif", fontWeight: 700 }}>{item.label}</span>
+            <div style={{ 
+              transform: activeTab === item.id ? 'translateY(-2px)' : 'none',
+              transition: 'transform 0.3s ease'
+            }}>
+              {item.icon}
+            </div>
+            <span style={{ 
+              fontSize: '0.65rem', 
+              fontFamily: "'Almarai', sans-serif", 
+              fontWeight: 700,
+              opacity: activeTab === item.id ? 1 : 0.8,
+              whiteSpace: 'nowrap'
+            }}>
+              {item.label}
+            </span>
             {item.id === 'messages' && unreadCount > 0 && (
               <span style={{
-                position: 'absolute', top: '4px', right: '20%',
-                background: '#ff1022', color: '#fff', fontSize: '0.55rem',
-                width: '15px', height: '15px', borderRadius: '50%',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700,
+                position: 'absolute', top: '0', right: '25%',
+                background: '#ff1022', color: '#fff', fontSize: '0.6rem',
+                width: '16px', height: '16px', borderRadius: '50%',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800,
+                boxShadow: '0 0 10px rgba(255,16,34,0.4)',
+                transform: 'translate(4px, -4px)'
               }}>{unreadCount}</span>
+            )}
+            {activeTab === item.id && (
+              <div style={{
+                position: 'absolute', bottom: '-4px', width: '4px', height: '4px', 
+                borderRadius: '50%', background: '#ff1022',
+                boxShadow: '0 0 8px #ff1022'
+              }} />
             )}
           </button>
         ))}
