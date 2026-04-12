@@ -33,6 +33,7 @@ export interface Testimonial {
   content?: string;
   rating: number;
   is_active: boolean;
+  order_index?: number;
   created_at: string;
 }
 

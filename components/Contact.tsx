@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { MapPin, Phone, Mail, Send, CheckCircle, AlertCircle, MessageCircle, Facebook } from 'lucide-react';
+import { Mail, MessageCircle, Facebook, Send, CheckCircle, AlertCircle, X } from 'lucide-react';
 import { createClient } from '@/lib/supabase';
 
 const SERVICES = [
@@ -24,6 +24,8 @@ const INFO_ITEMS = [
 export default function Contact() {
   const titleRef = useRef<HTMLDivElement>(null);
   const [titleVisible, setTitleVisible] = useState(false);
+  
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
@@ -71,26 +73,11 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" style={{ padding: '6rem 1.5rem', background: '#050505', position: 'relative' }}>
-      {/* Background glow */}
-      <div style={{
-        position: 'absolute',
-        bottom: 0,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        width: '60%',
-        height: '40%',
-        background: 'radial-gradient(ellipse at center, rgba(255,16,34,0.07) 0%, transparent 70%)',
-        pointerEvents: 'none',
-      }} />
-
-      <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
-        {/* Header */}
+    <section id="contact" style={{ padding: '6rem 1.5rem', background: '#080808', position: 'relative' }}>
+      <div style={{ maxWidth: '800px', margin: '0 auto', position: 'relative', zIndex: 1, textAlign: 'center' }}>
         <div
           ref={titleRef}
           style={{
-            textAlign: 'center',
-            marginBottom: '4rem',
             opacity: titleVisible ? 1 : 0,
             transform: titleVisible ? 'translateY(0)' : 'translateY(20px)',
             transition: 'all 0.6s ease',
@@ -119,90 +106,91 @@ export default function Contact() {
           }}>
             ابدأ مشروعك اليوم
           </h2>
-          <p style={{ fontFamily: "'Changa', sans-serif", color: '#777', fontSize: '1rem' }}>
-            يسعدنا الاستماع لفكرتك ومساعدتك في تحقيقها
+          <p style={{ fontFamily: "'Changa', sans-serif", color: '#777', fontSize: '1rem', marginBottom: '2rem' }}>
+            يسعدنا الاستماع لفكرتك ومساعدتك في تحقيقها، تواصل معنا وسنرد عليك في أقرب وقت.
           </p>
-        </div>
-
-        {/* Two-column layout */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: '3rem',
-          alignItems: 'start',
-        }}>
-          {/* Info Column */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            <h3 style={{
+          
+          <button
+            onClick={() => setIsModalOpen(true)}
+            style={{
+              background: '#ff1022',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '50px',
+              padding: '16px 40px',
               fontFamily: "'Changa', sans-serif",
-              fontSize: '1.3rem',
               fontWeight: 800,
-              color: '#ffffff',
-            }}>
-              معلومات التواصل
-            </h3>
-            <p style={{ fontFamily: "'Changa', sans-serif", color: '#777', lineHeight: 1.8, fontSize: '0.95rem' }}>
-              نحن هنا لمساعدتك في بناء حضور رقمي قوي. تواصل معنا وسنرد عليك في أقرب وقت ممكن.
-            </p>
-            {INFO_ITEMS.map((item, i) => {
-              const isWhatsApp = item.label.includes('واتساب');
-              const isFacebook = item.label === 'فيسبوك';
-              const iconColor = isWhatsApp ? '#25D366' : isFacebook ? '#1877F2' : '#ff1022';
-              const bgColor = isWhatsApp ? 'rgba(37, 211, 102, 0.1)' : isFacebook ? 'rgba(24, 119, 242, 0.1)' : 'rgba(255,16,34,0.1)';
-              const borderColor = isWhatsApp ? 'rgba(37, 211, 102, 0.25)' : isFacebook ? 'rgba(24, 119, 242, 0.25)' : 'rgba(255,16,34,0.25)';
+              fontSize: '1.1rem',
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '12px',
+              boxShadow: '0 8px 30px rgba(255,16,34,0.3)',
+              transition: 'all 0.3s ease',
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.05)'; e.currentTarget.style.background = '#e00016'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.background = '#ff1022'; }}
+          >
+            <Send size={20} />
+            التواصل معانا
+          </button>
+        </div>
+      </div>
 
-              return (
-                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                  <div style={{
-                    width: '44px',
-                    height: '44px',
-                    background: bgColor,
-                    border: `1px solid ${borderColor}`,
-                    borderRadius: '10px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: iconColor,
-                    flexShrink: 0,
-                  }}>
-                    {item.icon}
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontFamily: "'Changa', sans-serif", color: '#888', fontSize: '0.8rem' }}>{item.label}</div>
-                    {item.href ? (
-                      <a href={item.href} target={item.target} rel="noreferrer" style={{ textDecoration: 'none', color: '#ffffff', fontFamily: "'Changa', sans-serif", fontWeight: 700, fontSize: '0.95rem', transition: 'color 0.2s', display: 'inline-block' }} onMouseEnter={(e) => (e.currentTarget.style.color = iconColor)} onMouseLeave={(e) => (e.currentTarget.style.color = '#ffffff')}>
-                        {item.value}
-                      </a>
-                    ) : (
-                      <div style={{ fontFamily: "'Changa', sans-serif", color: '#ffffff', fontWeight: 700, fontSize: '0.95rem' }}>{item.value}</div>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-
-            {/* Decorative box */}
-            <div style={{
-              marginTop: '1rem',
-              background: '#0a0a0a',
-              border: '1px solid rgba(255,255,255,0.06)',
-              borderRadius: '12px',
-              padding: '1.5rem',
-              borderRight: '3px solid #ff1022',
-            }}>
-              <p style={{ fontFamily: "'Changa', sans-serif", color: '#aaa', fontSize: '0.9rem', lineHeight: 1.7 }}>
-                ⚡ نرد على جميع الاستفسارات خلال <strong style={{ color: '#ff1022' }}>24 ساعة</strong>
-              </p>
-            </div>
-          </div>
-
-          {/* Form Column */}
+      {isModalOpen && (
+        <div style={{
+          position: 'fixed',
+          top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(0,0,0,0.85)',
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
+          zIndex: 9999,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '1rem',
+          overflowY: 'auto',
+          direction: 'rtl'
+        }}>
           <div style={{
             background: '#0a0a0a',
-            border: '1px solid rgba(255,255,255,0.06)',
-            borderRadius: '16px',
+            border: '1px solid rgba(255,255,255,0.08)',
+            borderRadius: '20px',
             padding: '2rem',
+            width: '100%',
+            maxWidth: '600px',
+            position: 'relative',
+            maxHeight: '90vh',
+            overflowY: 'auto'
           }}>
+            <button
+              onClick={() => { setIsModalOpen(false); setSuccess(false); }}
+              style={{
+                position: 'absolute',
+                top: '16px',
+                left: '16px',
+                background: 'rgba(255,255,255,0.05)',
+                border: 'none',
+                color: '#fff',
+                width: '36px',
+                height: '36px',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                transition: 'background 0.3s'
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,16,34,0.2)')}
+              onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.05)')}
+            >
+              <X size={20} />
+            </button>
+
+            <h3 style={{ fontFamily: "'Changa', sans-serif", fontSize: '1.5rem', color: '#fff', marginBottom: '1.5rem', textAlign: 'right' }}>
+              أرسل رسالتك
+            </h3>
+
             {success ? (
               <div style={{ textAlign: 'center', padding: '3rem 1rem' }}>
                 <CheckCircle size={56} color="#22c55e" style={{ margin: '0 auto 1rem' }} />
@@ -213,7 +201,7 @@ export default function Contact() {
                   شكراً لتواصلك معنا، سنرد عليك قريباً
                 </p>
                 <button
-                  onClick={() => setSuccess(false)}
+                  onClick={() => setIsModalOpen(false)}
                   style={{
                     background: '#ff1022',
                     color: '#fff',
@@ -225,12 +213,12 @@ export default function Contact() {
                     cursor: 'pointer',
                   }}
                 >
-                  إرسال رسالة أخرى
+                  إغلاق
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', textAlign: 'right' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
                   <div>
                     <label style={{ display: 'block', color: '#aaa', fontSize: '0.85rem', marginBottom: '6px', fontFamily: "'Changa', sans-serif" }}>
                       الاسم *
@@ -241,20 +229,7 @@ export default function Contact() {
                       onChange={handleChange}
                       placeholder="اسمك الكريم"
                       required
-                      style={{
-                        width: '100%',
-                        background: '#1a1a1a',
-                        border: '1px solid rgba(255,255,255,0.08)',
-                        borderRadius: '8px',
-                        padding: '12px 14px',
-                        color: '#ffffff',
-                        fontFamily: "'Changa', sans-serif",
-                        fontSize: '0.9rem',
-                        outline: 'none',
-                        minHeight: '44px',
-                      }}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = '#ff1022')}
-                      onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
+                      style={inputStyle}
                     />
                   </div>
                   <div>
@@ -268,25 +243,12 @@ export default function Contact() {
                       onChange={handleChange}
                       placeholder="example@email.com"
                       required
-                      style={{
-                        width: '100%',
-                        background: '#1a1a1a',
-                        border: '1px solid rgba(255,255,255,0.08)',
-                        borderRadius: '8px',
-                        padding: '12px 14px',
-                        color: '#ffffff',
-                        fontFamily: "'Changa', sans-serif",
-                        fontSize: '0.9rem',
-                        outline: 'none',
-                        minHeight: '44px',
-                      }}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = '#ff1022')}
-                      onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
+                      style={inputStyle}
                     />
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
                   <div>
                     <label style={{ display: 'block', color: '#aaa', fontSize: '0.85rem', marginBottom: '6px', fontFamily: "'Changa', sans-serif" }}>
                       الهاتف
@@ -297,20 +259,7 @@ export default function Contact() {
                       value={form.phone}
                       onChange={handleChange}
                       placeholder="01092157086"
-                      style={{
-                        width: '100%',
-                        background: '#1a1a1a',
-                        border: '1px solid rgba(255,255,255,0.08)',
-                        borderRadius: '8px',
-                        padding: '12px 14px',
-                        color: '#ffffff',
-                        fontFamily: "'Changa', sans-serif",
-                        fontSize: '0.9rem',
-                        outline: 'none',
-                        minHeight: '44px',
-                      }}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = '#ff1022')}
-                      onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
+                      style={inputStyle}
                     />
                   </div>
                   <div>
@@ -321,21 +270,7 @@ export default function Contact() {
                       name="service"
                       value={form.service}
                       onChange={handleChange}
-                      style={{
-                        width: '100%',
-                        background: '#1a1a1a',
-                        border: '1px solid rgba(255,255,255,0.08)',
-                        borderRadius: '8px',
-                        padding: '12px 14px',
-                        color: form.service ? '#ffffff' : '#777',
-                        fontFamily: "'Changa', sans-serif",
-                        fontSize: '0.9rem',
-                        outline: 'none',
-                        minHeight: '44px',
-                        cursor: 'pointer',
-                      }}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = '#ff1022')}
-                      onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
+                      style={{ ...inputStyle, cursor: 'pointer', color: form.service ? '#fff' : '#777' }}
                     >
                       <option value="">اختر الخدمة</option>
                       {SERVICES.map(s => <option key={s} value={s}>{s}</option>)}
@@ -353,49 +288,16 @@ export default function Contact() {
                     onChange={handleChange}
                     placeholder="أخبرنا عن مشروعك ومتطلباتك..."
                     rows={4}
-                    style={{
-                      width: '100%',
-                      background: '#1a1a1a',
-                      border: '1px solid rgba(255,255,255,0.08)',
-                      borderRadius: '8px',
-                      padding: '12px 14px',
-                      color: '#ffffff',
-                      fontFamily: "'Changa', sans-serif",
-                      fontSize: '0.9rem',
-                      outline: 'none',
-                      resize: 'vertical',
-                      minHeight: '100px',
-                    }}
-                    onFocus={(e) => (e.currentTarget.style.borderColor = '#ff1022')}
-                    onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
+                    style={{ ...inputStyle, resize: 'vertical', minHeight: '100px' }}
                   />
                 </div>
 
-                {/* Checkbox */}
-                <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
-                  <input
-                    type="checkbox"
-                    checked={agreed}
-                    onChange={(e) => setAgreed(e.target.checked)}
-                    style={{ width: '18px', height: '18px', accentColor: '#ff1022', cursor: 'pointer' }}
-                  />
-                  <span style={{ fontFamily: "'Changa', sans-serif", color: '#888', fontSize: '0.875rem' }}>
-                    أوافق على التواصل معي بخصوص خدمات Dx Media
-                  </span>
-                </label>
-
                 {error && (
                   <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    background: 'rgba(239,68,68,0.1)',
-                    border: '1px solid rgba(239,68,68,0.2)',
-                    borderRadius: '8px',
-                    padding: '10px 14px',
-                    color: '#f87171',
-                    fontFamily: "'Changa', sans-serif",
-                    fontSize: '0.875rem',
+                    display: 'flex', alignItems: 'center', gap: '8px',
+                    background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)',
+                    borderRadius: '8px', padding: '10px 14px', color: '#f87171',
+                    fontFamily: "'Changa', sans-serif", fontSize: '0.875rem',
                   }}>
                     <AlertCircle size={16} />
                     {error}
@@ -421,6 +323,7 @@ export default function Contact() {
                     gap: '10px',
                     transition: 'all 0.3s ease',
                     minHeight: '44px',
+                    width: '100%'
                   }}
                 >
                   {loading ? (
@@ -439,9 +342,23 @@ export default function Contact() {
             )}
           </div>
         </div>
-      </div>
+      )}
 
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </section>
   );
 }
+
+const inputStyle: React.CSSProperties = {
+  width: '100%',
+  background: '#1a1a1a',
+  border: '1px solid rgba(255,255,255,0.08)',
+  borderRadius: '8px',
+  padding: '12px 14px',
+  color: '#ffffff',
+  fontFamily: "'Changa', sans-serif",
+  fontSize: '0.9rem',
+  outline: 'none',
+  minHeight: '44px',
+  transition: 'border-color 0.3s',
+};

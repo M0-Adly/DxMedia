@@ -21,6 +21,7 @@ CREATE TABLE testimonials (
   content TEXT NOT NULL,
   rating INTEGER DEFAULT 5 CHECK (rating BETWEEN 1 AND 5),
   is_active BOOLEAN DEFAULT true,
+  order_index INTEGER DEFAULT 0,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 

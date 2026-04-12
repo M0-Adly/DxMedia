@@ -2,39 +2,32 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { Star } from 'lucide-react';
+import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Testimonial } from '@/lib/types';
 
-function TestimonialCard({ t, index }: { t: Testimonial; index: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+function TestimonialCard({ t }: { t: Testimonial }) {
   const [hovered, setHovered] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-      { threshold: 0.1 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <div
-      ref={ref}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
         background: '#0a0a0a',
         border: hovered ? '1px solid rgba(74,0,0,0.35)' : '1px solid rgba(255,255,255,0.06)',
         borderRadius: '14px',
-        padding: '2rem',
+        padding: '2.5rem',
         position: 'relative',
         overflow: 'hidden',
         boxShadow: hovered ? '0 8px 30px rgba(74,0,0,0.08)' : 'none',
         display: 'flex',
         flexDirection: 'column',
         gap: '1.25rem',
+        maxWidth: '800px',
+        margin: '0 auto',
+        width: '100%',
+        minHeight: '320px',
+        transition: 'all 0.3s ease'
       }}
     >
       {/* Big quote mark */}
@@ -53,11 +46,11 @@ function TestimonialCard({ t, index }: { t: Testimonial; index: number }) {
       </div>
 
       {/* Stars */}
-      <div style={{ display: 'flex', gap: '3px' }}>
+      <div style={{ display: 'flex', gap: '3px', justifyContent: 'center', marginBottom: '10px' }}>
         {Array.from({ length: 5 }).map((_, i) => (
           <Star
             key={i}
-            size={14}
+            size={18}
             fill={i < t.rating ? '#ff1022' : 'transparent'}
             color={i < t.rating ? '#ff1022' : '#444'}
           />
@@ -65,40 +58,42 @@ function TestimonialCard({ t, index }: { t: Testimonial; index: number }) {
       </div>
 
       {/* Content */}
-      {t.image_url ? (
-        <div style={{ position: 'relative', width: '100%', borderRadius: '8px', overflow: 'hidden', cursor: t.link_url ? 'pointer' : 'default' }} onClick={() => t.link_url && window.open(t.link_url, '_blank')}>
-          <img src={t.image_url} alt={t.name} style={{ width: '100%', height: 'auto', display: 'block', transition: 'transform 0.3s ease' }} onMouseEnter={(e) => t.link_url && (e.currentTarget.style.transform = 'scale(1.05)')} onMouseLeave={(e) => t.link_url && (e.currentTarget.style.transform = 'scale(1)')} />
-          {t.link_url && (
-            <div style={{ position: 'absolute', top: '10px', right: '10px', background: 'rgba(255,16,34,0.9)', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
-              <Star size={14} fill="white" />
-            </div>
-          )}
-        </div>
-      ) : (
-        <p style={{
-          fontFamily: "'Changa', sans-serif",
-          fontSize: '0.95rem',
-          color: '#bbb',
-          lineHeight: 1.8,
-          fontStyle: 'italic',
-          flex: 1,
-          position: 'relative',
-          zIndex: 1,
-        }}>
-          {t.content}
-        </p>
-      )}
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {t.image_url ? (
+          <div style={{ position: 'relative', width: '100%', maxWidth: '400px', margin: '0 auto', borderRadius: '8px', overflow: 'hidden', cursor: t.link_url ? 'pointer' : 'default' }} onClick={() => t.link_url && window.open(t.link_url, '_blank')}>
+            <img src={t.image_url} alt={t.name} style={{ width: '100%', height: 'auto', display: 'block', transition: 'transform 0.3s ease' }} onMouseEnter={(e) => t.link_url && (e.currentTarget.style.transform = 'scale(1.05)')} onMouseLeave={(e) => t.link_url && (e.currentTarget.style.transform = 'scale(1)')} />
+            {t.link_url && (
+              <div style={{ position: 'absolute', top: '10px', right: '10px', background: 'rgba(255,16,34,0.9)', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+                <Star size={14} fill="white" />
+              </div>
+            )}
+          </div>
+        ) : (
+          <p style={{
+            fontFamily: "'Changa', sans-serif",
+            fontSize: '1.2rem',
+            color: '#eee',
+            lineHeight: 1.8,
+            fontStyle: 'italic',
+            textAlign: 'center',
+            position: 'relative',
+            zIndex: 1,
+          }}>
+            "{t.content}"
+          </p>
+        )}
+      </div>
 
       {/* Author */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: t.image_url ? '0.5rem' : '0' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', marginTop: '1.5rem' }}>
         {t.avatar_url ? (
-          <div style={{ position: 'relative', width: '44px', height: '44px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0 }}>
-            <Image src={t.avatar_url} alt={t.name} fill style={{ objectFit: 'cover' }} />
+          <div style={{ position: 'relative', width: '56px', height: '56px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0 }}>
+            <img src={t.avatar_url} alt={t.name} style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
           </div>
         ) : (
           <div style={{
-            width: '44px',
-            height: '44px',
+            width: '56px',
+            height: '56px',
             borderRadius: '50%',
             background: 'linear-gradient(135deg, #ff1022, #3b0000)',
             display: 'flex',
@@ -107,17 +102,17 @@ function TestimonialCard({ t, index }: { t: Testimonial; index: number }) {
             color: '#fff',
             fontFamily: "'Changa', sans-serif",
             fontWeight: 800,
-            fontSize: '1.1rem',
+            fontSize: '1.4rem',
             flexShrink: 0,
           }}>
             {t.name.charAt(0)}
           </div>
         )}
-        <div>
-          <div style={{ fontFamily: "'Changa', sans-serif", color: '#ffffff', fontWeight: 800, fontSize: '0.95rem' }}>
+        <div style={{ textAlign: 'right' }}>
+          <div style={{ fontFamily: "'Changa', sans-serif", color: '#ffffff', fontWeight: 800, fontSize: '1.1rem' }}>
             {t.name}
           </div>
-          <div style={{ fontFamily: "'Changa', sans-serif", color: '#777', fontSize: '0.8rem' }}>
+          <div style={{ fontFamily: "'Changa', sans-serif", color: '#999', fontSize: '0.9rem' }}>
             {t.role}{t.company ? ` — ${t.company}` : ''}
           </div>
         </div>
@@ -161,9 +156,9 @@ const PLACEHOLDER_TESTIMONIALS: Testimonial[] = [
 ];
 
 export default function Testimonials({ testimonials }: { testimonials: Testimonial[] }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const titleRef = useRef<HTMLDivElement>(null);
   const [titleVisible, setTitleVisible] = useState(false);
-  const displayList = testimonials.length > 0 ? testimonials : PLACEHOLDER_TESTIMONIALS;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -174,12 +169,27 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
     return () => observer.disconnect();
   }, []);
 
+  const displayList = testimonials.length > 0 ? [...testimonials].sort((a, b) => {
+    const aV = (a.order_index === undefined || a.order_index === null || Number(a.order_index) === 0) ? 1000000 : Number(a.order_index);
+    const bV = (b.order_index === undefined || b.order_index === null || Number(b.order_index) === 0) ? 1000000 : Number(b.order_index);
+    if (aV !== bV) return aV - bV;
+    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+  }) : PLACEHOLDER_TESTIMONIALS;
+
+  const nextTestimonial = () => {
+    setCurrentIndex((prev) => (prev === displayList.length - 1 ? 0 : prev + 1));
+  };
+
+  const prevTestimonial = () => {
+    setCurrentIndex((prev) => (prev === 0 ? displayList.length - 1 : prev - 1));
+  };
+
   return (
     <section
       id="testimonials"
       style={{ padding: '6rem 1.5rem', background: '#000000' }}
     >
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative' }}>
         <div
           ref={titleRef}
           style={{
@@ -215,15 +225,90 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
           </p>
         </div>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-          gap: '1.5rem',
-        }}>
-          {displayList.map((t, i) => (
-            <TestimonialCard key={t.id} t={t} index={i} />
+        <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          
+          <button 
+            onClick={nextTestimonial}
+            style={{
+              position: 'absolute',
+              right: 0,
+              zIndex: 10,
+              background: 'rgba(255,16,34,0.1)',
+              border: '1px solid rgba(255,16,34,0.2)',
+              color: '#ff1022',
+              width: '48px',
+              height: '48px',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = '#ff1022'; e.currentTarget.style.color = '#fff'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,16,34,0.1)'; e.currentTarget.style.color = '#ff1022'; }}
+            aria-label="Next Testimonial"
+          >
+            <ChevronRight size={24} />
+          </button>
+
+          <div style={{ width: '100%', overflow: 'hidden', padding: '1rem 3rem' }}>
+            <div style={{ display: 'flex', transition: 'transform 0.5s ease-in-out', transform: `translateX(${currentIndex * 100}%)`, direction: 'ltr' }}>
+              {displayList.map((t, idx) => (
+                <div key={t.id || idx} style={{ width: '100%', flexShrink: 0, padding: '0 1rem', direction: 'rtl' }}>
+                  <TestimonialCard t={t} />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <button 
+            onClick={prevTestimonial}
+            style={{
+              position: 'absolute',
+              left: 0,
+              zIndex: 10,
+              background: 'rgba(255,16,34,0.1)',
+              border: '1px solid rgba(255,16,34,0.2)',
+              color: '#ff1022',
+              width: '48px',
+              height: '48px',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = '#ff1022'; e.currentTarget.style.color = '#fff'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,16,34,0.1)'; e.currentTarget.style.color = '#ff1022'; }}
+            aria-label="Previous Testimonial"
+          >
+            <ChevronLeft size={24} />
+          </button>
+
+        </div>
+
+        {/* Indicators */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '2rem' }}>
+          {displayList.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentIndex(idx)}
+              style={{
+                width: currentIndex === idx ? '24px' : '8px',
+                height: '8px',
+                borderRadius: '4px',
+                background: currentIndex === idx ? '#ff1022' : 'rgba(255,255,255,0.2)',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease'
+              }}
+              aria-label={`Go to testimonial ${idx + 1}`}
+            />
           ))}
         </div>
+
       </div>
     </section>
   );

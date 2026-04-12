@@ -203,6 +203,36 @@ export default function AdminDashboard() {
     setTestimonials(prev => prev.filter(t => t.id !== id));
   };
 
+  const handleMoveTestimonial = async (id: string, direction: 'up' | 'down') => {
+    const visibleTestimonials = [...testimonials].sort((a, b) => {
+      const aV = (a.order_index === undefined || a.order_index === null || Number(a.order_index) === 0) ? 1000000 : Number(a.order_index);
+      const bV = (b.order_index === undefined || b.order_index === null || Number(b.order_index) === 0) ? 1000000 : Number(b.order_index);
+      if (aV !== bV) return aV - bV;
+      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+    });
+
+    const currentIndex = visibleTestimonials.findIndex(t => t.id === id);
+    if (currentIndex === -1) return;
+
+    const targetIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
+    if (targetIndex < 0 || targetIndex >= visibleTestimonials.length) return;
+
+    const newItems = [...visibleTestimonials];
+    const [movedItem] = newItems.splice(currentIndex, 1);
+    newItems.splice(targetIndex, 0, movedItem);
+
+    const updatedWithOrder = newItems.map((t, idx) => ({ ...t, order_index: idx + 1 }));
+
+    setTestimonials(prev => prev.map(t => {
+      const updated = updatedWithOrder.find(u => u.id === t.id);
+      return updated || t;
+    }));
+
+    for (let i = 0; i < updatedWithOrder.length; i++) {
+      await supabase.from('testimonials').update({ order_index: i + 1 }).eq('id', updatedWithOrder[i].id);
+    }
+  };
+
   const handleAddTestimonial = async () => {
     if (!newTestimonial.name) return;
     setAddingTestimonial(true);
@@ -721,12 +751,49 @@ export default function AdminDashboard() {
                 </div>
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                  {testimonials.map(t => (
+                  {[...testimonials].sort((a, b) => {
+                      const aV = (a.order_index === undefined || a.order_index === null || Number(a.order_index) === 0) ? 1000000 : Number(a.order_index);
+                      const bV = (b.order_index === undefined || b.order_index === null || Number(b.order_index) === 0) ? 1000000 : Number(b.order_index);
+                      if (aV !== bV) return aV - bV;
+                      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+                    }).map((t, idx, arr) => (
                     <div key={t.id} style={{
                       background: '#0a0a0a', border: '1px solid rgba(255,255,255,0.06)',
                       borderRadius: '12px', padding: '1rem 1.25rem',
                       display: 'flex', alignItems: 'flex-start', gap: '1rem', flexWrap: 'wrap',
                     }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                        <button
+                          onClick={() => handleMoveTestimonial(t.id, 'up')}
+                          disabled={idx === 0}
+                          style={{
+                            background: idx === 0 ? '#1a1a1a' : 'rgba(255,255,255,0.06)',
+                            border: '1px solid rgba(255,255,255,0.08)',
+                            borderRadius: '6px', width: '28px', height: '28px',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            cursor: idx === 0 ? 'not-allowed' : 'pointer',
+                            color: idx === 0 ? '#333' : '#aaa',
+                            transition: 'all 0.2s',
+                          }}
+                        >
+                          <ChevronUp size={14} />
+                        </button>
+                        <button
+                          onClick={() => handleMoveTestimonial(t.id, 'down')}
+                          disabled={idx === arr.length - 1}
+                          style={{
+                            background: idx === arr.length - 1 ? '#1a1a1a' : 'rgba(255,255,255,0.06)',
+                            border: '1px solid rgba(255,255,255,0.08)',
+                            borderRadius: '6px', width: '28px', height: '28px',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            cursor: idx === arr.length - 1 ? 'not-allowed' : 'pointer',
+                            color: idx === arr.length - 1 ? '#333' : '#aaa',
+                            transition: 'all 0.2s',
+                          }}
+                        >
+                          <ChevronDown size={14} />
+                        </button>
+                      </div>
                       <div style={{ flex: 1, minWidth: '200px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px', flexWrap: 'wrap' }}>
                           <span style={{ fontFamily: "'Almarai', sans-serif", fontWeight: 700, color: '#ffffff', fontSize: '0.95rem' }}>{t.name}</span>
