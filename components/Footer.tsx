@@ -1,5 +1,7 @@
 'use client';
 
+import { Facebook, MessageCircle } from 'lucide-react';
+
 export default function Footer() {
   return (
     <footer style={{
@@ -12,8 +14,8 @@ export default function Footer() {
         </p>
         <div style={{ display: 'flex', gap: '10px' }}>
           {[
-            { icon: '📘', text: 'لينك الفيس', href: 'https://www.facebook.com/share/1UfsNVEwxM/', color: '#1877F2', bgColor: 'rgba(24,119,242,0.1)' },
-            { icon: '💬', text: 'WhatsApp', href: 'https://wa.me/201092157086', color: '#25D366', bgColor: 'rgba(37,211,102,0.1)' },
+            { icon: <Facebook size={18} />, text: 'Facebook', href: 'https://www.facebook.com/share/1UfsNVEwxM/', color: '#1877F2', bgColor: 'rgba(24,119,242,0.1)' },
+            { icon: <MessageCircle size={18} />, text: 'WhatsApp', href: 'https://wa.me/201092157086', color: '#25D366', bgColor: 'rgba(37,211,102,0.1)' },
           ].map((social, i) => (
             <a
               key={i}
@@ -38,7 +40,7 @@ export default function Footer() {
               onMouseEnter={(e) => (e.currentTarget.style.borderColor = social.color)}
               onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
             >
-              <span style={{ fontSize: '1rem', display: 'flex', alignItems: 'center' }}>{social.icon}</span>
+              <span style={{ display: 'flex', alignItems: 'center' }}>{social.icon}</span>
               <span style={{ fontSize: '0.85rem', fontWeight: 600, fontFamily: "'Changa', sans-serif", letterSpacing: '0.5px' }}>{social.text}</span>
             </a>
           ))}
