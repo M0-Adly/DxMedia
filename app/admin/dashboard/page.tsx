@@ -462,6 +462,7 @@ export default function AdminDashboard() {
                   { id: 'all', label: 'الكل' },
                   { id: 'graphic', label: 'جرافيك' },
                   { id: 'video', label: 'فيديو' },
+                  { id: 'marketing', label: 'تسويق رقمي' },
                   { id: 'motion', label: 'موشن' },
                   { id: 'ads', label: 'إعلانات' },
                   { id: 'web', label: 'مواقع وتطبيقات' },
