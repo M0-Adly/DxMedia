@@ -13,6 +13,7 @@ const CATEGORIES: { value: ProjectCategory; label: string }[] = [
   { value: 'ads', label: 'إعلانات ممولة' },
   { value: 'web', label: 'تطوير مواقع وتطبيقات' },
   { value: 'ai', label: 'ذكاء اصطناعي' },
+  { value: 'marketing', label: 'التسويق الرقمي' },
   { value: 'other', label: 'أخرى' },
 ];
 

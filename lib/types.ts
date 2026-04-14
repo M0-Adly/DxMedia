@@ -1,4 +1,4 @@
-export type ProjectCategory = 'graphic' | 'motion' | 'video' | 'ads' | 'web' | 'ai' | 'other';
+export type ProjectCategory = 'graphic' | 'motion' | 'video' | 'ads' | 'web' | 'ai' | 'marketing' | 'other';
 
 export interface Project {
   id: string;
