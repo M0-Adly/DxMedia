@@ -234,7 +234,7 @@ export default function AdminDashboard() {
   };
 
   const handleAddTestimonial = async () => {
-    if (!newTestimonial.name) return;
+    if (!newTestimonial.name && !testimonialFile) return;
     setAddingTestimonial(true);
     try {
       let imageUrl = '';
@@ -670,7 +670,7 @@ export default function AdminDashboard() {
                   {['name', 'role', 'company', 'link_url'].map(field => (
                     <input
                       key={field}
-                      placeholder={field === 'name' ? 'الاسم (أو اسم البراند) *' : field === 'role' ? 'الوظيفة' : field === 'company' ? 'الشركة' : 'رابط (عند الضغط على الصورة)'}
+                      placeholder={field === 'name' ? 'الاسم (أو اسم البراند)' : field === 'role' ? 'الوظيفة' : field === 'company' ? 'الشركة' : 'رابط (عند الضغط على الصورة)'}
                       value={newTestimonial[field as keyof typeof newTestimonial] as string}
                       onChange={(e) => setNewTestimonial(prev => ({ ...prev, [field]: e.target.value }))}
                       style={inputStyle}

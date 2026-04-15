@@ -16,62 +16,46 @@ function TestimonialCard({ t }: { t: Testimonial }) {
         background: '#0a0a0a',
         border: hovered ? '1px solid rgba(74,0,0,0.35)' : '1px solid rgba(255,255,255,0.06)',
         borderRadius: '14px',
-        padding: '2.5rem',
+        padding: t.image_url ? '0' : '2.5rem',
         position: 'relative',
         overflow: 'hidden',
         boxShadow: hovered ? '0 8px 30px rgba(74,0,0,0.08)' : 'none',
         display: 'flex',
         flexDirection: 'column',
-        gap: '1.25rem',
+        gap: t.image_url ? '0' : '1.25rem',
         maxWidth: '800px',
         margin: '0 auto',
         width: '100%',
-        minHeight: '320px',
+        minHeight: t.image_url ? 'auto' : '320px',
         transition: 'all 0.3s ease'
       }}
     >
-      {/* Big quote mark */}
-      <div style={{
-        position: 'absolute',
-        top: '-10px',
-        right: '20px',
-        fontFamily: '"Bebas Neue", sans-serif',
-        fontSize: '8rem',
-        color: 'rgba(255,16,34,0.08)',
-        lineHeight: 1,
-        userSelect: 'none',
-        pointerEvents: 'none',
-      }}>
-        &quot;
-      </div>
-
-      {/* Stars */}
-      <div style={{ display: 'flex', gap: '3px', justifyContent: 'center', marginBottom: '10px' }}>
-        {Array.from({ length: 5 }).map((_, i) => (
-          <Star
-            key={i}
-            size={18}
-            fill={i < t.rating ? '#ff1022' : 'transparent'}
-            color={i < t.rating ? '#ff1022' : '#444'}
-          />
-        ))}
-      </div>
+      {!t.image_url && (
+        <div style={{
+          position: 'absolute',
+          top: '-10px',
+          right: '20px',
+          fontFamily: '"Bebas Neue", sans-serif',
+          fontSize: '8rem',
+          color: 'rgba(255,16,34,0.08)',
+          lineHeight: 1,
+          userSelect: 'none',
+          pointerEvents: 'none',
+        }}>
+          &quot;
+        </div>
+      )}
 
       {/* Content */}
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ flex: t.image_url ? 'none' : 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {t.image_url ? (
-          <div style={{ position: 'relative', width: '100%', maxWidth: '400px', margin: '0 auto', borderRadius: '8px', overflow: 'hidden', cursor: t.link_url ? 'pointer' : 'default' }} onClick={() => t.link_url && window.open(t.link_url, '_blank')}>
-            <img src={t.image_url} alt={t.name} style={{ width: '100%', height: 'auto', display: 'block', transition: 'transform 0.3s ease' }} onMouseEnter={(e) => t.link_url && (e.currentTarget.style.transform = 'scale(1.05)')} onMouseLeave={(e) => t.link_url && (e.currentTarget.style.transform = 'scale(1)')} />
-            {t.link_url && (
-              <div style={{ position: 'absolute', top: '10px', right: '10px', background: 'rgba(255,16,34,0.9)', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
-                <Star size={14} fill="white" />
-              </div>
-            )}
+          <div style={{ position: 'relative', width: '100%', cursor: t.link_url ? 'pointer' : 'default' }} onClick={() => t.link_url && window.open(t.link_url, '_blank')}>
+            <img src={t.image_url} alt={t.name || 'Testimonial'} style={{ width: '100%', height: 'auto', display: 'block', transition: 'transform 0.3s ease' }} onMouseEnter={(e) => t.link_url && (e.currentTarget.style.transform = 'scale(1.02)')} onMouseLeave={(e) => t.link_url && (e.currentTarget.style.transform = 'scale(1)')} />
           </div>
         ) : (
           <p style={{
             fontFamily: "'Changa', sans-serif",
-            fontSize: '1.2rem',
+            fontSize: 'clamp(1.1rem, 2vw, 1.4rem)',
             color: '#eee',
             lineHeight: 1.8,
             fontStyle: 'italic',
@@ -84,39 +68,60 @@ function TestimonialCard({ t }: { t: Testimonial }) {
         )}
       </div>
 
-      {/* Author */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', marginTop: '1.5rem' }}>
-        {t.avatar_url ? (
-          <div style={{ position: 'relative', width: '56px', height: '56px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0 }}>
-            <img src={t.avatar_url} alt={t.name} style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
-          </div>
-        ) : (
-          <div style={{
-            width: '56px',
-            height: '56px',
-            borderRadius: '50%',
-            background: 'linear-gradient(135deg, #ff1022, #3b0000)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#fff',
-            fontFamily: "'Changa', sans-serif",
-            fontWeight: 800,
-            fontSize: '1.4rem',
-            flexShrink: 0,
-          }}>
-            {t.name.charAt(0)}
-          </div>
-        )}
-        <div style={{ textAlign: 'right' }}>
-          <div style={{ fontFamily: "'Changa', sans-serif", color: '#ffffff', fontWeight: 800, fontSize: '1.1rem' }}>
-            {t.name}
-          </div>
-          <div style={{ fontFamily: "'Changa', sans-serif", color: '#999', fontSize: '0.9rem' }}>
-            {t.role}{t.company ? ` — ${t.company}` : ''}
-          </div>
+      {/* Author - Only show if name or role is provided, and pad it if image is present */}
+      {(t.name || t.role || (t.image_url && t.content)) && (
+        <div style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          gap: '16px', 
+          padding: t.image_url ? '1.5rem' : '0',
+          marginTop: t.image_url ? '0' : '1.5rem',
+          borderTop: t.image_url && (t.name || t.content) ? '1px solid rgba(255,255,255,0.05)' : 'none',
+        }}>
+          {t.name && (
+            <>
+              {t.avatar_url ? (
+                <div style={{ position: 'relative', width: '56px', height: '56px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0 }}>
+                  <img src={t.avatar_url} alt={t.name} style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
+                </div>
+              ) : (
+                <div style={{
+                  width: '56px',
+                  height: '56px',
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, #ff1022, #3b0000)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#fff',
+                  fontFamily: "'Changa', sans-serif",
+                  fontWeight: 800,
+                  fontSize: '1.4rem',
+                  flexShrink: 0,
+                }}>
+                  {t.name.charAt(0)}
+                </div>
+              )}
+              <div style={{ textAlign: 'right' }}>
+                <div style={{ fontFamily: "'Changa', sans-serif", color: '#ffffff', fontWeight: 800, fontSize: '1.1rem' }}>
+                  {t.name}
+                </div>
+                {(t.role || t.company) && (
+                  <div style={{ fontFamily: "'Changa', sans-serif", color: '#999', fontSize: '0.9rem' }}>
+                    {t.role}{t.company ? ` — ${t.company}` : ''}
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+          {!t.name && t.content && t.image_url && (
+            <p style={{ fontFamily: "'Changa', sans-serif", color: '#eee', fontSize: '1rem', textAlign: 'center', margin: 0 }}>
+              {t.content}
+            </p>
+          )}
         </div>
-      </div>
+      )}
     </div>
   );
 }
