@@ -1,6 +1,6 @@
 'use client';
 
-import { Facebook, MessageCircle } from 'lucide-react';
+import { Facebook, MessageCircle, Instagram } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -14,8 +14,9 @@ export default function Footer() {
         </p>
         <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
           {[
-            { icon: <Facebook size={22} color="#fff" />, text: 'Facebook', href: 'https://www.facebook.com/share/1UfsNVEwxM/', color: '#1877F2', bgColor: '#1877F2' },
-            { icon: <MessageCircle size={22} color="#fff" />, text: 'WhatsApp', href: 'https://wa.me/201092157086', color: '#25D366', bgColor: '#25D366' },
+            { icon: <Facebook size={22} color="#fff" />, text: 'Facebook', href: 'https://www.facebook.com/share/1UfsNVEwxM/', bgColor: '#1877F2' },
+            { icon: <Instagram size={22} color="#fff" />, text: 'Instagram', href: 'https://www.instagram.com/dx._media?igsh=NGxtZ2RvOGxyY3Y=', bgColor: '#E4405F' },
+            { icon: <MessageCircle size={22} color="#fff" />, text: 'WhatsApp', href: 'https://wa.me/201092157086', bgColor: '#25D366' },
           ].map((social, i) => (
             <a
               key={i}

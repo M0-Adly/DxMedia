@@ -14,12 +14,12 @@ export default function WelcomePopup() {
       setIsVisible(true);
     }, 1000);
 
-    // Hide after 5 seconds + delay
+    // Hide after 8 seconds + delay
     const hideTimer = setTimeout(() => {
       setIsVisible(false);
       // Remove from DOM after transition
       setTimeout(() => setShouldRender(false), 500);
-    }, 6000);
+    }, 9000);
 
     return () => {
       clearTimeout(timer);
@@ -91,18 +91,6 @@ export default function WelcomePopup() {
             أهلاً بك في Dx Media
           </h3>
           
-          <p 
-            style={{ 
-              fontFamily: "'Changa', sans-serif", 
-              color: '#bbb', 
-              fontSize: '0.95rem', 
-              lineHeight: 1.6,
-              marginBottom: '15px'
-            }}
-          >
-            ده جزء بسيط من شغلنا إن شاء الله يعجبك، ولو محتاج تتفرج على حاجة معينة تقدر تتواصل معانا فوراً ونحقق لك طلبك.
-          </p>
-          
           <div 
             style={{ 
               background: 'rgba(255, 255, 255, 0.03)', 
@@ -115,7 +103,7 @@ export default function WelcomePopup() {
               style={{ 
                 fontFamily: "'Changa', sans-serif", 
                 color: '#ddd', 
-                fontSize: '0.85rem', 
+                fontSize: '0.95rem', 
                 lineHeight: 1.5,
                 margin: 0
               }}
