@@ -8,6 +8,59 @@ import { Testimonial } from '@/lib/types';
 function TestimonialCard({ t }: { t: Testimonial }) {
   const [hovered, setHovered] = useState(false);
 
+  if (t.image_url) {
+    return (
+      <div
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '12px',
+          maxWidth: '800px',
+          margin: '0 auto',
+          width: '100%',
+        }}
+      >
+        <div 
+          onClick={() => t.link_url && window.open(t.link_url, '_blank')}
+          style={{ 
+            position: 'relative', 
+            width: '100%', 
+            cursor: t.link_url ? 'pointer' : 'default',
+            overflow: 'hidden',
+            borderRadius: '14px',
+          }} 
+        >
+          <img 
+            src={t.image_url} 
+            alt={t.name || 'Testimonial'} 
+            style={{ 
+              width: '100%', 
+              height: 'auto', 
+              display: 'block', 
+              transition: 'transform 0.3s ease',
+              transform: hovered && t.link_url ? 'scale(1.02)' : 'scale(1)'
+            }} 
+          />
+        </div>
+        {t.name && (
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontFamily: "'Changa', sans-serif", color: '#ffffff', fontWeight: 600, fontSize: '0.9rem' }}>
+              {t.name}
+            </div>
+            {(t.role || t.company) && (
+              <div style={{ fontFamily: "'Changa', sans-serif", color: '#999', fontSize: '0.8rem' }}>
+                {t.role}{t.company ? ` — ${t.company}` : ''}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div
       onMouseEnter={() => setHovered(true)}
@@ -16,68 +69,60 @@ function TestimonialCard({ t }: { t: Testimonial }) {
         background: '#0a0a0a',
         border: hovered ? '1px solid rgba(74,0,0,0.35)' : '1px solid rgba(255,255,255,0.06)',
         borderRadius: '14px',
-        padding: t.image_url ? '0' : '2.5rem',
+        padding: '2.5rem',
         position: 'relative',
         overflow: 'hidden',
         boxShadow: hovered ? '0 8px 30px rgba(74,0,0,0.08)' : 'none',
         display: 'flex',
         flexDirection: 'column',
-        gap: t.image_url ? '0' : '1.25rem',
+        gap: '1.25rem',
         maxWidth: '800px',
         margin: '0 auto',
         width: '100%',
-        minHeight: t.image_url ? 'auto' : '320px',
+        minHeight: '320px',
         transition: 'all 0.3s ease'
       }}
     >
-      {!t.image_url && (
-        <div style={{
-          position: 'absolute',
-          top: '-10px',
-          right: '20px',
-          fontFamily: '"Bebas Neue", sans-serif',
-          fontSize: '8rem',
-          color: 'rgba(255,16,34,0.08)',
-          lineHeight: 1,
-          userSelect: 'none',
-          pointerEvents: 'none',
-        }}>
-          &quot;
-        </div>
-      )}
-
-      {/* Content */}
-      <div style={{ flex: t.image_url ? 'none' : 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        {t.image_url ? (
-          <div style={{ position: 'relative', width: '100%', cursor: t.link_url ? 'pointer' : 'default' }} onClick={() => t.link_url && window.open(t.link_url, '_blank')}>
-            <img src={t.image_url} alt={t.name || 'Testimonial'} style={{ width: '100%', height: 'auto', display: 'block', transition: 'transform 0.3s ease' }} onMouseEnter={(e) => t.link_url && (e.currentTarget.style.transform = 'scale(1.02)')} onMouseLeave={(e) => t.link_url && (e.currentTarget.style.transform = 'scale(1)')} />
-          </div>
-        ) : (
-          <p style={{
-            fontFamily: "'Changa', sans-serif",
-            fontSize: 'clamp(1.1rem, 2vw, 1.4rem)',
-            color: '#eee',
-            lineHeight: 1.8,
-            fontStyle: 'italic',
-            textAlign: 'center',
-            position: 'relative',
-            zIndex: 1,
-          }}>
-            "{t.content}"
-          </p>
-        )}
+      <div style={{
+        position: 'absolute',
+        top: '-10px',
+        right: '20px',
+        fontFamily: '"Bebas Neue", sans-serif',
+        fontSize: '8rem',
+        color: 'rgba(255,16,34,0.08)',
+        lineHeight: 1,
+        userSelect: 'none',
+        pointerEvents: 'none',
+      }}>
+        &quot;
       </div>
 
-      {/* Author - Only show if name or role is provided, and pad it if image is present */}
-      {(t.name || t.role || (t.image_url && t.content)) && (
+      {/* Content */}
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <p style={{
+          fontFamily: "'Changa', sans-serif",
+          fontSize: 'clamp(1.1rem, 2vw, 1.4rem)',
+          color: '#eee',
+          lineHeight: 1.8,
+          fontStyle: 'italic',
+          textAlign: 'center',
+          position: 'relative',
+          zIndex: 1,
+        }}>
+          "{t.content}"
+        </p>
+      </div>
+
+      {/* Author */}
+      {(t.name || t.role) && (
         <div style={{ 
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'center', 
           gap: '16px', 
-          padding: t.image_url ? '1.5rem' : '0',
-          marginTop: t.image_url ? '0' : '1.5rem',
-          borderTop: t.image_url && (t.name || t.content) ? '1px solid rgba(255,255,255,0.05)' : 'none',
+          padding: '0',
+          marginTop: '1.5rem',
+          borderTop: 'none',
         }}>
           {t.name && (
             <>
@@ -114,11 +159,6 @@ function TestimonialCard({ t }: { t: Testimonial }) {
                 )}
               </div>
             </>
-          )}
-          {!t.name && t.content && t.image_url && (
-            <p style={{ fontFamily: "'Changa', sans-serif", color: '#eee', fontSize: '1rem', textAlign: 'center', margin: 0 }}>
-              {t.content}
-            </p>
           )}
         </div>
       )}
@@ -258,7 +298,7 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
           </button>
 
           <div style={{ width: '100%', overflow: 'hidden', padding: '1rem 3rem' }}>
-            <div style={{ display: 'flex', transition: 'transform 0.5s ease-in-out', transform: `translateX(${currentIndex * 100}%)`, direction: 'ltr' }}>
+            <div style={{ display: 'flex', transition: 'transform 0.5s ease-in-out', transform: `translateX(-${currentIndex * 100}%)`, direction: 'ltr' }}>
               {displayList.map((t, idx) => (
                 <div key={t.id || idx} style={{ width: '100%', flexShrink: 0, padding: '0 1rem', direction: 'rtl' }}>
                   <TestimonialCard t={t} />

@@ -234,7 +234,10 @@ export default function AdminDashboard() {
   };
 
   const handleAddTestimonial = async () => {
-    if (!newTestimonial.name && !testimonialFile) return;
+    if (!testimonialFile) {
+      alert('الرجاء رفع صورة أو ملف أولاً');
+      return;
+    }
     setAddingTestimonial(true);
     try {
       let imageUrl = '';
@@ -248,9 +251,12 @@ export default function AdminDashboard() {
       }
 
       const payload = {
-        ...newTestimonial,
-        image_url: imageUrl || null,
-        content: newTestimonial.content || null
+        name: newTestimonial.name || '',
+        role: newTestimonial.role || '',
+        company: newTestimonial.company || '',
+        content: newTestimonial.content || '',
+        rating: newTestimonial.rating || 5,
+        image_url: imageUrl || null
       };
 
       const { data } = await supabase.from('testimonials').insert([payload]).select().single();

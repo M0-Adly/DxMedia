@@ -68,8 +68,8 @@ export default function UploadModal({ onClose, onSuccess, editProject }: UploadM
   };
 
   const handleSave = async () => {
-    if (!title) return setError('اسم المشروع مطلوب');
     if (!category) return setError('التصنيف مطلوب');
+    if (!imageFile && !editProject?.image_url) return setError('صورة أو ملف المشروع مطلوب');
 
     setUploading(true);
     setError('');
