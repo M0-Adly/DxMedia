@@ -7,6 +7,7 @@ import Testimonials from '@/components/Testimonials';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import About from '@/components/About';
+import WelcomePopup from '@/components/WelcomePopup';
 import { Project, Testimonial } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
@@ -73,6 +74,7 @@ export default async function HomePage() {
       <Testimonials testimonials={(testimonials as Testimonial[]) || []} />
       <Contact />
       <Footer />
+      <WelcomePopup />
     </main>
   );
 }
