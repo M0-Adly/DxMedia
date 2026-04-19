@@ -95,7 +95,7 @@ export default function WelcomePopup() {
             style={{ 
               background: 'rgba(255, 255, 255, 0.03)', 
               borderRight: '3px solid #ff1022',
-              padding: '10px 12px',
+              padding: '12px 16px',
               borderRadius: '4px 8px 8px 4px'
             }}
           >
@@ -103,12 +103,12 @@ export default function WelcomePopup() {
               style={{ 
                 fontFamily: "'Changa', sans-serif", 
                 color: '#ddd', 
-                fontSize: '0.95rem', 
-                lineHeight: 1.5,
+                fontSize: '1.05rem', 
+                lineHeight: 1.6,
                 margin: 0
               }}
             >
-              <span style={{ color: '#ff1022', fontWeight: 700 }}>ملحوظة:</span> أي مشروع تضغط عليه داخل الويبسايت بتاعنا بيوديك على لينك درايف المشروع كاملاً عشان تتفرج على كل شيء.
+              إذا قمت <span style={{ color: '#ff1022', fontWeight: 900 }}>بالضغط</span> على أيٍّ من المشاريع الخاصة بنا، سوف تنتقل مباشرة إلى التفاصيل الخاصة بكل مشروع لتحظى بمشاهدة ممتعة.
             </p>
           </div>
         </div>
