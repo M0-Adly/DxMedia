@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   FolderOpen, MessageSquare, Star, Settings, LogOut,
-  Plus, Check, X, Eye, Trash2, ChevronDown, ChevronUp, Save,
+  Plus, Check, X, Eye, Trash2, ChevronDown, ChevronUp, Save, Pencil,
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase';
 import { Project, Testimonial, Message, ProjectCategory } from '@/lib/types';
@@ -44,6 +44,7 @@ export default function AdminDashboard() {
   const [testimonialFile, setTestimonialFile] = useState<File | null>(null);
   const [testimonialPreview, setTestimonialPreview] = useState<string>('');
   const [addingTestimonial, setAddingTestimonial] = useState(false);
+  const [editTestimonial, setEditTestimonial] = useState<Testimonial | null>(null);
 
 
   // Settings state
@@ -233,14 +234,31 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleEditTestimonial = (t: Testimonial) => {
+    setEditTestimonial(t);
+    setNewTestimonial({
+      name: t.name,
+      role: t.role,
+      company: t.company || '',
+      content: t.content || '',
+      link_url: t.link_url || '',
+      rating: t.rating
+    });
+    setTestimonialPreview(t.image_url || '');
+    // Scroll to form
+    const formElement = document.getElementById('testimonial-form');
+    if (formElement) formElement.scrollIntoView({ behavior: 'smooth' });
+  };
+
   const handleAddTestimonial = async () => {
-    if (!testimonialFile) {
+    if (!testimonialFile && !editTestimonial) {
       alert('الرجاء رفع صورة أو ملف أولاً');
       return;
     }
     setAddingTestimonial(true);
     try {
-      let imageUrl = '';
+      let imageUrl = editTestimonial?.image_url || '';
+      
       if (testimonialFile) {
         const ext = testimonialFile.name.split('.').pop();
         const fileName = `${crypto.randomUUID()}.${ext}`;
@@ -256,17 +274,36 @@ export default function AdminDashboard() {
         company: newTestimonial.company || '',
         content: newTestimonial.content || '',
         rating: newTestimonial.rating || 5,
+        link_url: newTestimonial.link_url || '',
         image_url: imageUrl || null
       };
 
-      const { data } = await supabase.from('testimonials').insert([payload]).select().single();
-      if (data) setTestimonials(prev => [data as Testimonial, ...prev]);
+      if (editTestimonial) {
+        const { data, error } = await supabase
+          .from('testimonials')
+          .update(payload)
+          .eq('id', editTestimonial.id)
+          .select()
+          .single();
+        
+        if (error) throw error;
+        if (data) {
+          setTestimonials(prev => prev.map(t => t.id === data.id ? (data as Testimonial) : t));
+          alert('تم التحديث بنجاح');
+        }
+      } else {
+        const { data, error } = await supabase.from('testimonials').insert([payload]).select().single();
+        if (error) throw error;
+        if (data) setTestimonials(prev => [data as Testimonial, ...prev]);
+      }
+
       setNewTestimonial({ name: '', role: '', company: '', content: '', link_url: '', rating: 5 });
       setTestimonialFile(null);
       setTestimonialPreview('');
+      setEditTestimonial(null);
     } catch (err) {
       console.error(err);
-      alert('حدث خطأ أثناء الإضافة');
+      alert('حدث خطأ أثناء المعالجة');
     } finally {
       setAddingTestimonial(false);
     }
@@ -669,8 +706,8 @@ export default function AdminDashboard() {
                 background: '#0a0a0a', border: '1px solid rgba(255,255,255,0.06)',
                 borderRadius: '14px', padding: '1.5rem', marginBottom: '1.5rem',
               }}>
-                <h3 style={{ fontFamily: "'Almarai', sans-serif", color: '#ffffff', fontWeight: 700, marginBottom: '1.25rem', fontSize: '1rem' }}>
-                  إضافة شهادة جديدة
+                <h3 id="testimonial-form" style={{ fontFamily: "'Almarai', sans-serif", color: '#ffffff', fontWeight: 700, marginBottom: '1.25rem', fontSize: '1rem' }}>
+                  {editTestimonial ? 'تعديل الشهادة' : 'إضافة شهادة جديدة'}
                 </h3>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
                   {['name', 'role', 'company', 'link_url'].map(field => (
@@ -746,8 +783,25 @@ export default function AdminDashboard() {
                       cursor: addingTestimonial ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', gap: '6px',
                     }}
                   >
-                    <Plus size={16} /> إضافة
+                    <Plus size={16} /> {editTestimonial ? 'تحديث' : 'إضافة'}
                   </button>
+                  {editTestimonial && (
+                    <button
+                      onClick={() => {
+                        setEditTestimonial(null);
+                        setNewTestimonial({ name: '', role: '', company: '', content: '', link_url: '', rating: 5 });
+                        setTestimonialFile(null);
+                        setTestimonialPreview('');
+                      }}
+                      style={{
+                        background: 'rgba(255,255,255,0.05)', color: '#888', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px',
+                        padding: '10px 20px', fontFamily: "'Almarai', sans-serif", fontWeight: 700, fontSize: '0.875rem',
+                        cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px',
+                      }}
+                    >
+                      إلغاء
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -820,11 +874,13 @@ export default function AdminDashboard() {
                         }}>
                           {t.is_active ? <><Check size={12} /> نشط</> : <><X size={12} /> مخفي</>}
                         </button>
-                        <button onClick={() => handleDeleteTestimonial(t.id)} style={{
-                          background: 'rgba(255,16,34,0.08)', border: '1px solid rgba(255,16,34,0.15)',
-                          borderRadius: '8px', padding: '6px 10px', color: '#ff1022', cursor: 'pointer',
-                        }}>
                           <Trash2 size={14} />
+                        </button>
+                        <button onClick={() => handleEditTestimonial(t)} style={{
+                          background: 'rgba(77,156,248,0.08)', border: '1px solid rgba(77,156,248,0.15)',
+                          borderRadius: '8px', padding: '6px 10px', color: '#4d9cf8', cursor: 'pointer',
+                        }}>
+                          <Pencil size={14} />
                         </button>
                       </div>
                     </div>
