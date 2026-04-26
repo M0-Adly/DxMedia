@@ -874,6 +874,10 @@ export default function AdminDashboard() {
                         }}>
                           {t.is_active ? <><Check size={12} /> نشط</> : <><X size={12} /> مخفي</>}
                         </button>
+                        <button onClick={() => handleDeleteTestimonial(t.id)} style={{
+                          background: 'rgba(255,16,34,0.08)', border: '1px solid rgba(255,16,34,0.15)',
+                          borderRadius: '8px', padding: '6px 10px', color: '#ff1022', cursor: 'pointer',
+                        }}>
                           <Trash2 size={14} />
                         </button>
                         <button onClick={() => handleEditTestimonial(t)} style={{
