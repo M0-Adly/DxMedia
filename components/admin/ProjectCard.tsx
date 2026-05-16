@@ -32,63 +32,66 @@ export default function ProjectCard({ project, onEdit, onDelete, onToggleFeature
       transition: 'border-color 0.3s',
       display: 'flex',
       flexDirection: 'column',
+      height: '100%',
     }}
       onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'rgba(255,16,34,0.25)')}
       onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)')}
     >
       {/* Thumbnail */}
-      <div style={{ position: 'relative', aspectRatio: '16/9', background: '#111' }}>
-        {project.image_url ? (
-          project.image_url.match(/\.(mp4|webm|mov)$/i) ? (
-            <video src={project.image_url} autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }} />
-          ) : project.image_url.match(/\.(jpg|jpeg|png|webp|gif|svg)$/i) ? (
-            <Image src={project.image_url} alt={project.title} fill style={{ objectFit: 'cover' }} sizes="400px" />
+      <div style={{ position: 'relative', width: '100%', paddingTop: '56.25%', background: '#111' }}>
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
+          {project.image_url ? (
+            project.image_url.match(/\.(mp4|webm|mov)$/i) ? (
+              <video src={project.image_url} autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }} />
+            ) : project.image_url.match(/\.(jpg|jpeg|png|webp|gif|svg)$/i) ? (
+              <Image src={project.image_url} alt={project.title} fill style={{ objectFit: 'cover' }} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
+            ) : (
+              <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#ff1022' }}>
+                <FileIcon size={40} />
+                <span style={{ fontSize: '0.6rem', color: '#555', marginTop: '4px' }}>ملف</span>
+              </div>
+            )
           ) : (
-            <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#ff1022' }}>
-              <FileIcon size={40} />
-              <span style={{ fontSize: '0.6rem', color: '#555', marginTop: '4px' }}>ملف</span>
+            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span style={{ fontSize: '2rem', opacity: 0.3 }}>📁</span>
             </div>
-          )
-        ) : (
-          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontSize: '2rem', opacity: 0.3 }}>📁</span>
+          )}
+          
+          {/* badges */}
+          <div style={{ position: 'absolute', top: '8px', right: '8px', display: 'flex', flexDirection: 'column', gap: '4px', alignItems: 'flex-end', zIndex: 10 }}>
+            <span style={{
+              background: CATEGORY_COLORS[project.category] || '#777',
+              color: '#fff', fontSize: '0.72rem', padding: '3px 10px', borderRadius: '20px',
+              fontFamily: "'Changa', sans-serif", fontWeight: 800,
+            }}>
+              {CATEGORY_LABELS[project.category] || project.category}
+            </span>
+            {project.order_index !== undefined && project.order_index > 0 && project.order_index < 1000000 && (
+              <span style={{ background: 'rgba(0,0,0,0.7)', color: '#fff', fontSize: '0.65rem', padding: '2px 8px', borderRadius: '4px' }}>
+                الترتيب: {project.order_index}
+              </span>
+            )}
           </div>
-        )}
-        
-        {/* badges */}
-        <div style={{ position: 'absolute', top: '8px', right: '8px', display: 'flex', flexDirection: 'column', gap: '4px', alignItems: 'flex-end' }}>
-          <span style={{
-            background: CATEGORY_COLORS[project.category] || '#777',
-            color: '#fff', fontSize: '0.72rem', padding: '3px 10px', borderRadius: '20px',
-            fontFamily: "'Changa', sans-serif", fontWeight: 800,
-          }}>
-            {CATEGORY_LABELS[project.category] || project.category}
-          </span>
-          {project.order_index !== undefined && project.order_index > 0 && project.order_index < 1000000 && (
-            <span style={{ background: 'rgba(0,0,0,0.7)', color: '#fff', fontSize: '0.65rem', padding: '2px 8px', borderRadius: '4px' }}>
-              الترتيب: {project.order_index}
-            </span>
-          )}
-        </div>
 
-        <div style={{ position: 'absolute', top: '8px', left: '8px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-          {project.featured && (
-            <span style={{
-              background: 'rgba(0,0,0,0.7)', color: '#ff1022',
-              fontSize: '0.72rem', padding: '3px 8px', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '3px',
-            }}>
-              <Star size={10} fill="#ff1022" /> مميز
-            </span>
-          )}
-          {project.is_archived && (
-            <span style={{
-              background: '#333', color: '#ff1022',
-              fontSize: '0.72rem', padding: '3px 8px', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '3px',
-              border: '1px solid #ff1022'
-            }}>
-              مؤرشف 📁
-            </span>
-          )}
+          <div style={{ position: 'absolute', top: '8px', left: '8px', display: 'flex', flexDirection: 'column', gap: '4px', zIndex: 10 }}>
+            {project.featured && (
+              <span style={{
+                background: 'rgba(0,0,0,0.7)', color: '#ff1022',
+                fontSize: '0.72rem', padding: '3px 8px', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '3px',
+              }}>
+                <Star size={10} fill="#ff1022" /> مميز
+              </span>
+            )}
+            {project.is_archived && (
+              <span style={{
+                background: '#333', color: '#ff1022',
+                fontSize: '0.72rem', padding: '3px 8px', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '3px',
+                border: '1px solid #ff1022'
+              }}>
+                مؤرشف 📁
+              </span>
+            )}
+          </div>
         </div>
       </div>
 

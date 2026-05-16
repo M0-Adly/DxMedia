@@ -458,7 +458,7 @@ export default function AdminDashboard() {
           {activeTab === 'projects' && (
             <div>
               {/* Stats */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
                 {[
                   { label: 'إجمالي المشاريع', value: projects.length, color: '#4d9cf8' },
                   { label: 'مشاريع مميزة', value: projects.filter(p => p.featured).length, color: '#ff1022' },
@@ -466,10 +466,11 @@ export default function AdminDashboard() {
                 ].map((stat, i) => (
                   <div key={i} style={{
                     background: '#0a0a0a', border: '1px solid rgba(255,255,255,0.06)',
-                    borderRadius: '12px', padding: '1.25rem',
+                    borderRadius: '12px', padding: '1rem',
+                    display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
                   }}>
                     <div style={{ fontSize: '1.75rem', fontFamily: '"Bebas Neue", sans-serif', color: stat.color }}>{stat.value}</div>
-                    <div style={{ color: '#666', fontSize: '0.8rem', marginTop: '4px' }}>{stat.label}</div>
+                    <div style={{ color: '#666', fontSize: '0.75rem', marginTop: '4px', textAlign: 'center' }}>{stat.label}</div>
                   </div>
                 ))}
               </div>
@@ -500,6 +501,7 @@ export default function AdminDashboard() {
                 overflowX: 'auto',
                 paddingBottom: '8px',
                 scrollbarWidth: 'none',
+                WebkitOverflowScrolling: 'touch',
               }}>
                 {[
                   { id: 'all', label: 'الكل' },
@@ -547,12 +549,7 @@ export default function AdminDashboard() {
                   <p style={{ fontFamily: "'Almarai', sans-serif" }}>لا توجد مشاريع بعد</p>
                 </div>
               ) : (
-                <div style={{ 
-                  display: 'grid', 
-                  gridTemplateColumns: 'repeat(auto-fill, minmax(min(300px, 100%), 1fr))', 
-                  gap: '1rem',
-                  padding: '0.25rem' 
-                }}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-1">
                   {projects
                     .filter(p => {
                       if (adminCategory === 'archived') return p.is_archived;
