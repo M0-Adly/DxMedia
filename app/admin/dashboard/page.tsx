@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   FolderOpen, MessageSquare, Star, Settings, LogOut,
-  Plus, Check, X, Eye, Trash2, ChevronDown, ChevronUp, Save, Pencil,
+  Plus, Check, X, Eye, Trash2, ChevronDown, ChevronUp, Save, Pencil, Menu,
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase';
 import { Project, Testimonial, Message, ProjectCategory } from '@/lib/types';
@@ -342,8 +342,17 @@ export default function AdminDashboard() {
   const unreadCount = messages.filter(m => !m.is_read).length;
 
   return (
-    <div style={{ minHeight: '100vh', background: '#050505', display: 'flex', fontFamily: "'Almarai', sans-serif" }}>
-      {/* ── SIDEBAR (desktop) ── */}
+    <div style={{ minHeight: '100vh', background: '#050505', display: 'flex', fontFamily: "'Almarai', sans-serif", overflowX: 'hidden' }}>
+      
+      {/* ── OVERLAY (mobile) ── */}
+      {isMobileSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/60 z-[100] md:hidden backdrop-blur-sm"
+          onClick={() => setIsMobileSidebarOpen(false)}
+        />
+      )}
+
+      {/* ── SIDEBAR ── */}
       <aside
         style={{
           width: '240px',
@@ -354,16 +363,20 @@ export default function AdminDashboard() {
           top: 0,
           right: 0,
           bottom: 0,
-          zIndex: 100,
-          display: 'none', // Default hidden, shown only via Tailwind md:flex
+          zIndex: 110,
         }} 
-        className="hidden md:flex"
+        className={`flex transition-transform duration-300 ${isMobileSidebarOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'}`}
       >
         {/* Logo */}
-        <div style={{ padding: '1.5rem', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '1.75rem', color: '#fff' }}>Dx</span>
-          <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '1.75rem', color: '#ff1022' }}>Media</span>
-          <p style={{ color: '#555', fontSize: '0.75rem', marginTop: '2px' }}>لوحة التحكم</p>
+        <div style={{ padding: '1.5rem', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '1.75rem', color: '#fff' }}>Dx</span>
+            <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: '1.75rem', color: '#ff1022' }}>Media</span>
+            <p style={{ color: '#555', fontSize: '0.75rem', marginTop: '2px' }}>لوحة التحكم</p>
+          </div>
+          <button className="md:hidden text-[#777] hover:text-white" onClick={() => setIsMobileSidebarOpen(false)}>
+            <X size={24} />
+          </button>
         </div>
 
         {/* Nav items */}
@@ -371,7 +384,7 @@ export default function AdminDashboard() {
           {SIDEBAR_ITEMS.map(item => (
             <button
               key={item.id}
-              onClick={() => setActiveTab(item.id)}
+              onClick={() => { setActiveTab(item.id); setIsMobileSidebarOpen(false); }}
               style={{
                 background: activeTab === item.id ? 'rgba(255,16,34,0.12)' : 'transparent',
                 border: activeTab === item.id ? '1px solid rgba(255,16,34,0.25)' : '1px solid transparent',
@@ -428,7 +441,7 @@ export default function AdminDashboard() {
       </aside>
 
       {/* ── MAIN CONTENT ── */}
-      <div style={{ flex: 1 }} className="mr-0 md:mr-[240px] pb-[80px] md:pb-0">
+      <div style={{ flex: 1, width: '100%', minWidth: 0 }} className="mr-0 md:mr-[240px]">
         {/* Top bar */}
         <header style={{
           background: '#050505',
@@ -441,9 +454,14 @@ export default function AdminDashboard() {
           top: 0,
           zIndex: 50,
         }}>
-          <h1 style={{ fontSize: '1rem', fontWeight: 700, color: '#ffffff', fontFamily: "'Almarai', sans-serif" }}>
-            {SIDEBAR_ITEMS.find(i => i.id === activeTab)?.label}
-          </h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <button className="md:hidden text-[#fff]" onClick={() => setIsMobileSidebarOpen(true)}>
+              <Menu size={24} />
+            </button>
+            <h1 style={{ fontSize: '1rem', fontWeight: 700, color: '#ffffff', fontFamily: "'Almarai', sans-serif", margin: 0 }}>
+              {SIDEBAR_ITEMS.find(i => i.id === activeTab)?.label}
+            </h1>
+          </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <span style={{ color: '#555', fontSize: '0.8rem', fontFamily: "'Almarai', sans-serif" }}>لوحة تحكم Dx Media</span>
             <a href="/" target="_blank" style={{ color: '#4d9cf8', fontSize: '0.8rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -1048,90 +1066,14 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* ── MOBILE BOTTOM TABS (Modern Floating Style) ── */}
-      <div style={{
-        position: 'fixed',
-        bottom: '12px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        width: 'calc(100% - 24px)',
-        maxWidth: '450px',
-        background: 'rgba(10, 10, 10, 0.98)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        border: '1px solid rgba(255, 255, 255, 0.12)',
-        borderRadius: '24px',
-        display: 'flex',
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-        zIndex: 200,
-        padding: '8px 0',
-        boxShadow: '0 10px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 16, 34, 0.15)',
-      }} className="md:hidden">
-        {SIDEBAR_ITEMS.map(item => (
-          <button
-            key={item.id}
-            onClick={() => setActiveTab(item.id)}
-            style={{
-              background: 'none',
-              border: 'none',
-              padding: '4px 0',
-              cursor: 'pointer',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: '4px',
-              color: activeTab === item.id ? '#ff1022' : '#777',
-              transition: 'all 0.3s ease',
-              position: 'relative',
-              flex: 1,
-              minWidth: 0,
-            }}
-          >
-            <div style={{ 
-              transform: activeTab === item.id ? 'translateY(-2px)' : 'none',
-              transition: 'transform 0.3s ease'
-            }}>
-              {item.icon}
-            </div>
-            <span style={{ 
-              fontSize: '0.65rem', 
-              fontFamily: "'Almarai', sans-serif", 
-              fontWeight: 700,
-              opacity: activeTab === item.id ? 1 : 0.8,
-              whiteSpace: 'nowrap'
-            }}>
-              {item.label}
-            </span>
-            {item.id === 'messages' && unreadCount > 0 && (
-              <span style={{
-                position: 'absolute', top: '0', right: '25%',
-                background: '#ff1022', color: '#fff', fontSize: '0.6rem',
-                width: '16px', height: '16px', borderRadius: '50%',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800,
-                boxShadow: '0 0 10px rgba(255,16,34,0.4)',
-                transform: 'translate(4px, -4px)'
-              }}>{unreadCount}</span>
-            )}
-            {activeTab === item.id && (
-              <div style={{
-                position: 'absolute', bottom: '-4px', width: '4px', height: '4px', 
-                borderRadius: '50%', background: '#ff1022',
-                boxShadow: '0 0 8px #ff1022'
-              }} />
-            )}
-          </button>
-        ))}
-      </div>
-
       {/* ── FAB (mobile) ── */}
       {activeTab === 'projects' && (
         <button
           onClick={() => { setEditProject(null); setShowUploadModal(true); }}
           style={{
             position: 'fixed',
-            bottom: '90px',
-            left: '20px',
+            bottom: '24px',
+            left: '24px',
             width: '56px',
             height: '56px',
             background: '#ff1022',
@@ -1143,7 +1085,7 @@ export default function AdminDashboard() {
             alignItems: 'center',
             justifyContent: 'center',
             boxShadow: '0 4px 20px rgba(255,16,34,0.5)',
-            zIndex: 150,
+            zIndex: 90,
             transition: 'transform 0.2s',
           }}
           className="md:hidden"
